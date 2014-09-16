@@ -1,0 +1,16 @@
+.settings
+.svn
+.project
+*.map
+*.scssc
+jeet/
+normalize/
+node_modules/
+bower_components/
+static/styles/libs/*
+!static/styles/libs/shame
+public/css/*
+public/fonts/*
+public/img/*
+public/js/vendor/*
+public/js/plugins/*

@@ -1,0 +1,16 @@
+{
+  "name": "New Making Sense's UI Dev project Bower Dependencies.",
+  "version": "0.0.1",
+  "dependencies": {
+		"jeet.gs": "latest",
+		"normalize.scss": "latest",
+		"jquery-modern": "jquery#~2.1.1",
+		"modernizr": "latest",
+		"jquery-legacy": "jquery#1.11.0",
+		"jquery-migrate": "latest",
+		"selectivizr": "~1.0.2",
+		"css3pie": "latest",
+		"box-sizing-polyfill": "latest",
+		"html5-placeholder-polyfill": "latest"
+	}
+}

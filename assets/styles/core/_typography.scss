@@ -1,0 +1,38 @@
+// *************************************
+//
+//   Typography
+//
+// *************************************
+
+
+// -------------------------------------
+//   Variables
+// -------------------------------------
+
+$font_weight-light: 300;
+$font_weight-regular: $base_font-weight;
+$font_weight-semibold: 600;
+$font_weight-bold: 700;
+
+
+
+// -------------------------------------
+//   Helper classes
+// -------------------------------------
+
+%text--small {font-size: 80%}
+%text--left {text-align: left}
+%text--right {text-align: right}
+%text--center {text-align: center}
+%text--light {font-weight: $font_weight-light}
+%text--bold {font-weight: $font_weight-bold}
+%text--regular {font-weight: $font_weight-regular}
+%text--uppercase {text-transform: uppercase}
+
+
+
+// -------------------------------------
+//   Base
+// -------------------------------------
+
+html, button {-webkit-font-smoothing: antialiased}
