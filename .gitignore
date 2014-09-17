@@ -9,8 +9,8 @@ node_modules/
 bower_components/
 static/styles/libs/*
 !static/styles/libs/shame
-public/css/*
-public/fonts/*
-public/img/*
-public/js/vendor/*
-public/js/plugins/*
+dev/css/*
+dev/fonts/*
+dev/img/*
+dev/js/vendor/*
+dev/js/plugins/*

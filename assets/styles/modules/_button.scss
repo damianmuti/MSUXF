@@ -18,7 +18,7 @@ $button_border-color: #B5B5B5;
 // -------------------------------------
 
 .button {
-	background-color: gray; border:none; -webkit-appearance: none; font: $font_family-stack; font-weight: $font_weight-bold; font-size: toem(15px); line-height: torem(40px); text-align: center !important; text-decoration: none; color: $button_color; height:torem(40px); display: inline-block; padding: 0 30px; min-width: torem(40px);
+	background-color: gray; border:none; -webkit-appearance: none; font: $base_font; font-weight: $font_weight-bold; font-size: toem(15px); line-height: torem(40px); text-align: center !important; text-decoration: none; color: $button_color; height:torem(40px); display: inline-block; padding: 0 30px; min-width: torem(40px);
 	@include border-radius(toem(7px)); 
 	@include single-transition(all,.2s,ease);
 }
