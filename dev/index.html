@@ -11,6 +11,8 @@
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
+		<link rel="canonical" href="" />
+
 		<!-- Open Graph metatags -->
 		<meta property="og:title" content=""/>
 		<meta property="og:type" content="article"/>
@@ -21,6 +23,7 @@
 		
 		<!-- Stylesheets and polyfills -->
 		<link rel="stylesheet" type="text/css" href="./css/styles.css">
+
 		<!--[if lte IE 8]>
 			<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
       <script>window.jQuery || document.write('<script src="./js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
@@ -79,9 +82,9 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="./js/vendor/jquery.min.js"><\/script>')</script>
     
-    <script src="./js/plugins/jquery.migrate-1.2.1.js"></script>
-    <script src="./js/plugins/jquery.tooltipster.js"></script>
-    <script src="./js/plugins/jquery.cycle2.js"></script>
-		<script src="./js/script.js"></script>
+    <!-- build:js ./js/script.js -->
+		<script src="./js/foo.js"></script>
+		<script src="./js/bar.js"></script>
+		<!-- endbuild -->
 	</body>
 </html>

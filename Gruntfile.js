@@ -260,6 +260,39 @@ module.exports = function (grunt) {
     // /* Production tasks                                                                       */
     // /* ====================================================================================== */
 
+
+    useminPrepare: {
+      options: {
+        dest: '<%= config.folder_public %>'
+      },
+      html: '<%= config.folder_local %>/{,*/}*.html'
+    },
+
+    usemin: {
+      html: ['<%= config.folder_local %>/{,*/}*.html']
+    },
+
+    // uglify: {
+    //   dist: {
+    //     files: {
+    //       '<%%= config.folder_public %>/scripts/scripts.js': [
+    //         '<%%= config.folder_public %>/scripts/scripts.js'
+    //       ]
+    //     }
+    //   }
+    // },
+
+    concat: { 
+      generated: { 
+        files: [ 
+          { // Plugins
+            dest: '<%= config.folder_local %>/js/plugins.js', 
+            src: '<%= config.folder_local %>/js/plugins/{,*/}*'
+          }
+        ] 
+      } 
+    }
+
     // Compress images
     // imagemin: {
     //   dist: {
@@ -366,6 +399,8 @@ module.exports = function (grunt) {
     //     ext: '.css'
     //   }
     // }
+
+    
   });
 
     grunt.loadNpmTasks('grunt-shell');
@@ -376,6 +411,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-usemin');
 
 
 
@@ -395,6 +432,12 @@ module.exports = function (grunt) {
     'connect:server',
     'webfont',
     'concurrent:watch'
+  ]);
+
+  grunt.registerTask('build', [
+    'useminPrepare',
+    'concat',
+    'usemin'
   ]);
 
   // // Creates the 'build' task
