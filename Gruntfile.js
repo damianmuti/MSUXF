@@ -6,24 +6,26 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
 
 
+  // Project settings
+  var config = {
+    
+    // Folders for assets, development environment and production environment
+    folder_local: 'dev',
+    folder_public: 'dist',
+    folder_assets: 'assets',
 
-  // Folders for assets, development environment and production environment
-  var 
-    assets_folder     = 'assets',
-    dev_folder        = 'dev',
-    public_folder     = 'prod';
+    // Server info
+    server_hostname: 'localhost',
+    server_port: 1337
 
-
-  // Server info
-  var
-    server_hostname   = 'localhost',
-    server_port       = 1337;
-
-
+  };
 
 
   // Configure Grunt 
   grunt.initConfig({
+
+    // Project settings
+    config: config,
 
 
     /* ====================================================================================== */
@@ -37,20 +39,20 @@ module.exports = function (grunt) {
         livereload: true
       },
       css: {
-          files: [dev_folder + '/css/styles.css']
+          files: ['<%= config.folder_local %>/css/styles.css']
       },
       js: {
-          files: [dev_folder + '/js/**.*']
+          files: ['<%= config.folder_local %>/js/**.*']
       },
       views: {
-          files: [dev_folder + '/*.html']
+          files: ['<%= config.folder_local %>/*.html']
       },
       images: {
-        files: assets_folder + '/images/*.*',
+        files: '<%= config.folder_assets %>/images/*.*',
         tasks: ['copy:images']
       },
       icons: {
-        files: assets_folder + '/icon-library/*.*',
+        files: '<%= config.folder_assets %>/icon-library/*.*',
         tasks: ['webfont']
       }
     },
@@ -59,9 +61,9 @@ module.exports = function (grunt) {
     // Create an icon font from SVG files insode /icons folder
     webfont: {
       icons: {
-        src: assets_folder + '/icon-library/*.svg',
-        dest: dev_folder + '/fonts',
-        destCss: assets_folder + '/styles/libs/iconfont',
+        src: '<%= config.folder_assets %>/icon-library/*.svg',
+        dest: '<%= config.folder_local %>/fonts',
+        destCss: '<%= config.folder_assets %>/styles/libs/iconfont',
         options: {
           font: 'icon-font',
           hashes: false,
@@ -97,7 +99,7 @@ module.exports = function (grunt) {
       // CSS Normalizer
       normalize: {
         options: {
-            destPrefix: assets_folder + '/styles/libs'
+            destPrefix: '<%= config.folder_assets %>/styles/libs'
         },
         files: {
           'normalize': 'normalize.scss'
@@ -106,7 +108,7 @@ module.exports = function (grunt) {
       // Jeet Grid System
       jeet: {
         options: {
-            destPrefix: assets_folder + '/styles/libs'
+            destPrefix: '<%= config.folder_assets %>/styles/libs'
         },
         files: {
           'jeet': 'jeet.gs/scss/jeet'
@@ -115,7 +117,7 @@ module.exports = function (grunt) {
       // Modernizr
       modernizr: {
         options: {
-            destPrefix: dev_folder + '/js/vendor'
+            destPrefix: '<%= config.folder_local %>/js/vendor'
         },
         files: {
           'modernizr.js': 'modernizr/modernizr.js'
@@ -124,7 +126,7 @@ module.exports = function (grunt) {
       // jQuery version for modern browsers
       jquerymodern: {
         options: {
-            destPrefix: dev_folder + '/js/vendor'
+            destPrefix: '<%= config.folder_local %>/js/vendor'
         },
         files: {
           'jquery-2.1.1.js': 'jquery-modern/dist/jquery.js'
@@ -192,9 +194,9 @@ module.exports = function (grunt) {
     copy: {
       dev: {
         expand: true,
-        cwd: assets_folder + '/images',
+        cwd: '<%= config.folder_assets %>/images',
         src: '**',
-        dest: dev_folder + '/img',
+        dest: '<%= config.folder_local %>/img',
         filter: 'isFile',
       }
     },
@@ -204,9 +206,9 @@ module.exports = function (grunt) {
     connect: {
       server: {
         options: {
-          port: server_port,
-          base: dev_folder + '/',
-          hostname: server_hostname,
+          port: '<%= config.server_port %>',
+          base: '<%= config.folder_local %>/',
+          hostname: '<%= config.server_hostname %>',
           livereload: true
         }
       }
@@ -233,7 +235,21 @@ module.exports = function (grunt) {
     shell: {
       // Run Sass compiling with watch, compass and sourcemap flags
       sass: {
-        command: 'sass --watch --compass --sourcemap ' + assets_folder + '/styles/styles.scss:' + dev_folder + '/css/styles.css'
+        command: 'sass --watch --compass --sourcemap ' + '<%= config.folder_assets %>/styles/styles.scss:<%= config.folder_local %>/css/styles.css'
+      }
+    },
+
+
+    clean: {
+      build: {
+        src: [
+          '<%= config.folder_local %>/css', 
+          'dev/js/vendor', 
+          '<%= config.folder_assets %>/styles/libs/jeet', 
+          '<%= config.folder_assets %>/styles/libs/normalize', 
+          '<%= config.folder_local %>/images',  
+          '<%= config.folder_local %>/fonts'
+        ]
       }
     },
 
@@ -359,6 +375,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 
 
 
