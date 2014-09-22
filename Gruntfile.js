@@ -369,9 +369,9 @@ module.exports = function (grunt) {
     //       "source/css/*.map", 
     //       "source/scripts/vendor", 
     //       "source/scripts/plugins", 
-    //       "source/images/*.md",  
+    //       "source/images/*.md", 
     //       "source/css/*.md", 
-    //       "source/fonts/*.md"
+    //       "source/fonts/*.md" 
     //     ]
     //   }
     // },
