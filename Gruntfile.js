@@ -15,8 +15,8 @@ module.exports = function (grunt) {
     folder_assets: 'assets',
 
     // Server info
-    server_hostname: 'localhost',
-    server_port: 1337
+    //server_hostname: 'localhost',
+    //server_port: 1337
 
   };
 
@@ -49,7 +49,7 @@ module.exports = function (grunt) {
       },
       images: {
         files: '<%= config.folder_assets %>/images/*.*',
-        tasks: ['copy:images']
+        tasks: ['copy:dev']
       },
       icons: {
         files: '<%= config.folder_assets %>/icon-library/*.*',
@@ -72,7 +72,7 @@ module.exports = function (grunt) {
           relativeFontPath: '../fonts/',
           // syntax: 'bootstrap',
           htmlDemo: false,
-          skip: true, // Set this variable to false to create the icon font. If /icons folder is empty, leave this variable as is
+          skip: false, // Set this variable to false to create the icon font. If /icons folder is empty, leave this variable as is
           templateOptions: {
             baseClass: 'ms-icon',
             classPrefix: 'icon-'
@@ -85,7 +85,7 @@ module.exports = function (grunt) {
     // grunt-open will open your browser at the project's URL
     open: {
       source: {
-        path: 'http://localhost:1337'
+        path: 'http://localhost'
       }
     },
 
@@ -96,97 +96,20 @@ module.exports = function (grunt) {
         // Bower components folder will be removed afterwards
         clean: true
       },
-      // CSS Normalizer
-      normalize: {
-        options: {
-            destPrefix: '<%= config.folder_assets %>/styles/libs'
-        },
+
+      dev: {
         files: {
-          'normalize': 'normalize.scss'
-        }
-      },
-      // Jeet Grid System
-      jeet: {
-        options: {
-            destPrefix: '<%= config.folder_assets %>/styles/libs'
-        },
-        files: {
-          'jeet': 'jeet.gs/scss/jeet'
-        }
-      },
-      // Modernizr
-      modernizr: {
-        options: {
-            destPrefix: '<%= config.folder_local %>/js/vendor'
-        },
-        files: {
-          'modernizr.js': 'modernizr/modernizr.js'
-        }
-      },
-      // jQuery version for modern browsers
-      jquerymodern: {
-        options: {
-            destPrefix: '<%= config.folder_local %>/js/vendor'
-        },
-        files: {
-          'jquery-2.1.1.js': 'jquery-modern/dist/jquery.js'
+          '<%= config.folder_assets %>/styles/libs/normalize': 'normalize.scss',
+          '<%= config.folder_assets %>/styles/libs/jeet': 'jeet.gs/scss/jeet',
+          '<%= config.folder_local %>/js/vendor/jquery-2.1.1.js': 'jquery-modern/dist/jquery.js'
         }
       },
 
-
-      
-      // // jQuery version for legacy browser
-      // jquerylegacy: {
-      //   options: {
-      //       destPrefix: 'source/js/vendor'
-      //   },
-      //   files: {
-      //     'jquery-1.11.0.js': 'jquery-legacy/dist/jquery.js'
-      //   }
-      // },
-      // // jQuery version for legacy browsers
-      // jquerymigrate: {
-      //   options: {
-      //       destPrefix: 'source/js/vendor'
-      //   },
-      //   files: {
-      //     'jquery-migrate.js': 'jquery-migrate/jquery-migrate.js'
-      //   }
-      // },
-      // // CSS3 Pie
-      // css3pie: {
-      //   options: {
-      //       destPrefix: 'source/scripts'
-      //   },
-      //   files: {
-      //     'PIE.htc': 'css3pie/PIE.htc'
-      //   }
-      // },
-      // // Selectivizr
-      // selectivizr: {
-      //   options: {
-      //       destPrefix: 'source/js/vendor'
-      //   },
-      //   files: {
-      //     'selectivizr-1.0.2.js': 'selectivizr/selectivizr.js'
-      //   }
-      // },
-      // // Polyfill to support box-sizing
-      // polyfillboxsizing: {
-      //   options: {
-      //       destPrefix: 'source/scripts'
-      //   },
-      //   files: {
-      //     'boxsizing.htc': 'box-sizing-polyfill/boxsizing.htc'
-      //   }
-      // },
-      // // Polyfill to support input placeholders 
-      // polyfillplaceholders: {
-      //   files: {
-      //     'source/js/plugins/placeholder_polyfill.jquery.min.combo.js': 'html5-placeholder-polyfill/dist/placeholder_polyfill.jquery.min.combo.js',
-      //     'assets/styles/libs/html5-placeholder-polyfill/_html5-placeholder-polyfill.scss': 'html5-placeholder-polyfill/src/placeholder_polyfill.css'
-      //   }
-      // },
+      dist: {
+        files: {
+          '<%= config.folder_public %>/js/vendor/jquery-2.1.1.js': 'jquery-modern/dist/jquery.min.js'
+        }
+      }
     },
 
 
@@ -198,19 +121,13 @@ module.exports = function (grunt) {
         src: '**',
         dest: '<%= config.folder_local %>/img',
         filter: 'isFile',
-      }
-    },
-
-
-    // Get a local server running
-    connect: {
-      server: {
-        options: {
-          port: '<%= config.server_port %>',
-          base: '<%= config.folder_local %>/',
-          hostname: '<%= config.server_hostname %>',
-          livereload: true
-        }
+      },
+      dist: {
+        expand: true,
+        cwd: '<%= config.folder_local %>/',
+        src: '**',
+        dest: '<%= config.folder_public %>/',
+        filter: 'isFile',
       }
     },
 
@@ -219,13 +136,13 @@ module.exports = function (grunt) {
     concurrent: {
       watch: {
         tasks: [
-          'watch',          // Watch if files change
-          'shell:sass',     // Run console command to compile Sass
-          'open'            // Open the server URL in a browser
+          'watch', // Watch if files change
+          'shell:sass_watch', // Run console command to compile Sass
+          'open' // Open the server URL in a browser
         ],
         options: {
           logConcurrentOutput: true, 
-          limit: 4 // Limit the cores usage to 4
+          limit: 6 // Limit the cores usage to 4
         }
       }
     },
@@ -234,21 +151,21 @@ module.exports = function (grunt) {
     // Run shell commands as a Grunt task
     shell: {
       // Run Sass compiling with watch, compass and sourcemap flags
-      sass: {
-        command: 'sass --watch --compass --sourcemap ' + '<%= config.folder_assets %>/styles/styles.scss:<%= config.folder_local %>/css/styles.css'
+      sass_compile: {
+        command: 'sass --compass --sourcemap ' + '<%= config.folder_assets %>/styles/styles.scss:<%= config.folder_local %>/css/styles.css <%= config.folder_assets %>/styles/mobile.scss:<%= config.folder_local %>/css/mobile.css'
+      },
+      sass_watch: {
+        command: 'sass --watch --compass --sourcemap ' + '<%= config.folder_assets %>/styles/styles.scss:<%= config.folder_local %>/css/styles.css <%= config.folder_assets %>/styles/mobile.scss:<%= config.folder_local %>/css/mobile.css'
       }
     },
 
 
     clean: {
-      build: {
+      dist: {
         src: [
-          '<%= config.folder_local %>/css', 
-          'dev/js/vendor', 
-          '<%= config.folder_assets %>/styles/libs/jeet', 
-          '<%= config.folder_assets %>/styles/libs/normalize', 
-          '<%= config.folder_local %>/images',  
-          '<%= config.folder_local %>/fonts'
+          '<%= config.folder_public %>/.htaccess', 
+          '<%= config.folder_public %>/css/*.map', 
+          '<%= config.folder_public %>/js/vendor/**.*', 
         ]
       }
     },
@@ -256,9 +173,9 @@ module.exports = function (grunt) {
 
 
 
-    // /* ====================================================================================== */
-    // /* Production tasks                                                                       */
-    // /* ====================================================================================== */
+    /* ====================================================================================== */
+    /* Production tasks                                                                       */
+    /* ====================================================================================== */
 
 
     useminPrepare: {
@@ -272,16 +189,6 @@ module.exports = function (grunt) {
       html: ['<%= config.folder_local %>/{,*/}*.html']
     },
 
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%%= config.folder_public %>/scripts/scripts.js': [
-    //         '<%%= config.folder_public %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-
     concat: { 
       generated: { 
         files: [ 
@@ -291,114 +198,165 @@ module.exports = function (grunt) {
           }
         ] 
       } 
-    }
+    },
 
     // Compress images
-    // imagemin: {
-    //   dist: {
-    //     files: [{
-    //       expand: true,
-    //       cwd: 'public/images',
-    //       src: '{,*/}*.{gif,jpeg,jpg,png}',
-    //       dest: 'source/images'
-    //     }]
-    //   }
-    // },
+    imagemin: {
+      png: {
+        options: {
+          optimizationLevel: 7
+        },
+        files: [
+          {
+            // Set to true to enable the following options…
+            expand: true,
+            // cwd is 'current working directory'
+            cwd: '<%= config.folder_local %>/img/',
+            src: ['**/*.png'],
+            // Could also match cwd line above. i.e. project-directory/img/
+            dest: '<%= config.folder_local %>/img/',
+            ext: '.png'
+          }
+        ]
+      },
+      jpg: {
+        options: {
+          progressive: true,
+          optimizationLevel: 7
+        },
+        files: [
+          {
+            // Set to true to enable the following options…
+            expand: true,
+            // cwd is 'current working directory'
+            cwd: '<%= config.folder_local %>/img/',
+            src: ['**/*.jpg'],
+            // Could also match cwd. i.e. project-directory/img/
+            dest: '<%= config.folder_local %>/img/',
+            ext: '.jpg'
+          }
+        ]
+      }
+    },
 
 
-    // // Minify SVG files
-    // svgmin: {  
-    //   options: {  
-    //     plugins: [{
-    //         removeViewBox: false
-    //     }, {
-    //         removeUselessStrokeAndFill: false
-    //     }, {
-    //         convertPathData: { 
-    //             straightCurves: false
-    //         }
-    //     }]
-    //   },
-    //   dist: { 
-    //     files: [{ 
-    //         expand: true,             // Enable dynamic expansion.
-    //         cwd: 'source/images',     // Src matches are relative to this path.
-    //         src: ['**/*.svg'],        // Actual pattern(s) to match.
-    //         dest: 'public/images',    // Destination path prefix.
-    //         ext: '.svg'               // Dest filepaths will have this extension.
-    //     }]
-    //   }
-    // },
+    tinypng: {
+      options: {
+        apiKey: "U2epucPJFOx5xv_KvNmMavuANnEBDIUE",
+        checkSigs: true,
+        sigFile: 'dest/file_sigs.json',
+        summarize: true,
+        showProgress: true,
+        stopOnImageError: true
+      },
+      jpg: {
+        // Set to true to enable the following options…
+        expand: true,
+        // cwd is 'current working directory'
+        cwd: '<%= config.folder_public %>/img/',
+        src: ['**/*.jpg'],
+        // Could also match cwd. i.e. project-directory/img/
+        dest: '<%= config.folder_public %>/img/'
+      },
+      png: {
+        // Set to true to enable the following options…
+        expand: true,
+        // cwd is 'current working directory'
+        cwd: '<%= config.folder_public %>/img/',
+        src: ['**/*.png'],
+        // Could also match cwd line above. i.e. project-directory/img/
+        dest: '<%= config.folder_public %>/img/'
+      }
+    },
 
 
-    // // Minify/Uglify JS files
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       'source/scripts/main.js': [
-    //           'source/scripts/main.js'
-    //       ],
-    //       'source/scripts/vendor.js': [
-    //           'source/scripts/vendor.js'
-    //       ],
-    //       'source/scripts/plugins.js': [
-    //           'source/scripts/plugins.js'
-    //       ]
-    //     }
-    //   }
-    // },
+    kraken: {
+      options: {
+        key: '9b94cdda2b90a9b211583636b7450bc5',
+        secret: '6ac35ce99a3ba4d57022e1e04ce730c1de4e797d',
+        lossy: true
+      },
+      dynamic: {
+        files: [{
+            expand: true,
+            cwd: '<%= config.folder_local %>/img/',
+            src: ['**/*.{png,jpg,jpeg,gif}'],
+            dest: '<%= config.folder_local %>/img/'
+        }]
+      }
+    },
 
 
-    // // Concatenate JS files
-    // concat: {
-    //   vendor: {
-    //     src: [ 'source/scripts/vendor/*.js' ],
-    //     dest: 'source/scripts/vendor.js'
-    //   },
-    //   plugins: {
-    //     src: [ 'source/scripts/plugins/*.js' ],
-    //     dest: 'source/scripts/plugins.js'
-    //   }
-    // },
+    // Minify SVG files
+    svgmin: {  
+      options: {  
+        plugins: [{
+            removeViewBox: false
+        }, {
+            removeUselessStrokeAndFill: false
+        }, {
+            convertPathData: { 
+                straightCurves: false
+            }
+        }]
+      },
+      dist: { 
+        files: [{ 
+            expand: true,             // Enable dynamic expansion.
+            cwd: '<%= config.folder_public %>/img',     // Src matches are relative to this path.
+            src: ['**/*.svg'],        // Actual pattern(s) to match.
+            dest: '<%= config.folder_public %>/img',    // Destination path prefix.
+            ext: '.svg'               // Dest filepaths will have this extension.
+        }]
+      }
+    },
 
 
-    // // Clean up unnecessary files while building source version
-    // clean: {
-    //   build: {
-    //     src: [
-    //       "source/css/*.map", 
-    //       "source/scripts/vendor", 
-    //       "source/scripts/plugins", 
-    //       "source/images/*.md", 
-    //       "source/css/*.md", 
-    //       "source/fonts/*.md" 
-    //     ]
-    //   }
-    // },
+    // Minify/Uglify JS files
+    uglify: {
+      js: {
+        options: {
+          beautify: {
+            width: 80,
+            beautify: true
+          }
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= config.folder_public %>/js',
+          src: '**/*.js',
+          dest: '<%= config.folder_public %>/js'
+        }]
+      }
+    },
 
 
-    // // Copy folder to make a distributable version of the website
-    // copy: {
-    //   main: {
-    //     expand: true,
-    //     cwd: 'public/',
-    //     src: '**',
-    //     dest: 'source/',
-    //     filter: 'isFile',
-    //   },
-    // },
+    // Minify CSS for source/production release
+    cssmin: {
+      minify: {
+        expand: true,
+        cwd: '<%= config.folder_public %>/css/',
+        src: ['*.css'],
+        dest: '<%= config.folder_public %>/css/',
+        ext: '.css'
+      }
+    },
 
 
-    // // Minify CSS for source/production release
-    // cssmin: {
-    //   minify: {
-    //     expand: true,
-    //     cwd: 'source/css/',
-    //     src: ['*.css'],
-    //     dest: 'source/css/',
-    //     ext: '.css'
-    //   }
-    // }
+    ftpush: {
+      prod: {
+        auth: {
+          host: '',
+          port: 21,
+          authKey: ''
+        },
+        src: '<%= config.folder_local %>',
+        dest: '/',
+        exclusions: ['<%= config.folder_local %>/**/.map', '<%= config.folder_local %>/**/Thumbs.db', 'dist/tmp'],
+        simple: false,
+        useList: false
+      }
+    },
 
     
   });
@@ -413,6 +371,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-usemin');
+    grunt.loadNpmTasks('grunt-ftpush');
+    grunt.loadNpmTasks('grunt-contrib-kraken');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 
 
@@ -427,32 +388,24 @@ module.exports = function (grunt) {
   // ]);
 
   grunt.registerTask('run', [
-    'bowercopy',
-    'copy',
-    'connect:server',
+    'bowercopy:dev',
+    'copy:dev',
     'webfont',
     'concurrent:watch'
   ]);
 
-  grunt.registerTask('build', [
-    'useminPrepare',
-    'concat',
-    'usemin'
+  grunt.registerTask('deploy', [
+    'bowercopy:dev',
+    'copy:dev',
+    'webfont',
+    'shell:sass_compile',
+    'copy:dist',
+    'cssmin',
+    'svgmin',
+    'clean',
+    'uglify',
+    'bowercopy:dist',
+    //'ftpush'
   ]);
-
-  // // Creates the 'build' task
-  // grunt.registerTask('build', [
-  //   'bowercopy',
-  //   'webfont',
-  //   'compass',
-  //   'copy',
-  //   'svgmin',
-  //   'imagemin',
-  //   'concat',
-  //   'uglify',
-  //   'clean',
-  //   'cssmin'    
-  // ]);
-
   
 };
