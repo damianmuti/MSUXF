@@ -8,9 +8,5 @@ normalize/
 node_modules/
 bower_components/
 static/styles/libs/*
-!static/styles/libs/shame
 dev/css/*
-dev/fonts/*
-dev/img/*
-dev/js/vendor/*
-dev/js/plugins/*
+dev/*

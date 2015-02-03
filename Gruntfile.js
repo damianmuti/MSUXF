@@ -10,16 +10,11 @@ module.exports = function (grunt) {
   var config = {
     
     // Folders for assets, development environment and production environment
-    folder_local: 'dev',
-    folder_public: 'dist',
-    folder_assets: 'assets',
-
-    // Server info
-    //server_hostname: 'localhost',
-    //server_port: 1337
+    folder_dev: 'dev', // Local environment
+    folder_dist: 'dist', // Production ready project
+    folder_assets: 'assets' // Folder from which assets are copied/moved.
 
   };
-
 
   // Configure Grunt 
   grunt.initConfig({
@@ -38,19 +33,28 @@ module.exports = function (grunt) {
       options: {
         livereload: true
       },
+
       css: {
-          files: ['<%= config.folder_local %>/css/styles.css']
+          files: [
+            '<%= config.folder_dev %>/css/styles.css',
+            '<%= config.folder_dev %>/css/mobile.css',
+            '<%= config.folder_dev %>/css/oldbrowsers.css'
+          ]
       },
+
       js: {
-          files: ['<%= config.folder_local %>/js/**.*']
+          files: ['<%= config.folder_dev %>/js/**.*']
       },
+
       views: {
-          files: ['<%= config.folder_local %>/*.html']
+          files: ['<%= config.folder_dev %>/*.html']
       },
+
       images: {
         files: '<%= config.folder_assets %>/images/*.*',
-        tasks: ['copy:dev']
+        tasks: ['clean:dev_images','copy:images']
       },
+
       icons: {
         files: '<%= config.folder_assets %>/icon-library/*.*',
         tasks: ['webfont']
@@ -62,7 +66,7 @@ module.exports = function (grunt) {
     webfont: {
       icons: {
         src: '<%= config.folder_assets %>/icon-library/*.svg',
-        dest: '<%= config.folder_local %>/fonts',
+        dest: '<%= config.folder_dev %>/fonts',
         destCss: '<%= config.folder_assets %>/styles/libs/iconfont',
         options: {
           font: 'icon-font',
@@ -101,13 +105,7 @@ module.exports = function (grunt) {
         files: {
           '<%= config.folder_assets %>/styles/libs/normalize': 'normalize.scss',
           '<%= config.folder_assets %>/styles/libs/jeet': 'jeet.gs/scss/jeet',
-          '<%= config.folder_local %>/js/vendor/jquery-2.1.1.js': 'jquery-modern/dist/jquery.js'
-        }
-      },
-
-      dist: {
-        files: {
-          '<%= config.folder_public %>/js/vendor/jquery-2.1.1.js': 'jquery-modern/dist/jquery.min.js'
+          '<%= config.folder_dev %>/js/vendor/jquery.min.js': 'jquery-latest/dist/jquery.min.js'
         }
       }
     },
@@ -115,19 +113,32 @@ module.exports = function (grunt) {
 
     // Every time an image gets updated or a new image is saved in the images folder, Grunt will copy all the images to the source folder
     copy: {
-      dev: {
+      images: {
         expand: true,
         cwd: '<%= config.folder_assets %>/images',
         src: '**',
-        dest: '<%= config.folder_local %>/img',
+        dest: '<%= config.folder_dev %>/img',
         filter: 'isFile',
       },
+
       dist: {
         expand: true,
-        cwd: '<%= config.folder_local %>/',
+        cwd: '<%= config.folder_dev %>/',
         src: '**',
-        dest: '<%= config.folder_public %>/',
+        dest: '<%= config.folder_dist %>/',
         filter: 'isFile',
+      },
+
+      replacements: {
+        expand: true,
+        cwd: '<%= config.folder_assets %>/images',
+        src    : [
+          'aboutus_2011.jpg',
+          'aboutus_2009.jpg',
+          'aboutus_2007.jpg',
+          'home_our_story_bg.jpg'
+        ],
+        dest: '<%= config.folder_dist %>/img'
       }
     },
 
@@ -137,12 +148,13 @@ module.exports = function (grunt) {
       watch: {
         tasks: [
           'watch', // Watch if files change
-          'shell:sass_watch', // Run console command to compile Sass
+          'shell:sass_watch', // Run console command to watch Sass compilation
           'open' // Open the server URL in a browser
         ],
+
         options: {
           logConcurrentOutput: true, 
-          limit: 6 // Limit the cores usage to 4
+          limit: 4 // Limit the cores usage to 4
         }
       }
     },
@@ -152,10 +164,11 @@ module.exports = function (grunt) {
     shell: {
       // Run Sass compiling with watch, compass and sourcemap flags
       sass_compile: {
-        command: 'sass --compass --sourcemap ' + '<%= config.folder_assets %>/styles/styles.scss:<%= config.folder_local %>/css/styles.css <%= config.folder_assets %>/styles/mobile.scss:<%= config.folder_local %>/css/mobile.css'
+        command: 'sass --compass --sourcemap ' + '<%= config.folder_assets %>/styles/styles.scss:<%= config.folder_dev %>/css/styles.css <%= config.folder_assets %>/styles/mobile.scss:<%= config.folder_dev %>/css/mobile.css  <%= config.folder_assets %>/styles/oldbrowsers.scss:<%= config.folder_dev %>/css/oldbrowsers.css'
       },
+
       sass_watch: {
-        command: 'sass --watch --compass --sourcemap ' + '<%= config.folder_assets %>/styles/styles.scss:<%= config.folder_local %>/css/styles.css <%= config.folder_assets %>/styles/mobile.scss:<%= config.folder_local %>/css/mobile.css'
+        command: 'sass --watch --compass --sourcemap ' + '<%= config.folder_assets %>/styles/styles.scss:<%= config.folder_dev %>/css/styles.css <%= config.folder_assets %>/styles/mobile.scss:<%= config.folder_dev %>/css/mobile.css <%= config.folder_assets %>/styles/oldbrowsers.scss:<%= config.folder_dev %>/css/oldbrowsers.css'
       }
     },
 
@@ -163,10 +176,14 @@ module.exports = function (grunt) {
     clean: {
       dist: {
         src: [
-          '<%= config.folder_public %>/.htaccess', 
-          '<%= config.folder_public %>/css/*.map', 
-          '<%= config.folder_public %>/js/vendor/**.*', 
+          '<%= config.folder_dist %>/.htaccess', 
+          '<%= config.folder_dist %>/css/*.map', 
+          '<%= config.folder_dist %>/js/vendor/**.*', 
         ]
+      },
+
+      dev_images: {
+        src: ['<%= config.folder_dev %>/img']
       }
     },
 
@@ -177,111 +194,46 @@ module.exports = function (grunt) {
     /* Production tasks                                                                       */
     /* ====================================================================================== */
 
-
+    // Not currently in use, but will do
     useminPrepare: {
       options: {
-        dest: '<%= config.folder_public %>'
+        dest: '<%= config.folder_dist %>'
       },
-      html: '<%= config.folder_local %>/{,*/}*.html'
+
+      html: '<%= config.folder_dev %>/{,*/}*.html'
     },
 
     usemin: {
-      html: ['<%= config.folder_local %>/{,*/}*.html']
+      html: ['<%= config.folder_dev %>/{,*/}*.html']
     },
 
+
+    // Concatenate all plugins into a single file.
     concat: { 
       generated: { 
         files: [ 
           { // Plugins
-            dest: '<%= config.folder_local %>/js/plugins.js', 
-            src: '<%= config.folder_local %>/js/plugins/{,*/}*'
+            dest: '<%= config.folder_dev %>/js/plugins.js', 
+            src: '<%= config.folder_dev %>/js/plugins/{,*/}*'
           }
         ] 
       } 
     },
 
-    // Compress images
-    imagemin: {
-      png: {
-        options: {
-          optimizationLevel: 7
-        },
-        files: [
-          {
-            // Set to true to enable the following options…
-            expand: true,
-            // cwd is 'current working directory'
-            cwd: '<%= config.folder_local %>/img/',
-            src: ['**/*.png'],
-            // Could also match cwd line above. i.e. project-directory/img/
-            dest: '<%= config.folder_local %>/img/',
-            ext: '.png'
-          }
-        ]
-      },
-      jpg: {
-        options: {
-          progressive: true,
-          optimizationLevel: 7
-        },
-        files: [
-          {
-            // Set to true to enable the following options…
-            expand: true,
-            // cwd is 'current working directory'
-            cwd: '<%= config.folder_local %>/img/',
-            src: ['**/*.jpg'],
-            // Could also match cwd. i.e. project-directory/img/
-            dest: '<%= config.folder_local %>/img/',
-            ext: '.jpg'
-          }
-        ]
-      }
-    },
 
-
-    tinypng: {
-      options: {
-        apiKey: "U2epucPJFOx5xv_KvNmMavuANnEBDIUE",
-        checkSigs: true,
-        sigFile: 'dest/file_sigs.json',
-        summarize: true,
-        showProgress: true,
-        stopOnImageError: true
-      },
-      jpg: {
-        // Set to true to enable the following options…
-        expand: true,
-        // cwd is 'current working directory'
-        cwd: '<%= config.folder_public %>/img/',
-        src: ['**/*.jpg'],
-        // Could also match cwd. i.e. project-directory/img/
-        dest: '<%= config.folder_public %>/img/'
-      },
-      png: {
-        // Set to true to enable the following options…
-        expand: true,
-        // cwd is 'current working directory'
-        cwd: '<%= config.folder_public %>/img/',
-        src: ['**/*.png'],
-        // Could also match cwd line above. i.e. project-directory/img/
-        dest: '<%= config.folder_public %>/img/'
-      }
-    },
-
-
+    // Task configuration for kraken.io
     kraken: {
       options: {
-        key: '9b94cdda2b90a9b211583636b7450bc5',
-        secret: '6ac35ce99a3ba4d57022e1e04ce730c1de4e797d',
+        key: '',
+        secret: '',
         lossy: true
       },
       dynamic: {
         files: [{
             expand: true,
-            cwd: '<%= config.folder_local %>/img/',
+            cwd: '<%= config.folder_dist %>/img/',
             src: ['**/*.{png,jpg,jpeg,gif}'],
-            dest: '<%= config.folder_local %>/img/'
+            dest: '<%= config.folder_dist %>/img/'
         }]
       }
     },
@@ -302,11 +254,11 @@ module.exports = function (grunt) {
       },
       dist: { 
         files: [{ 
-            expand: true,             // Enable dynamic expansion.
-            cwd: '<%= config.folder_public %>/img',     // Src matches are relative to this path.
-            src: ['**/*.svg'],        // Actual pattern(s) to match.
-            dest: '<%= config.folder_public %>/img',    // Destination path prefix.
-            ext: '.svg'               // Dest filepaths will have this extension.
+            expand: true,
+            cwd: '<%= config.folder_dist %>/img',
+            src: ['**/*.svg'],
+            dest: '<%= config.folder_dist %>/img',
+            ext: '.svg'
         }]
       }
     },
@@ -318,14 +270,14 @@ module.exports = function (grunt) {
         options: {
           beautify: {
             width: 80,
-            beautify: true
+            beautify: false
           }
         },
         files: [{
           expand: true,
-          cwd: '<%= config.folder_public %>/js',
+          cwd: '<%= config.folder_dist %>/js',
           src: '**/*.js',
-          dest: '<%= config.folder_public %>/js'
+          dest: '<%= config.folder_dist %>/js'
         }]
       }
     },
@@ -335,24 +287,25 @@ module.exports = function (grunt) {
     cssmin: {
       minify: {
         expand: true,
-        cwd: '<%= config.folder_public %>/css/',
+        cwd: '<%= config.folder_dist %>/css/',
         src: ['*.css'],
-        dest: '<%= config.folder_public %>/css/',
+        dest: '<%= config.folder_dist %>/css/',
         ext: '.css'
       }
     },
 
 
+    // Push production folder to FTP - Requires .ftpass file placed in this same level
     ftpush: {
       prod: {
         auth: {
-          host: '',
+          host: '104.236.13.130',
           port: 21,
-          authKey: ''
+          authKey: 'production'
         },
-        src: '<%= config.folder_local %>',
+        src: '<%= config.folder_dev %>',
         dest: '/',
-        exclusions: ['<%= config.folder_local %>/**/.map', '<%= config.folder_local %>/**/Thumbs.db', 'dist/tmp'],
+        exclusions: ['<%= config.folder_dev %>/**/.map', '<%= config.folder_dev %>/**/Thumbs.db', 'dist/tmp'],
         simple: false,
         useList: false
       }
@@ -381,22 +334,27 @@ module.exports = function (grunt) {
   /* Tasks @registration                                                                    */
   /* ====================================================================================== */
 
-  // grunt.registerTask('build', [
-  //   'bowercopy',
-  //   'copy',
-  //   'webfont'
-  // ]);
+  // Build a 'dist' folder without minifications, concatenations and image compression
+  grunt.registerTask('build', [
+    'bowercopy:dev',
+    'copy:images',
+    'webfont',
+    'shell:sass_compile',
+    'copy:dist',
+  ]);
 
+  // Run the project and fire watchers to real-time compilation
   grunt.registerTask('run', [
     'bowercopy:dev',
-    'copy:dev',
+    'copy:images',
     'webfont',
     'concurrent:watch'
   ]);
 
+  // Build the project and deploy to the FTP
   grunt.registerTask('deploy', [
     'bowercopy:dev',
-    'copy:dev',
+    'copy:images',
     'webfont',
     'shell:sass_compile',
     'copy:dist',
@@ -404,7 +362,8 @@ module.exports = function (grunt) {
     'svgmin',
     'clean',
     'uglify',
-    'bowercopy:dist',
+    'kraken',
+    'copy:replacements',
     //'ftpush'
   ]);
   

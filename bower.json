@@ -1,9 +1,9 @@
 {
-  "name": "New Making Sense's UI Dev project Bower Dependencies.",
-  "version": "0.0.1",
+  "name": "Making Sense's UI Dev project Bower Dependencies.",
+  "version": "0.1.1",
   "dependencies": {
 		"jeet.gs": "latest",
 		"normalize.scss": "2.2.0+normalize.2.1.3",
-		"jquery-modern": "jquery#~2.1.1"
+		"jquery-latest": "jquery#latest"
 	}
 }
