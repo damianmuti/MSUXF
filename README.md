@@ -1,4 +1,4 @@
-UIDevFramework
+MSUIF - Making Sense's UI Development Framework
 ==============
 
 So, these are all the tasks we automatized in detail:
