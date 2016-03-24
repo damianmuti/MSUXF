@@ -5,27 +5,61 @@ module.exports = function (grunt) {
   // Load Grunt tasks declared in the package.json file
   require('load-grunt-tasks')(grunt);
 
-
   // Project settings
   var config = {
-    
+
     // Folders for assets, development environment and production environment
-    folder_dev: 'dev', // Local environment
-    folder_dist: 'dist', // Production ready project
-    folder_assets: 'assets' // Folder from which assets are copied/moved.
+    folder_dev: 'dev', // If this path gets changed, remember to update .gitignore with the proper path to ignore images and css
+    folder_build: 'build',
+    folder_dist: 'dist',
+    folder_assets: 'assets',
+
+    // Local server info
+    server_address: 'localhost',
+    server_port: '1337'
 
   };
 
-  // Configure Grunt 
+
+  // Configure Grunt
   grunt.initConfig({
 
     // Project settings
     config: config,
 
-
     /* ====================================================================================== */
     /* Development tasks                                                                      */
     /* ====================================================================================== */
+
+    // Fire a small web server to serve the HTML project
+    connect: {
+      server: {
+        options: {
+          port: 1337,
+          base: '<%= config.folder_dev %>/',
+          hostname: '*',
+          livereload: true,
+          debug: true
+        }
+      }
+    },
+
+
+    // Templating engine
+    processhtml: {
+      dist:{
+        options: {
+          process: true
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= config.folder_assets %>/templates/',
+          src: ['*.html'],
+          dest: './<%= config.folder_dev %>',
+          ext: '.html'
+        }]
+      }
+    },
 
 
     // grunt-watch monitors the projects files and execute actions when a file changes
@@ -33,31 +67,68 @@ module.exports = function (grunt) {
       options: {
         livereload: true
       },
-
-      css: {
-          files: [
-            '<%= config.folder_dev %>/css/styles.css',
-            '<%= config.folder_dev %>/css/mobile.css',
-            '<%= config.folder_dev %>/css/oldbrowsers.css'
-          ]
+      scss: {
+        files: ['<%= config.folder_assets %>/styles/**'],
+        tasks: [
+          'sass:ui',
+          'postcss'
+        ],
+        options: {
+          spawn: false
+        }
       },
-
       js: {
-          files: ['<%= config.folder_dev %>/js/**.*']
+        files: '<%= config.folder_dev %>/js/**.*'
       },
-
-      views: {
-          files: ['<%= config.folder_dev %>/*.html']
+      templates: {
+        files: [
+          '<%= config.folder_assets %>/templates/*.*'
+        ],
+        tasks: ['processhtml']
       },
-
+      html: {
+        files: [
+          '<%= config.folder_dev %>/*.html'
+        ]
+      },
       images: {
-        files: '<%= config.folder_assets %>/images/*.*',
-        tasks: ['clean:dev_images','copy:images']
+        files: '<%= config.folder_assets %>/images/**.*',
+        tasks: ['copy:images']
+      },
+      icons: {
+        files: '<%= config.folder_assets %>/icons/*.*',
+        tasks: ['webfont']
+      }
+    },
+
+
+    // Run Sass compile
+    sass: {
+      options: {
+        sourceMap: true,
+        outputStyle: 'compressed'
       },
 
-      icons: {
-        files: '<%= config.folder_assets %>/icon-library/*.*',
-        tasks: ['webfont']
+      ui: {
+        files: {
+          '<%= config.folder_dev %>/css/styles.css': '<%= config.folder_assets %>/styles/styles.scss'
+        }
+      },
+    },
+
+
+    // Run autoprefixer after Sass is compiled
+    postcss: {
+      options: {
+        map: true,
+        processors: [
+          require('autoprefixer')({browsers: ['last 2 version']}),
+          require('cssnano')() // minify the result
+        ]
+      },
+      dist: {
+        src: '<%= config.folder_dev %>/css/*.css',
+        dest: '<%= config.folder_dev %>/css/'
       }
     },
 
@@ -65,7 +136,7 @@ module.exports = function (grunt) {
     // Create an icon font from SVG files insode /icons folder
     webfont: {
       icons: {
-        src: '<%= config.folder_assets %>/icon-library/*.svg',
+        src: '<%= config.folder_assets %>/icons/*.svg',
         dest: '<%= config.folder_dev %>/fonts',
         destCss: '<%= config.folder_assets %>/styles/libs/iconfont',
         options: {
@@ -81,7 +152,7 @@ module.exports = function (grunt) {
             baseClass: 'ms-icon',
             classPrefix: 'icon-'
           }
-        }    
+        }
       }
     },
 
@@ -89,7 +160,7 @@ module.exports = function (grunt) {
     // grunt-open will open your browser at the project's URL
     open: {
       source: {
-        path: 'http://localhost'
+        path: 'http://<%= config.server_address %>:<%= config.server_port %>'
       }
     },
 
@@ -98,12 +169,12 @@ module.exports = function (grunt) {
     bowercopy: {
       options: {
         // Bower components folder will be removed afterwards
-        clean: true
+        clean: false
       },
 
       dev: {
         files: {
-          '<%= config.folder_assets %>/styles/libs/normalize': 'normalize.scss',
+          '<%= config.folder_assets %>/styles/libs/normalize': 'normalize-scss',
           '<%= config.folder_assets %>/styles/libs/jeet': 'jeet.gs/scss/jeet',
           '<%= config.folder_dev %>/js/vendor/jquery.min.js': 'jquery-latest/dist/jquery.min.js'
         }
@@ -120,25 +191,19 @@ module.exports = function (grunt) {
         dest: '<%= config.folder_dev %>/img',
         filter: 'isFile',
       },
-
-      dist: {
+      build: {
         expand: true,
-        cwd: '<%= config.folder_dev %>/',
+        cwd: '<%= config.folder_dev %>',
         src: '**',
-        dest: '<%= config.folder_dist %>/',
+        dest: '<%= config.folder_build %>',
         filter: 'isFile',
       },
-
-      replacements: {
+      deploy: {
         expand: true,
-        cwd: '<%= config.folder_assets %>/images',
-        src    : [
-          'aboutus_2011.jpg',
-          'aboutus_2009.jpg',
-          'aboutus_2007.jpg',
-          'home_our_story_bg.jpg'
-        ],
-        dest: '<%= config.folder_dist %>/img'
+        cwd: '<%= config.folder_dev %>',
+        src: '**',
+        dest: '<%= config.folder_dist %>',
+        filter: 'isFile',
       }
     },
 
@@ -148,80 +213,46 @@ module.exports = function (grunt) {
       watch: {
         tasks: [
           'watch', // Watch if files change
-          'shell:sass_watch', // Run console command to watch Sass compilation
-          'open' // Open the server URL in a browser
+          'sass:ui', // Run Sass
+          'open' // Open the webserver URL in a browser
         ],
 
         options: {
-          logConcurrentOutput: true, 
-          limit: 4 // Limit the cores usage to 4
+          logConcurrentOutput: true,
+          limit: 4 // Limit CPU cores usage to 4
         }
       }
     },
 
 
-    // Run shell commands as a Grunt task
-    shell: {
-      // Run Sass compiling with watch, compass and sourcemap flags
-      sass_compile: {
-        command: 'sass --compass --sourcemap ' + '<%= config.folder_assets %>/styles/styles.scss:<%= config.folder_dev %>/css/styles.css <%= config.folder_assets %>/styles/mobile.scss:<%= config.folder_dev %>/css/mobile.css  <%= config.folder_assets %>/styles/oldbrowsers.scss:<%= config.folder_dev %>/css/oldbrowsers.css'
-      },
-
-      sass_watch: {
-        command: 'sass --watch --compass --sourcemap ' + '<%= config.folder_assets %>/styles/styles.scss:<%= config.folder_dev %>/css/styles.css <%= config.folder_assets %>/styles/mobile.scss:<%= config.folder_dev %>/css/mobile.css <%= config.folder_assets %>/styles/oldbrowsers.scss:<%= config.folder_dev %>/css/oldbrowsers.css'
-      }
-    },
-
-
-    clean: {
-      dist: {
-        src: [
-          '<%= config.folder_dist %>/.htaccess', 
-          '<%= config.folder_dist %>/css/*.map', 
-          '<%= config.folder_dist %>/js/vendor/**.*', 
-        ]
-      },
-
-      dev_images: {
-        src: ['<%= config.folder_dev %>/img']
-      }
-    },
-
-
-
-
-    /* ====================================================================================== */
-    /* Production tasks                                                                       */
-    /* ====================================================================================== */
-
-    // Not currently in use, but will do
-    useminPrepare: {
+    // Uglify JS
+    uglify: {
       options: {
-        dest: '<%= config.folder_dist %>'
+        beautify: {
+          width: 80,
+          beautify: false
+        }
       },
-
-      html: '<%= config.folder_dev %>/{,*/}*.html'
-    },
-
-    usemin: {
-      html: ['<%= config.folder_dev %>/{,*/}*.html']
-    },
-
-
-    // Concatenate all plugins into a single file.
-    concat: { 
-      generated: { 
-        files: [ 
-          { // Plugins
-            dest: '<%= config.folder_dev %>/js/plugins.js', 
-            src: '<%= config.folder_dev %>/js/plugins/{,*/}*'
-          }
-        ] 
-      } 
+      deploy: {
+        files: [{
+          expand: true,
+          cwd: '<%= config.folder_dist %>/js',
+          src: '**/*.js',
+          dest: '<%= config.folder_dist %>/js'
+        }]
+      },
+      build: {
+        files: [{
+          expand: true,
+          cwd: '<%= config.folder_build %>/js',
+          src: '**/*.js',
+          dest: '<%= config.folder_build %>/js'
+        }]
+      }
     },
 
 
-    // Task configuration for kraken.io
+    // Image compression
     kraken: {
       options: {
         key: '',
@@ -230,103 +261,43 @@ module.exports = function (grunt) {
       },
       dynamic: {
         files: [{
-            expand: true,
-            cwd: '<%= config.folder_dist %>/img/',
-            src: ['**/*.{png,jpg,jpeg,gif}'],
-            dest: '<%= config.folder_dist %>/img/'
-        }]
-      }
-    },
-
-
-    // Minify SVG files
-    svgmin: {  
-      options: {  
-        plugins: [{
-            removeViewBox: false
-        }, {
-            removeUselessStrokeAndFill: false
-        }, {
-            convertPathData: { 
-                straightCurves: false
-            }
-        }]
-      },
-      dist: { 
-        files: [{ 
-            expand: true,
-            cwd: '<%= config.folder_dist %>/img',
-            src: ['**/*.svg'],
-            dest: '<%= config.folder_dist %>/img',
-            ext: '.svg'
-        }]
-      }
-    },
-
-
-    // Minify/Uglify JS files
-    uglify: {
-      js: {
-        options: {
-          beautify: {
-            width: 80,
-            beautify: false
-          }
-        },
-        files: [{
           expand: true,
-          cwd: '<%= config.folder_dist %>/js',
-          src: '**/*.js',
-          dest: '<%= config.folder_dist %>/js'
+          cwd: '<%= config.folder_dist %>/img/',
+          src: ['**/*.{png,jpg,jpeg,gif}'],
+          dest: '<%= config.folder_dist %>/img/'
         }]
       }
     },
 
 
-    // Minify CSS for source/production release
-    cssmin: {
-      minify: {
-        expand: true,
-        cwd: '<%= config.folder_dist %>/css/',
-        src: ['*.css'],
-        dest: '<%= config.folder_dist %>/css/',
-        ext: '.css'
-      }
-    },
-
-
-    // Push production folder to FTP - Requires .ftpass file placed in this same level
-    ftpush: {
-      prod: {
+    // Push everything to FTP server
+    'sftp-deploy': {
+      build: {
         auth: {
-          host: '104.236.13.130',
-          port: 21,
-          authKey: 'production'
+          host: '',
+          port: 22,
+          authKey: 'key1' // Config credentials in .ftppass file
         },
-        src: '<%= config.folder_dev %>',
-        dest: '/',
-        exclusions: ['<%= config.folder_dev %>/**/.map', '<%= config.folder_dev %>/**/Thumbs.db', 'dist/tmp'],
-        simple: false,
-        useList: false
+        cache: 'sftpCache.json',
+        src: '<%= config.folder_build %>',
+        dest: '',
+        concurrency: 4,
+        progress: true
       }
-    },
-
-    
+    }
   });
 
-    grunt.loadNpmTasks('grunt-shell');
-    grunt.loadNpmTasks('grunt-webfont');
-    grunt.loadNpmTasks('grunt-open');
-    grunt.loadNpmTasks('grunt-concurrent');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-usemin');
-    grunt.loadNpmTasks('grunt-ftpush');
-    grunt.loadNpmTasks('grunt-contrib-kraken');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-webfont');
+  grunt.loadNpmTasks('grunt-open');
+  grunt.loadNpmTasks('grunt-concurrent');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-kraken');
+  grunt.loadNpmTasks('grunt-sftp-deploy');
+  grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-postcss');
+  grunt.loadNpmTasks('grunt-processhtml');
 
 
 
@@ -334,37 +305,36 @@ module.exports = function (grunt) {
   /* Tasks @registration                                                                    */
   /* ====================================================================================== */
 
-  // Build a 'dist' folder without minifications, concatenations and image compression
-  grunt.registerTask('build', [
-    'bowercopy:dev',
-    'copy:images',
-    'webfont',
-    'shell:sass_compile',
-    'copy:dist',
-  ]);
-
-  // Run the project and fire watchers to real-time compilation
   grunt.registerTask('run', [
-    'bowercopy:dev',
+    'connect:server',
+    'bowercopy',
     'copy:images',
     'webfont',
+    'processhtml',
     'concurrent:watch'
   ]);
 
-  // Build the project and deploy to the FTP
+  grunt.registerTask('build', [
+    'bowercopy',
+    'webfont',
+    'processhtml',
+    'sass',
+    'copy:build',
+    'copy:images',
+    'uglify:build'
+  ]);
+
   grunt.registerTask('deploy', [
-    'bowercopy:dev',
+    'bowercopy',
     'copy:images',
     'webfont',
-    'shell:sass_compile',
-    'copy:dist',
-    'cssmin',
-    'svgmin',
-    'clean',
-    'uglify',
+    'processhtml',
+    'sass',
+    'copy:deploy',
+    'uglify:deploy',
     'kraken',
-    'copy:replacements',
-    //'ftpush'
+    'sftp-deploy'
   ]);
-  
+
+
 };

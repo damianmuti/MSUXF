@@ -1,58 +1,21 @@
-// *************************************
-//
-//   CORE
-//
-//   -> CSS Reset/Normalizer
-//   -> Base elements
-//   -> Project Settings
-//   -> Typography
-//   -> Layout
-//   -> Mediaqueries
-//
-// *************************************
+/*
+  =========================================
 
-// -------------------------------------
-//   CSS Reset/Normalizer
-// -------------------------------------
+	  PROJECT CORE
 
-@import "core/reset";
+    -> Project Settings
+    -> CSS Reset/Normalizer
+    -> Base elements
+    -> Typography
+    -> Grid System
+    -> Layout
 
-
-
-// -------------------------------------
-//   Base elements
-// -------------------------------------
-
-@import "core/base";
-
-
-
-// -------------------------------------
-//   Project Settings
-// -------------------------------------
+	=========================================
+*/
 
 @import "core/settings";
-
-
-
-// -------------------------------------
-//   Typography
-// -------------------------------------
-
+@import "core/reset";
+@import "core/base";
 @import "core/typography";
-
-
-
-// -------------------------------------
-//   Layout
-// -------------------------------------
-
+@import "core/grids";
 @import "core/layout";
-
-
-
-// -------------------------------------
-//   Media Queries
-// -------------------------------------
-
-@import "core/mediaqueries";

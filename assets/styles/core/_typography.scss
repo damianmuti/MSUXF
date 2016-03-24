@@ -1,38 +1,73 @@
-// *************************************
-//
-//   Typography
-//
-// *************************************
+/*
+  =========================================
 
+	  TYPOGRAPHY
+
+	=========================================
+*/
+
+@import "./settings";
+@import "../modules/icons";
 
 // -------------------------------------
 //   Variables
 // -------------------------------------
-
-$font_weight-light: 300;
-$font_weight-regular: $base_font-weight;
-$font_weight-semibold: 600;
-$font_weight-bold: 700;
-
-
-
-// -------------------------------------
-//   Helper classes
-// -------------------------------------
-
-%text--small {font-size: 80%}
-%text--left {text-align: left}
-%text--right {text-align: right}
-%text--center {text-align: center}
-%text--light {font-weight: $font_weight-light}
-%text--bold {font-weight: $font_weight-bold}
-%text--regular {font-weight: $font_weight-regular}
-%text--uppercase {text-transform: uppercase}
-
-
+$msuif-headers-h1-font-size: 				toem(46px);
+$msuif-headers-h2-font-size: 				toem(32px);
+$msuif-headers-h3-font-size: 				toem(24px);
+$msuif-headers-h4-font-size: 				toem(22px);
+$msuif-headers-h5-font-size: 				toem(18px);
+$msuif-headers-h6-font-size: 				toem(16px);
 
 // -------------------------------------
 //   Base
 // -------------------------------------
+html,
+button {
+  -webkit-font-smoothing: antialiased;
+}
 
-html, button {-webkit-font-smoothing: antialiased}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font: $msuif-font;
+  font-weight: 400;
+  color: $msuif-font-color;
+}
+
+h1 {
+  margin: 0;
+  font-size: $msuif-headers-h1-font-size;
+  font-weight: $msuif-font-weight-bold;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+h2 {
+  margin: 0;
+  font-size: $msuif-headers-h2-font-size;
+  line-height: 1.4;
+}
+
+h3 {
+  font-size: $msuif-headers-h3-font-size;
+}
+
+h4 {
+  font-size: $msuif-headers-h4-font-size;
+}
+
+h5 {
+  font-size: $msuif-headers-h5-font-size;
+}
+
+h6 {
+  font-size: $msuif-headers-h6-font-size;
+}
+
+strong {
+  font-weight: $msuif-font-weight-bold;
+}
