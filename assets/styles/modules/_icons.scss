@@ -1,25 +1,10 @@
-// *************************************
-//
-//   Icon Font
-//   -> Thanks to grunt-webfont - https://github.com/sapegin/grunt-webfont
-//
-// *************************************
+/*
+  =========================================
 
-//@import '../libs/mc-iconfont/icon-font';
+		ICON FONT
+		-> Thanks to grunt-webfont - https://github.com/sapegin/grunt-webfont
 
-// -------------------------------------
-//   Variables
-// -------------------------------------
+	=========================================
+*/
 
-
-
-
-// -------------------------------------
-//   Base
-// -------------------------------------
-
-[class^="icon-"]:before,
-[class*=" icon-"]:before  {
-	//@extend .ms-icon; 
-	text-decoration: none; font-weight: 400;
-}
+@import "../libs/iconfont/icon-font";

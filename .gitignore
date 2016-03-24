@@ -5,8 +5,10 @@
 *.scssc
 jeet/
 normalize/
+iconfont/
 node_modules/
 bower_components/
-static/styles/libs/*
-dev/css/*
-dev/*
+
+dev/css/
+dev/img/
+dev/*.html
