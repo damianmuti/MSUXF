@@ -82,25 +82,3 @@
     @content;
   }
 }
-
-// ----- Absolutelly center blocks ----- //
-@mixin center-block($orientation: all) {
-  position: relative;
-
-  @if ($orientation == all) {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  @elseif ($orientation == vertical) {
-    top: 50%;
-    left: auto;
-    transform: translate(0, -50%);
-  }
-  @elseif ($orientation == horizontal) {
-    top: auto;
-    left: 50%;
-    transform: translate(-50%, 0);
-  }
-
-}
