@@ -127,8 +127,7 @@ module.exports = function (grunt) {
         ]
       },
       dist: {
-        src: '<%= config.folder_dev %>/css/*.css',
-        dest: '<%= config.folder_dev %>/css/'
+        src: '<%= config.folder_dev %>/css/*.css'
       }
     },
 
