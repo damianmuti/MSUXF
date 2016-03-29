@@ -1,7 +1,7 @@
 MSUIF - Making Sense's UI Development Framework
 ==============
 
-### So, these are all the tasks we automatized in detail:
+So, these are all the tasks we automatized in detail:
 
 #### grunt-webfont
 
@@ -56,4 +56,6 @@ By default, Bower downloads the dependencies on a single folder inside the proje
 This task minifies and drastically reduces file sizes by trimming out spaces and comments in the files.
 
 To run the project, just execute the command: 
-> grunt run
+```Bash
+grunt run
+```
