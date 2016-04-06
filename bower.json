@@ -1,9 +1,10 @@
 {
-  "name": "Making Sense's UI Dev project Bower Dependencies.",
+  "name": "MSUIF",
+  "description": "Making Sense's UI Dev project Bower Dependencies.",
   "version": "1.1.1",
   "dependencies": {
-		"jeet.gs": "latest",
-		"normalize-scss": "latest",
-		"jquery-latest": "jquery#latest"
-	}
+    "jeet.gs": "latest",
+    "normalize-scss": "latest",
+    "jquery-latest": "jquery#latest"
+  }
 }
