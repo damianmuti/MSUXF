@@ -37,27 +37,48 @@
 </head>
 
 <body class="">
+  
   <!-- Header -->
   <header>
-
   </header>
   <!-- /End of Header -->
   
   <!-- Content -->
   <main role="main">
-  
+
+    <!-- Basic tabs template -->
+    <div class="tabs">
+      <a class="tab active" href="#tab1">Tab 1</a>
+      <a class="tab" href="#tab2">Tab 2</a>
+      <a class="tab" href="#tab3">Tab 3</a>
+      <div class="tab__content" id="tab1">
+        <p>Tab 1</p>
+      </div>
+      <div class="tab__content" id="tab2">
+        <p>Tab 2</p>
+      </div>
+      <div class="tab__content" id="tab3">
+        <p><a href="#">Tab 1</a></p>
+      </div>
+    </div>
+    <!-- End basic tabs template -->
+
+
   </main>
   <!-- /End of Content -->
   
   <!-- Footer -->
   <footer>
-  
   </footer>
   <!-- /End of Footer -->
   
   <!-- Javascript files -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="./js/vendor/jquery.min.js"><\/script>')</script>
+  <script>
+  window.jQuery || document.write('<script src="./js/vendor/jquery.min.js"><\/script>');
+  // Tabs active class toggle
+  $('.tab').on('click',function(){$(this).addClass('active').siblings('.tab').removeClass('active')});
+  </script>
 </body>
 
 </html>

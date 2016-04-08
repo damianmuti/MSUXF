@@ -1,11 +1,43 @@
 /*
   =========================================
 
-	  TABS COMPONENT
+    TABS COMPONENT
 
-	=========================================
+  =========================================
 */
 
 // -------------------------------------
 //   Variables
 // -------------------------------------
+$color-primary: #000;
+$color-secondary: #A1D045;
+
+$color-bg: $msuif-background;
+$border: 1px solid $color-primary;
+$base-spacing: 10px;
+
+.tabs {
+  margin: $base-spacing * 2;
+  .tab {
+    padding: $base-spacing;
+    color: $color-primary;
+    border: $border;
+    &:hover {
+      color: $color-secondary;
+    }
+    &.active {
+      color: $color-secondary;
+      border-bottom: 1px solid $color-bg;
+    }
+  }
+  .tab__content {
+    display: none;
+    margin: ($base-spacing - 1px) 0;
+    padding: $base-spacing;
+    border: $border;
+    background-color: $color-bg;
+    &:target {
+      display: block;
+    }
+  }
+}
