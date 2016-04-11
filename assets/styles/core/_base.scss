@@ -72,5 +72,5 @@ button {
 
 a {
 	text-decoration: none;
-  transition: all 0.25s ease;
+  transition: all $msuif-transition-duration $msuif-transition-timing;
 }
