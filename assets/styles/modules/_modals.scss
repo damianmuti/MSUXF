@@ -23,6 +23,7 @@
 // -------------------------------------
 $modal-backdrop-background:    rgba(#000, 0.5) !default;
 $modal-content-background:     #fff !default;
+$modal-transition-delay:       $msuif-transition-duration;
 
 .c-modal {
   position: absolute;
@@ -34,7 +35,7 @@ $modal-content-background:     #fff !default;
   visibility: hidden;
   opacity: 0;
   background-color: $modal-backdrop-background;
-  transition: visibility 0.3s 0s, opacity 0.3s ease;
+  transition: visibility $msuif-transition-duration 0s, opacity $msuif-transition-duration $msuif-transition-timing;
 
   @at-root {
     &__content {
@@ -43,7 +44,7 @@ $modal-content-background:     #fff !default;
       margin-top: -20px;
       opacity: 0;
       background-color: $modal-content-background;
-      transition: opacity 0.3s ease 0.3s, margin 0.3s ease 0.3s;
+      transition: opacity $msuif-transition-duration $msuif-transition-timing $modal-transition-delay, margin $msuif-transition-duration $msuif-transition-timing $modal-transition-delay;
     }
 
     &__close {
