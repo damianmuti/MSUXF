@@ -49,3 +49,9 @@ $msuif-breakpoints: (
   'ismobile': (max-width: 1024px),
   'iphone': (max-width: 980px)
 );
+
+// -------------------------------------
+//   Animations/Transitions
+// -------------------------------------
+$msuif-transition-duration:      0.25s;
+$msuif-transition-timing:        ease;
