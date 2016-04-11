@@ -23,7 +23,7 @@
 // -------------------------------------
 $modal-backdrop-background:    rgba(#000, 0.5) !default;
 $modal-content-background:     #fff !default;
-$modal-transition-delay:       $msuif-transition-duration;
+$modal-transition-delay:       $msuif-transition-duration !default;
 
 .c-modal {
   position: absolute;
