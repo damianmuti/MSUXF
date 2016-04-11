@@ -25,10 +25,10 @@
 // -------------------------------------
 //   Variables
 // -------------------------------------
-$accordion-item-background:      rgba(#ccc, 0.75);
-$accordion-header-background:    #ccc;
-$accordion-header-height:        50px;
-$accordion-item-padding:         10px;
+$accordion-item-background:      rgba(#ccc, 0.75) !default;
+$accordion-header-background:    #ccc !default;
+$accordion-header-height:        50px !default;
+$accordion-item-padding:         10px !default;
 
 .c-accordion {
   @at-root {
