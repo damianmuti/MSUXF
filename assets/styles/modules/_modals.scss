@@ -56,7 +56,8 @@ $modal-transition-delay:       $msuif-transition-duration !default;
   }
 
   // Show modal dialog and it's content
-  &:target {
+  &:target,
+  &--is-visible {
     visibility: visible;
     opacity: 1;
 
