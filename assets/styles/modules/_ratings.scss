@@ -1,0 +1,83 @@
+/*
+  =========================================
+
+	  STAR RATING
+
+	=========================================
+*/
+
+@import "../libs/sassy-cast/SassyCast";
+
+// -------------------------------------
+//   Variables
+// -------------------------------------
+$rating-color-empty:     #ccc;
+$rating-color-full:      gold;
+// $rating-values: (
+//   '0.25', '0.50', '0.75', '1.00', '1.25', '1.50', '1.75', '2.00', '2.25', '2.50', '2.75', '3.00', '3.25', '3.50', '3.75', '4.00', '4.25', '4.50', '4.75', '5.00'
+// );
+// $rating-icon-names: (
+//   'quarter': '.icon-star-quarter',
+//   'half': '.icon-star-half',
+//   'three-quarters': '.icon-star-three-quarters',
+//   'full': '.icon-star-full'
+// );
+
+.c-rating {
+  display: inline-block;
+
+  span {
+    @extend .ms-icon;
+    @extend .icon-star-full;
+
+    position: relative;
+    margin: 0 3px;
+    font-size: toem(16px);
+    color: $rating-color-empty;
+    transition: color 0.25s ease;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  // @each $rating-value in $rating-values {
+  //   // Get the next higher integer.
+  //   $rating-value-ceil: ceil(to-number($rating-value));
+  //
+  //   &[data-rating-value="#{unquote($rating-value)}"] {
+  //     span:nth-child(-n+#{$rating-value-ceil}) {
+  //       @extend .icon-star-full;
+  //
+  //       color: $rating-color-full;
+  //     }
+  //
+  //     span:nth-child(#{$rating-value-ceil}) {
+  //       @if explode($rating-value, '.') == '.25' {
+  //         @extend .icon-star-quarter;
+  //       }
+  //       @else if explode($rating-value, '.') == '.50' {
+  //         @extend .icon-star-half;
+  //       }
+  //       @else if explode($rating-value, '.') == '.75' {
+  //         @extend .icon-star-three-quarters;
+  //       }
+  //
+  //       &:before {
+  //         position: relative;
+  //         z-index: 1;
+  //       }
+  //
+  //       @if explode($rating-value, '.') != '.00' {
+  //         &:after {
+  //           content:"\E001"; // Technically not hardcoded. This codepoint is specified in Grunt Webfont task in /Gruntfile.js
+  //           position: absolute;
+  //           z-index: 0;
+  //           left: 0;
+  //           color: $rating-color-empty;
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+}

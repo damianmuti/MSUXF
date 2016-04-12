@@ -1,10 +1,11 @@
 {
-  "name": "MSUIF",
+  "name": "msuif",
   "description": "Making Sense's UI Dev project Bower Dependencies.",
   "version": "1.1.1",
   "dependencies": {
     "jeet.gs": "latest",
     "normalize-scss": "latest",
+    "sassy-cast": "https://github.com/HugoGiraudel/SassyCast.git#753bf7ca115c30d5317a6262e5e08726f5e57de4",
     "jquery-latest": "jquery#latest"
   }
 }
