@@ -24,8 +24,8 @@
 // -------------------------------------
 //   Variables
 // -------------------------------------
-$rating-color-empty:     #ccc;
-$rating-color-full:      gold;
+$rating-color-empty:     #ccc !default;
+$rating-color-full:      gold !default;
 $rating-values: (
   '0.25', '0.50', '0.75', '1.00',
   '1.25', '1.50', '1.75', '2.00',
