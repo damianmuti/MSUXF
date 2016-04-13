@@ -11,4 +11,5 @@ bower_components/
 dev/css/
 dev/img/
 dev/js/vendor/
+dev/fonts/
 dev/*.html

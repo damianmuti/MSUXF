@@ -43,3 +43,31 @@
 @function shade($color, $percentage) {
   @return mix(black, $color, $percentage);
 }
+
+// ----- Explode a string in a PHP fashion ----- //
+@function explode($string,$dem) {
+  $list: ();
+  $sum: str-length($string);
+
+  @for $i from 1 through $sum {
+    $str: str-index($string,$dem);
+
+    @if str-length($string) >= 1 and $str == null {
+      $list: append($list,$string,comma);
+      $string: '';
+    }
+
+    @if type-of($str) == number {
+      $each: str-slice($string,0,($str - 1));
+      $list: append($list,$each,comma);
+      $string: str-slice($string,($str + 1), $sum);
+    }
+  }
+
+  @if length($list) > 1 {
+    @return '.' + nth($list, 2);
+  }
+  @else {
+    @return nth($list, 1);
+  }
+}
