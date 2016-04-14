@@ -11,7 +11,7 @@
 // -------------------------------------
 //   Variables
 // -------------------------------------
-@keyframes fade-in{
+@keyframes fade-in {
   from {
     visibility: hidden;
     opacity: 0;
@@ -23,7 +23,7 @@
   }
 }
 
-@keyframes fade-out{
+@keyframes fade-out {
   from {
     visibility: visible;
     opacity: 1;
@@ -35,7 +35,7 @@
   }
 }
 
-@keyframes slide-down{
+@keyframes slide-down {
   from {
     transform: translateY(-100%);
   }
@@ -45,7 +45,7 @@
   }
 }
 
-@keyframes slide-up{
+@keyframes slide-up {
   from {
     transform: translateY(0);
   }

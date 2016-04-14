@@ -1,9 +1,16 @@
 /*
   =========================================
 
-	  ALERTS
+	  ALERT BOXES
 
-    -> Alert boxes and any other notification box
+    Component to show two different types
+    of alert boxes: toast and top bar.
+
+    /// Usage
+    -> Toast
+    <div class="c-alert c-alert--toast c-alert--toast-{position} c-alert--{type}">Lorem ipsum dolor.</div>
+    -> Top bar
+    <div class="c-alert c-alert--top-bar c-alert--{type}">Lorem ipsum dolor.</div>
 
 	=========================================
 */
@@ -17,6 +24,11 @@ $alert-status-color: (
   'error': #CD5C5C,
   'success': #66CDAA
 );
+$alert-toast-margin: toem(20px) !default;
+$alert-toast-max-width: toem(330px) !default;
+$alert-toast-animation-type: 'slide' !default; // Values: 'fade' or 'slide'
+$alert-animation-duration: 1s !default;
+$alert-animation-pesistence: 5s !default;
 $alert-toast-positions: (
   'top-left': (
     top: 0,
@@ -35,25 +47,68 @@ $alert-toast-positions: (
     left: 0
   )
 );
-$alert-toast-animation-type: 'fade';
+
+// -------------------------------------
+//   Animations
+// -------------------------------------
+@keyframes slide-in-right {
+  from {
+    transform: translateX(#{$alert-toast-max-width + $alert-toast-margin});
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-right {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(#{$alert-toast-max-width + $alert-toast-margin});
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-#{$alert-toast-max-width + $alert-toast-margin});
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-left {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-#{$alert-toast-max-width + $alert-toast-margin});
+  }
+}
 
 .c-alert {
   position: fixed;
+  z-index: 1000; // This value can go as high as needed depending on the layout
   padding: toem(20px);
 
   // Toast type
   &--toast {
-    visibility: hidden;
-    max-width: toem(330px);
-    margin: toem(20px);
+    max-width: $alert-toast-max-width;
+    margin: $alert-toast-margin;
     border-radius: toem(7px);
-    opacity: 0;
 
     @if $alert-toast-animation-type == 'fade' {
-      animation: fade-in 1s forwards, fade-out 1s forwards 5s;
+      visibility: hidden;
+      opacity: 0;
+      animation: fade-in $alert-animation-duration forwards, fade-out $alert-animation-duration forwards $alert-animation-pesistence;
     }
 
-    // Iterate through the positions map
+    // Iterate through $alert-toast-positions map and create the proper classes
     @each $position, $coords in $alert-toast-positions {
       @at-root {
         .c-alert--toast-#{$position} {
@@ -61,12 +116,24 @@ $alert-toast-animation-type: 'fade';
           right: map-get($coords, right);
           bottom: map-get($coords, bottom);
           left: map-get($coords, left);
+
+          // Slide in and out from left
+          @if $alert-toast-animation-type == 'slide' and map-get($coords, left) == 0 {
+            transform: translateX(-#{$alert-toast-max-width + $alert-toast-margin});
+            animation: slide-in-left $alert-animation-duration forwards, slide-out-left $alert-animation-duration forwards $alert-animation-pesistence;
+          }
+          // Slide in and out from right
+          @else if $alert-toast-animation-type == 'slide' and map-get($coords, right) == 0 {
+            transform: translateX(#{$alert-toast-max-width + $alert-toast-margin});
+            animation: slide-in-right $alert-animation-duration forwards, slide-out-right $alert-animation-duration forwards $alert-animation-pesistence;
+          }
         }
       }
     }
   }
 
   @at-root {
+    // Iterate through $alert-status-color map and create the proper classes
     @each $status, $color in $alert-status-color {
       .c-alert--#{$status} {
         color: shade($color, 30%);
@@ -77,16 +144,15 @@ $alert-toast-animation-type: 'fade';
   }
 
   // Hello bar type
-  &--bar {
+  &--top-bar {
     top: 0;
     right: 0;
     left: 0;
-    z-index: 1000;
     width: 100%;
     border-top: 0;
     border-right: 0;
     border-left: 0;
     transform: translateY(-100%);
-    animation: slide-down 1s forwards, slide-up 1s forwards 5s;
+    animation: slide-down $alert-animation-duration forwards, slide-up $alert-animation-duration forwards $alert-animation-pesistence;
   }
 }
