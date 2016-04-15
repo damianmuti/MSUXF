@@ -1,18 +1,18 @@
 /*
   =========================================
 
-	  ALERT BOXES
+    ALERT BOXES
 
     Component to show two different types
     of alert boxes: toast and top bar.
 
     /// Usage
     -> Toast
-    <div class="c-alert c-alert--toast c-alert--toast-{position} c-alert--{type}">Lorem ipsum dolor.</div>
+    <div class="c-alert c-alert--toast c-alert--toast-{position} c-alert--{status}">Lorem ipsum dolor.</div>
     -> Top bar
-    <div class="c-alert c-alert--top-bar c-alert--{type}">Lorem ipsum dolor.</div>
+    <div class="c-alert c-alert--top-bar c-alert--{status}">Lorem ipsum dolor.</div>
 
-	=========================================
+  =========================================
 */
 
 // -------------------------------------
@@ -29,6 +29,8 @@ $alert-toast-max-width: toem(330px) !default;
 $alert-toast-animation-type: 'slide' !default; // Values: 'fade' or 'slide'
 $alert-animation-duration: 1s !default;
 $alert-animation-pesistence: 5s !default;
+$alert-border-radius: none !default;
+$alert-z-index-position: 1000 !default;
 $alert-toast-positions: (
   'top-left': (
     top: 0,
@@ -93,14 +95,17 @@ $alert-toast-positions: (
 
 .c-alert {
   position: fixed;
-  z-index: 1000; // This value can go as high as needed depending on the layout
+  z-index: $alert-z-index-position;
   padding: toem(20px);
 
   // Toast type
   &--toast {
     max-width: $alert-toast-max-width;
     margin: $alert-toast-margin;
-    border-radius: toem(7px);
+
+    @if variable-exists(alert-border-radius) and $alert-border-radius != 'none' {
+      border-radius: $alert-border-radius;
+    }
 
     @if $alert-toast-animation-type == 'fade' {
       visibility: hidden;
