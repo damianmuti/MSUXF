@@ -123,7 +123,7 @@ module.exports = function (grunt) {
         map: true,
         processors: [
           require('autoprefixer')({browsers: ['last 2 versions']}),
-          require('cssnano')() // minify the result
+          require('cssnano')({zindex: false}) // minify the result
         ]
       },
       dist: {
