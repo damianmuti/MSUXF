@@ -1,50 +1,55 @@
-/*
-  =========================================
+////
+/// Functions
+/// @group Functions
+/// @author Damian Muti
+////
 
-	  FUNCTIONS
-
-	=========================================
-*/
-
+///
 @import "../core/settings";
 
-// -------------------------------------
-//   Base
-// -------------------------------------
-// ----- Convert to EMs function ----- //
+/// Convert to EMs function
+/// @param {number} target
+/// @param {number} context [base-font-size]
 @function toem($target, $context: $msuif-font-size) {
    @if $target == 0 { @return 0 }
    @return $target / $context + 0em;
 }
 
-// ----- Convert to REMs function ----- //
+/// Convert to REMs function
+/// @param {number} target
+/// @param {number} context [base-font-size]
 @function torem($target, $context: $msuif-font-size) {
    @if $target == 0 { @return 0 }
    @return $target / $context + 0rem;
 }
 
-// ----- Remove unit from value ----- //
+/// Remove unit from value
+/// @param {number} value
 @function strip-unit($value) {
 	@return $value / ($value * 0 + 1);
 }
 
-// ----- Recalculate responsive breakpoints ----- //
+/// Recalculate responsive breakpoints
+/// @param {number} breakpoint
+/// @param {string} type 'up' | 'down'
 @function bp-calculation($breakpoint, $type){
   @if($type == "up") {@return $breakpoint + 1;}
   @elseif($type == "down") {@return $breakpoint - 1;}
 }
 
-// ----- Lighten a color ----- //
+/// Lighten a color
+/// @param {hexa} color
+/// @param {number} percentage
 @function tint($color, $percentage) {
   @return mix(white, $color, $percentage);
 }
 
-// ----- Darken a color ----- //
+/// Darken a color ----- //
 @function shade($color, $percentage) {
   @return mix(black, $color, $percentage);
 }
 
-// ----- Explode a string in a PHP fashion ----- //
+/// Explode a string in a PHP fashion ----- //
 @function explode($string,$dem) {
   $list: ();
   $sum: str-length($string);
@@ -72,7 +77,7 @@
   }
 }
 
-// ----- Get values in a multidimentional map. Thanks to Hugo Giraudel ----- //
+/// Get values in a multidimentional map. Thanks to Hugo Giraudel ----- //
 @function map-deep-get($map, $keys...) {
   @each $key in $keys {
     $map: map-get($map, $key);

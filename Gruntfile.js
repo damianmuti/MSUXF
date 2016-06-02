@@ -293,13 +293,12 @@ module.exports = function (grunt) {
     // Generate Sass Documentation
     sassdoc: {
       default: {
-        src: 'assets/styles/core/_settings.scss',
+        src: 'assets/styles/helpers/*.scss',
         options: {
           dest: 'dev/sassdoc/',
           display: {
             watermark: false
           },
-          theme: 'sassdoc-theme-vulcan',
           "groups": {
             "undefined": "General"
           },
