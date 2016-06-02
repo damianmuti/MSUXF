@@ -1,19 +1,12 @@
-/*
-  =========================================
+////
+/// Functions
+/// @group Mixins
+/// @author Damian Muti
+////
 
-	  MIXINS
-
-	=========================================
-*/
-
-// -------------------------------------
-//   Base
-// -------------------------------------
-
-// -----Debug layout by drawing borders around every element ----- //
-// Uncomment the following line to debug layout's box model.
-// @include edit();
-
+/// Debug layout by drawing borders around every element
+/// Uncomment the following line to debug layout's box model.
+/// @include edit();
 @mixin debug-layout() {
 	* { outline: 2px dotted red; }
 	* * { outline: 2px dotted green; }
@@ -25,7 +18,9 @@
 	* * * * * * * * { outline: 1px solid blue; }
 }
 
-// ----- Control element's aspect ratio ----- //
+/// Control element's aspect ratio
+/// @param {number} width - The width
+/// @param {number} height - The height
 @mixin aspect-ratio($width, $height) {
   position: relative;
   &:before {
@@ -43,7 +38,7 @@
   }
 }
 
-// ----- Style input's placeholder ----- //
+/// Style input's placeholder
 @mixin placeholder {
   ::-webkit-input-placeholder {@content;}
   :-moz-placeholder           {@content;}
@@ -51,7 +46,8 @@
   :-ms-input-placeholder      {@content;}
 }
 
-// ----- Create a single media condition out of a map of queries ----- //
+/// Create a single media condition out of a map of queries
+/// @param {String} queries - The queries
 @mixin media($queries) {
   @if length($queries) == 0 {
     @content;
@@ -68,6 +64,8 @@
   }
 }
 
+/// Gets the media query from the Media Queries List Configured in `$msuif-breakpoints`
+/// @param {String} breakpoint - The breakpoint to search on `$msuif-breakpoints` List
 @mixin respond-to($breakpoint) {
   // Get the query map for $msuif-breakpoints map
   $queries: map-get($msuif-breakpoints, $breakpoint);
