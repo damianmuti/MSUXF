@@ -1,27 +1,29 @@
-/*
-  =========================================
+////
+/// Typography
+/// Init typography basic settings
+/// @group Typography
+////
 
-	  TYPOGRAPHY
-
-	=========================================
-*/
-
+///
 @import "./settings";
+///
 @import "../modules/icons";
 
-// -------------------------------------
-//   Variables
-// -------------------------------------
+
+///
 $msuif-headers-h1-font-size: 				toem(46px);
+///
 $msuif-headers-h2-font-size: 				toem(32px);
+///
 $msuif-headers-h3-font-size: 				toem(24px);
+///
 $msuif-headers-h4-font-size: 				toem(22px);
+///
 $msuif-headers-h5-font-size: 				toem(18px);
+///
 $msuif-headers-h6-font-size: 				toem(16px);
 
-// -------------------------------------
-//   Base
-// -------------------------------------
+
 html,
 button {
   -webkit-font-smoothing: antialiased;

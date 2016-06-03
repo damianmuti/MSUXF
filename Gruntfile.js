@@ -71,7 +71,8 @@ module.exports = function (grunt) {
         files: ['<%= config.folder_assets %>/styles/**'],
         tasks: [
           'sass:ui',
-          'postcss'
+          'postcss',
+          'sassdoc'
         ],
         options: {
           spawn: false
@@ -287,6 +288,22 @@ module.exports = function (grunt) {
         concurrency: 4,
         progress: true
       }
+    },
+
+    // Generate Sass Documentation
+    sassdoc: {
+      default: {
+        src: 'assets/styles/',
+        options: {
+          dest: 'dev/sassdoc/',
+          display: {
+            watermark: false
+          },
+          "groups": {
+            "undefined": "General"
+          },
+        }
+      }
     }
   });
 
@@ -302,7 +319,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-postcss');
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.loadNpmTasks('grunt-notify');
-
+  grunt.loadNpmTasks('grunt-sassdoc');
 
 
   /* ====================================================================================== */
@@ -340,5 +357,9 @@ module.exports = function (grunt) {
     'sftp-deploy'
   ]);
 
+  grunt.registerTask('doc', [
+    'connect:server',
+    'watch:scss'
+  ]);
 
 };
