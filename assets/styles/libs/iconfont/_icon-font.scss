@@ -23,25 +23,20 @@
   -moz-osx-font-smoothing:grayscale;
 }
 
-// Icons
 
+  .icon-star-full:before {
+    content: "\E001";
+  }
 
-.icon-star-full:before {
-  content:"\f101";
-}
+  .icon-star-half:before {
+    content: "\E002";
+  }
 
+  .icon-star-quarter:before {
+    content: "\E003";
+  }
 
-.icon-star-half:before {
-  content:"\f102";
-}
-
-
-.icon-star-quarter:before {
-  content:"\f103";
-}
-
-
-.icon-star-three-quarters:before {
-  content:"\f104";
-}
-
+  .icon-star-three-quarters:before {
+    content: "\E004";
+  }
+
