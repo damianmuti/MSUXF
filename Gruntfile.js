@@ -35,7 +35,7 @@ module.exports = function (grunt) {
     connect: {
       server: {
         options: {
-          port: 1337,
+          port: config.server_port,
           base: '<%= config.folder_dev %>/',
           hostname: '*',
           livereload: true,
@@ -44,7 +44,7 @@ module.exports = function (grunt) {
       },
       doc: {
         options: {
-          port: 1338,
+          port: config.server_doc_port,
           base: 'assets/doc',
           livereload: true,
           debug: true
