@@ -16,8 +16,8 @@ module.exports = function (grunt) {
 
     // Local server info
     server_address: 'localhost',
-    server_port: '1337'
-
+    server_port: '1337',
+    server_doc_port: '1338'
   };
 
 
@@ -38,6 +38,14 @@ module.exports = function (grunt) {
           port: 1337,
           base: '<%= config.folder_dev %>/',
           hostname: '*',
+          livereload: true,
+          debug: true
+        }
+      },
+      doc: {
+        options: {
+          port: 1338,
+          base: 'assets/doc',
           livereload: true,
           debug: true
         }
@@ -164,6 +172,9 @@ module.exports = function (grunt) {
     open: {
       source: {
         path: 'http://<%= config.server_address %>:<%= config.server_port %>'
+      },
+      doc: {
+        path: 'http://<%= config.server_address %>:<%= config.server_doc_port %>'
       }
     },
 
@@ -218,7 +229,7 @@ module.exports = function (grunt) {
         tasks: [
           'watch', // Watch if files change
           'sass:ui', // Run Sass
-          'open' // Open the webserver URL in a browser
+          'open:source' // Open the webserver URL in a browser
         ],
 
         options: {
@@ -295,7 +306,8 @@ module.exports = function (grunt) {
       default: {
         src: 'assets/styles/',
         options: {
-          dest: 'dev/sassdoc/',
+          dest: 'assets/doc/',
+          exclude: ['assets/styles/libs/*'],
           display: {
             watermark: false
           },
@@ -358,7 +370,9 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('doc', [
-    'connect:server',
+    'sassdoc',
+    'connect:doc',
+    'open:doc',
     'watch:scss'
   ]);
 
