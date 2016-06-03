@@ -359,7 +359,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('doc', [
     'connect:server',
-    'watch'
+    'watch:scss'
   ]);
 
 };

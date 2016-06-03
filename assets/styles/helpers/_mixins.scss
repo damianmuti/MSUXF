@@ -4,9 +4,10 @@
 /// @author Damian Muti
 ////
 
+
 /// Debug layout by drawing borders around every element
 /// Uncomment the following line to debug layout's box model.
-/// @include edit();
+/// include edit();
 @mixin debug-layout() {
 	* { outline: 2px dotted red; }
 	* * { outline: 2px dotted green; }
