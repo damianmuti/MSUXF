@@ -144,6 +144,7 @@ gulp.task('webfont', ['webfont:copy'], function(){
 
 
 // Sassdoc generation Task definition
+// doc task generates documentation and starts a live visualization of the docs in a browser
 gulp.task('doc', ['serve:sassdoc'], function () {
   return gulp.src(config.folderAssets.base + '/**/*.scss')
     .pipe(sassdoc(config.sassDocOptions))
@@ -151,6 +152,7 @@ gulp.task('doc', ['serve:sassdoc'], function () {
       stream: true
     }));
 });
+// doc:generate only generates documentation. no server, no live display of genereated docs.
 gulp.task('doc:generate', function () {
   return gulp.src(config.folderAssets.base + '/**/*.scss')
     .pipe(sassdoc(config.sassDocOptions));
@@ -205,6 +207,7 @@ gulp.task('clean:fonts', function() {
 // Watch for changes
 gulp.task('run', ['build', 'serve'], function (){
   gulp.watch(config.folderAssets.base + '/**/*.scss', ['sass']);
+  gulp.watch(config.folderAssets.base + '/icons/*.svg', ['build']);
   gulp.watch(config.folderDev.css + '/*.css', ['autoprefixer']);
   gulp.watch(config.folderAssets.base + '/templates/*.html', ['processHtml']);
   // Uncomment if want to watch for js changes
