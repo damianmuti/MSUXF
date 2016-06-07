@@ -154,14 +154,13 @@ module.exports = function (grunt) {
           stylesheet: 'scss',
           relativeFontPath: '../fonts/',
           // syntax: 'bootstrap',
+          template: 'grunt-icontemplate.css',
           htmlDemo: false,
           skip: false, // Set this variable to false to create the icon font. If /icons folder is empty, leave this variable as is
           templateOptions: {
             baseClass: 'ms-icon',
-            classPrefix: 'icon-'
-          },
-          codepoints: {
-            'star-full': 0xE001
+            classPrefix: 'icon-',
+            fontPath: '../fonts/'
           }
         }
       }
