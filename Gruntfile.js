@@ -16,8 +16,8 @@ module.exports = function (grunt) {
 
     // Local server info
     server_address: 'localhost',
-    server_port: '1337'
-
+    server_port: '1337',
+    server_doc_port: '1338'
   };
 
 
@@ -35,9 +35,17 @@ module.exports = function (grunt) {
     connect: {
       server: {
         options: {
-          port: 1337,
+          port: config.server_port,
           base: '<%= config.folder_dev %>/',
           hostname: '*',
+          livereload: true,
+          debug: true
+        }
+      },
+      doc: {
+        options: {
+          port: config.server_doc_port,
+          base: 'assets/doc',
           livereload: true,
           debug: true
         }
@@ -71,7 +79,8 @@ module.exports = function (grunt) {
         files: ['<%= config.folder_assets %>/styles/**'],
         tasks: [
           'sass:ui',
-          'postcss'
+          'postcss',
+          'sassdoc'
         ],
         options: {
           spawn: false
@@ -145,14 +154,13 @@ module.exports = function (grunt) {
           stylesheet: 'scss',
           relativeFontPath: '../fonts/',
           // syntax: 'bootstrap',
+          template: 'grunt-icontemplate.css',
           htmlDemo: false,
           skip: false, // Set this variable to false to create the icon font. If /icons folder is empty, leave this variable as is
           templateOptions: {
             baseClass: 'ms-icon',
-            classPrefix: 'icon-'
-          },
-          codepoints: {
-            'star-full': 0xE001
+            classPrefix: 'icon-',
+            fontPath: '../fonts/'
           }
         }
       }
@@ -163,6 +171,9 @@ module.exports = function (grunt) {
     open: {
       source: {
         path: 'http://<%= config.server_address %>:<%= config.server_port %>'
+      },
+      doc: {
+        path: 'http://<%= config.server_address %>:<%= config.server_doc_port %>'
       }
     },
 
@@ -217,7 +228,7 @@ module.exports = function (grunt) {
         tasks: [
           'watch', // Watch if files change
           'sass:ui', // Run Sass
-          'open' // Open the webserver URL in a browser
+          'open:source' // Open the webserver URL in a browser
         ],
 
         options: {
@@ -287,6 +298,23 @@ module.exports = function (grunt) {
         concurrency: 4,
         progress: true
       }
+    },
+
+    // Generate Sass Documentation
+    sassdoc: {
+      default: {
+        src: 'assets/styles/',
+        options: {
+          dest: 'assets/doc/',
+          exclude: ['assets/styles/libs/*'],
+          display: {
+            watermark: false
+          },
+          "groups": {
+            "undefined": "General"
+          },
+        }
+      }
     }
   });
 
@@ -302,7 +330,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-postcss');
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.loadNpmTasks('grunt-notify');
-
+  grunt.loadNpmTasks('grunt-sassdoc');
 
 
   /* ====================================================================================== */
@@ -340,5 +368,11 @@ module.exports = function (grunt) {
     'sftp-deploy'
   ]);
 
+  grunt.registerTask('doc', [
+    'sassdoc',
+    'connect:doc',
+    'open:doc',
+    'watch:scss'
+  ]);
 
 };
