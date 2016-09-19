@@ -18,7 +18,9 @@ iconfontCss = require('gulp-iconfont-css'),
 // Require PostCSS autoprefixer
 autoprefixer = require('gulp-autoprefixer'),
 // Kraken image optimization plugin
-kraken = require('gulp-kraken');
+kraken = require('gulp-kraken'),
+// SFTP deploy task
+sftp = require('gulp-sftp');
 
 // Project settings
 var config = {
@@ -171,6 +173,16 @@ gulp.task('kraken', function () {
   .pipe(gulp.dest(config.folderDev.base));
 });
 
+gulp.task('deploy', ['build'], function() {
+  return gulp.src('dev/**')
+    .pipe(sftp({
+      host: '',
+      port: 3000,
+      user: '',
+      pass: '',
+      remotePath: ''
+    }));
+});
 
 // Copy only the needed resources from Bower
 gulp.task('bowercopy', ['bowercopy:jeet', 'bowercopy:normalize', 'bowercopy:sassy-cast', 'bowercopy:jquery']);
