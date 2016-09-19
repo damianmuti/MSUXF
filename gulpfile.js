@@ -101,7 +101,9 @@ gulp.task('serve:sassdoc', function() {
 // Process HTML task definition
 gulp.task('processHtml', function () {
   return gulp.src(config.folderAssets.base + '/templates/*.html')
-    .pipe(processHtml())
+    .pipe(processHtml({
+      recursive: true
+    }))
     .pipe(gulp.dest(config.folderDev.base))
     .pipe(browserSync.reload({
       stream: true
@@ -132,7 +134,9 @@ gulp.task('webfont:generate',function(){
     }))
     .pipe(iconfont({
       fontName: fontName,
-      formats: ['ttf', 'eot', 'woff', 'woff2', 'svg']
+      formats: ['ttf', 'eot', 'woff', 'woff2', 'svg'],
+      normalize: true,
+      fontHeight: 1001
      }))
     .pipe(gulp.dest(config.folderDev.fonts));
 });
