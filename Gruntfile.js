@@ -79,15 +79,15 @@ module.exports = function (grunt) {
         files: ['<%= config.folder_assets %>/styles/**'],
         tasks: [
           'sass:ui',
-          'postcss',
-          'sassdoc'
+          'postcss'
         ],
         options: {
           spawn: false
         }
       },
       js: {
-        files: '<%= config.folder_dev %>/js/**.*'
+        files: '<%= config.folder_assets %>/js/**',
+        tasks: ['copy:js']
       },
       templates: {
         files: [
@@ -101,7 +101,7 @@ module.exports = function (grunt) {
         ]
       },
       images: {
-        files: '<%= config.folder_assets %>/images/**.*',
+        files: '<%= config.folder_assets %>/img/**.*',
         tasks: ['copy:images']
       },
       icons: {
@@ -131,7 +131,8 @@ module.exports = function (grunt) {
       options: {
         map: true,
         processors: [
-          require('autoprefixer')({browsers: ['last 2 versions']}),
+          require('autoprefixer')({browsers: ['last 2 versions', 'last 3 iOS versions', 'iOS 7']}),
+          require("css-mqpacker")(),
           require('cssnano')({zindex: false}) // minify the result
         ]
       },
@@ -182,7 +183,7 @@ module.exports = function (grunt) {
     bowercopy: {
       options: {
         // Bower components folder will be removed afterwards
-        clean: false
+        clean: true
       },
 
       dev: {
@@ -200,9 +201,16 @@ module.exports = function (grunt) {
     copy: {
       images: {
         expand: true,
-        cwd: '<%= config.folder_assets %>/images',
+        cwd: '<%= config.folder_assets %>/img',
         src: '**',
         dest: '<%= config.folder_dev %>/img',
+        filter: 'isFile',
+      },
+      js: {
+        expand: true,
+        cwd: '<%= config.folder_assets %>/js',
+        src: '**',
+        dest: '<%= config.folder_dev %>/js',
         filter: 'isFile',
       },
       build: {
@@ -341,6 +349,7 @@ module.exports = function (grunt) {
     'connect:server',
     'bowercopy',
     'copy:images',
+    'copy:js',
     'webfont',
     'processhtml',
     'concurrent:watch'

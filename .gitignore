@@ -14,4 +14,4 @@ dev/img/
 dev/js/vendor/
 dev/fonts/
 dev/*.html
-libs/*
+libs/
