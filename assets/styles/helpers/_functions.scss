@@ -1,50 +1,57 @@
-/*
-  =========================================
+////
+/// Functions
+/// @group Functions
+/// @author Damian Muti
+////
 
-	  FUNCTIONS
-
-	=========================================
-*/
-
+///
 @import "../core/settings";
 
-// -------------------------------------
-//   Base
-// -------------------------------------
-// ----- Convert to EMs function ----- //
+/// Convert to EMs function
+/// @param {Number} target - The value to be converted
+/// @param {Number} context [$msuif-font-size] The base font size 
+/// @return {Em} value
 @function toem($target, $context: $msuif-font-size) {
    @if $target == 0 { @return 0 }
    @return $target / $context + 0em;
 }
 
-// ----- Convert to REMs function ----- //
+/// Convert to REMs function
+/// @param {Number} target - The value to be converted
+/// @param {Number} context [$msuif-font-size] - The base font size 
+/// @return {Rem} value
 @function torem($target, $context: $msuif-font-size) {
    @if $target == 0 { @return 0 }
    @return $target / $context + 0rem;
 }
 
-// ----- Remove unit from value ----- //
+/// Remove unit from value
+/// @param {Number} value - The entire value
+/// @return {Number} The striped value
 @function strip-unit($value) {
 	@return $value / ($value * 0 + 1);
 }
 
-// ----- Recalculate responsive breakpoints ----- //
-@function bp-calculation($breakpoint, $type){
-  @if($type == "up") {@return $breakpoint + 1;}
-  @elseif($type == "down") {@return $breakpoint - 1;}
-}
-
-// ----- Lighten a color ----- //
+/// Lighten a color
+/// @param {String | Color} color - The color to be lighten
+/// @param {Number} percentage - The percent to be lighten
+/// @return {String | Color} color
 @function tint($color, $percentage) {
   @return mix(white, $color, $percentage);
 }
 
-// ----- Darken a color ----- //
+/// Darken a color
+/// @param {String | Color} color - The color to be darken
+/// @param {Number} percentage - The percent to be darken
+/// @return {String | Color} color
 @function shade($color, $percentage) {
   @return mix(black, $color, $percentage);
 }
 
-// ----- Explode a string in a PHP fashion ----- //
+/// Explode a string in a PHP fashion
+/// @param {String} string - Target string
+/// @param {String} dem - Delimiter character
+/// @return {String} Exploded string
 @function explode($string,$dem) {
   $list: ();
   $sum: str-length($string);
@@ -72,35 +79,14 @@
   }
 }
 
-// ----- Get values in a multidimentional map. Thanks to Hugo Giraudel ----- //
+/// Get values in a multidimentional map. Thanks to Hugo Giraudel
+/// @author Hugo Giraudel
+/// @param {map} $map - Map
+/// @param {arglist} $keys - Keys to fetch
+/// @return {*}
 @function map-deep-get($map, $keys...) {
   @each $key in $keys {
     $map: map-get($map, $key);
   }
   @return $map;
-}
-
-@function to-list($value, $keep: 'both') {
-  $keep: if(index('keys' 'values', $keep), $keep, 'both');
-
-  @if type-of($value) == 'map' {
-    $keys: ();
-    $values: ();
-
-    @each $key, $val in $value {
-      $keys: append($keys, $key);
-      $values: append($values, $val);
-    }
-
-    @if $keep == 'keys' {
-      @return $keys;
-    } @else if $keep == 'values' {
-      @return $values;
-    } @else {
-      @return zip($keys, $values);
-    }
-  }
-
-  @return if(type-of($value) != 'list', ($value,), $value);
-
 }

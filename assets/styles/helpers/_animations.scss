@@ -1,16 +1,10 @@
-/*
-  =========================================
+////
+/// Animations
+/// -> Keyframes and every other general animation to be applied
+/// @group Animations
+////
 
-	  ANIMATIONS
-
-    -> Keyframes and every other general animation to be applied
-
-	=========================================
-*/
-
-// -------------------------------------
-//   Variables
-// -------------------------------------
+///
 @keyframes fade-in {
   from {
     visibility: hidden;
@@ -22,7 +16,7 @@
     opacity: 1;
   }
 }
-
+///
 @keyframes fade-out {
   from {
     visibility: visible;
@@ -34,7 +28,7 @@
     opacity: 0;
   }
 }
-
+///
 @keyframes slide-down {
   from {
     transform: translateY(-100%);
@@ -44,7 +38,7 @@
     transform: translateY(0);
   }
 }
-
+///
 @keyframes slide-up {
   from {
     transform: translateY(0);
