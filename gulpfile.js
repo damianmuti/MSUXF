@@ -58,7 +58,7 @@ var config = {
 
 // Sass tasks are divided for performance issues regarding dependencies
 // Sass Build task definition, only ran once
-gulp.task('sass:build', ['webfont', 'doc:generate', 'bowercopy', 'clean:bower'], function(){
+gulp.task('sass:build', ['webfont', 'bowercopy', 'clean:bower'], function(){
   return gulp.src(config.folderAssets.styles + '/styles.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
