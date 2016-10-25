@@ -2,6 +2,8 @@
 var gulp = require('gulp'),
 // Require Gulp-sass plugin
 sass = require('gulp-sass'),
+// Require Gulp-bower to install dependencies
+bower = require('gulp-bower'),
 // Require Sassdoc
 sassdoc = require('sassdoc'),
 // Require Sourcemaps
@@ -15,8 +17,14 @@ processHtml = require('gulp-processhtml'),
 // Require iconfont generator plugin
 iconfont = require('gulp-iconfont'),
 iconfontCss = require('gulp-iconfont-css'),
+// Require PostCSS
+postcss = require('gulp-postcss'),
 // Require PostCSS autoprefixer
-autoprefixer = require('gulp-autoprefixer'),
+autoprefixer = require('autoprefixer'),
+// Require Cssnano
+cssnano = require('cssnano'),
+// Require Css-MQpacker
+mqpacker = require('css-mqpacker'),
 // Kraken image optimization plugin
 kraken = require('gulp-kraken'),
 // SFTP deploy task
@@ -28,11 +36,15 @@ var config = {
   folderDev: {
     base: 'dev',
     css: 'dev/css',
-    fonts: 'dev/fonts'
+    fonts: 'dev/fonts',
+    images: 'dev/img',
+    js: 'dev/js'
   }, // If this path gets changed, remember to update .gitignore with the proper path to ignore images and css
   folderAssets: {
     base: 'assets',
-    styles: 'assets/styles'
+    styles: 'assets/styles',
+    images: 'assets/img',
+    js: 'assets/js'
   },
   folderBower: {
     base: 'bower_components',
@@ -58,11 +70,11 @@ var config = {
 
 // Sass tasks are divided for performance issues regarding dependencies
 // Sass Build task definition, only ran once
-gulp.task('sass:build', ['webfont', 'bowercopy', 'clean:bower'], function(){
+gulp.task('sass:build', ['webfont','bowercopy', 'clean:bower'], function(){
   return gulp.src(config.folderAssets.styles + '/styles.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
-    .pipe(sourcemaps.write(''))
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(config.folderDev.css))
     .pipe(browserSync.reload({
       stream: true
@@ -73,7 +85,7 @@ gulp.task('sass', function(){
   return gulp.src(config.folderAssets.styles + '/styles.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
-    .pipe(sourcemaps.write(''))
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(config.folderDev.css))
     .pipe(browserSync.reload({
       stream: true
@@ -110,17 +122,17 @@ gulp.task('processHtml', function () {
     }));
 });
 
-
-// PostCSS autoprefixer task definition
-gulp.task('autoprefixer', function () {
-  return gulp.src(config.folderDev + 'styles.css')
-    .pipe(autoprefixer({
-      browsers: ['last 2 versions'],
-      cascade: false
-    }))
+// PostCSS task definition
+gulp.task('postCSS', function () {
+  var processors = [
+    autoprefixer({browsers: ['last 2 versions', '> 1%', 'last 3 iOS versions', 'Firefox > 20', 'ie 9']}),
+    mqpacker(), 
+    cssnano(),
+  ];
+  return gulp.src(config.folderDev.css + '/styles.css')
+    .pipe(postcss(processors))
     .pipe(gulp.dest(config.folderDev.css));
 });
-
 
 // Generate webfonts
 gulp.task('webfont:generate',function(){
@@ -188,32 +200,49 @@ gulp.task('deploy', ['build'], function() {
     }));
 });
 
+// Run bower update
+gulp.task('bower', function() {
+  return bower({ cmd: 'update'});
+});
+
 // Copy only the needed resources from Bower
 gulp.task('bowercopy', ['bowercopy:jeet', 'bowercopy:normalize', 'bowercopy:sassy-cast', 'bowercopy:jquery']);
 
-gulp.task('bowercopy:jeet', function () {
-  return gulp.src([config.folderBower.jeet + '/scss/jeet/*.scss'])
+gulp.task('bowercopy:jeet', ['bower'], function () {
+  return gulp.src([config.folderBower.jeet + '/scss/*.scss'])
   .pipe(gulp.dest(config.folderAssets.styles + '/libs/jeet'));
 });
-gulp.task('bowercopy:normalize', function () {
-  return gulp.src([config.folderBower.normalize + '/*'])
+gulp.task('bowercopy:normalize', ['bower'], function () {
+  return gulp.src([config.folderBower.normalize + '/*.scss'])
   .pipe(gulp.dest(config.folderAssets.styles + '/libs/normalize'));
 });
-gulp.task('bowercopy:sassy-cast', function () {
-  return gulp.src([config.folderBower.sassyCast + '/dist/**/*'])
+gulp.task('bowercopy:sassy-cast', ['bower'], function () {
+  return gulp.src([config.folderBower.sassyCast + '/dist/*.scss'])
   .pipe(gulp.dest(config.folderAssets.styles + '/libs/sassy-cast'));
 });
-gulp.task('bowercopy:jquery', function () {
+gulp.task('bowercopy:jquery', ['bower'], function () {
   return gulp.src([config.folderBower.jquery + '/dist/jquery.min.js'])
   .pipe(gulp.dest(config.folderDev.base + '/js/vendor'));
 });
 
 
-// Delete dev folder for cleaning
-gulp.task('clean', ['clean:styles', 'clean:fonts']);
+// Copy tasks
+gulp.task('copy:js', function() {
+  return gulp.src([config.folderAssets.js + '/**/*.js'])
+  .pipe(gulp.dest(config.folderDev.js));
+});
 
-gulp.task('clean:styles', function() {
-  return del.sync(config.folderDev.css);
+gulp.task('copy:images', function() {
+  return gulp.src([config.folderAssets.images])
+  .pipe(gulp.dest(config.folderDev.base));
+});
+
+
+// Delete dev folder for cleaning
+gulp.task('clean', ['clean:fonts', 'clean:js', 'clean:bower']);
+
+gulp.task('clean:js', function() {
+  return del.sync(config.folderDev.js);
 });
 gulp.task('clean:fonts', function() {
   return del.sync([config.folderDev.fonts, config.folderAssets.base + '/libs/iconfont']);
@@ -222,16 +251,16 @@ gulp.task('clean:bower', function() {
   return del.sync(['./bower_components']);
 });
 
-
 // Watch for changes
-gulp.task('run', ['build', 'serve'], function (){
+gulp.task('run', ['clean', 'build', 'serve'], function (){
   gulp.watch(config.folderAssets.base + '/**/*.scss', ['sass']);
   gulp.watch(config.folderAssets.base + '/icons/*.svg', ['build']);
-  gulp.watch(config.folderDev.css + '/*.css', ['autoprefixer']);
+  gulp.watch(config.folderAssets.images + '/*.*', ['copy:images']);
+  gulp.watch(config.folderDev.css + '/*.css', ['postCSS']);
+  gulp.watch(config.folderAssets.js + '/*' , ['copy:js']);
   gulp.watch(config.folderAssets.base + '/templates/*.html', ['processHtml']);
-  // Uncomment if want to watch for js changes
-  // gulp.watch('app/js/**/*.js', browserSync.reload);
+  gulp.watch(config.folderDev.js + '/*' , browserSync.reload({ stream: true })); 
 });
 
 // Define build task
-gulp.task('build', ['sass:build' ,'autoprefixer', 'processHtml']);
+gulp.task('build', ['sass:build' ,'postCSS', 'processHtml']);
