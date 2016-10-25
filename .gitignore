@@ -8,9 +8,10 @@ normalize/
 node_modules/
 bower_components/
 
-assets/doc/
+doc/
 dev/css/
 dev/img/
 dev/js/vendor/
 dev/fonts/
 dev/*.html
+libs/*

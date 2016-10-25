@@ -58,7 +58,7 @@ var config = {
 
 // Sass tasks are divided for performance issues regarding dependencies
 // Sass Build task definition, only ran once
-gulp.task('sass:build', ['webfont', 'doc:generate', 'bowercopy'], function(){
+gulp.task('sass:build', ['webfont', 'bowercopy', 'clean:bower'], function(){
   return gulp.src(config.folderAssets.styles + '/styles.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
@@ -218,6 +218,9 @@ gulp.task('clean:styles', function() {
 gulp.task('clean:fonts', function() {
   return del.sync([config.folderDev.fonts, config.folderAssets.base + '/libs/iconfont']);
 });
+gulp.task('clean:bower', function() {
+  return del.sync(['./bower_components']);
+});
 
 
 // Watch for changes
@@ -227,7 +230,7 @@ gulp.task('run', ['build', 'serve'], function (){
   gulp.watch(config.folderDev.css + '/*.css', ['autoprefixer']);
   gulp.watch(config.folderAssets.base + '/templates/*.html', ['processHtml']);
   // Uncomment if want to watch for js changes
-  // gulp.watch('app/js/**/*.js', browserSync.reload); 
+  // gulp.watch('app/js/**/*.js', browserSync.reload);
 });
 
 // Define build task
