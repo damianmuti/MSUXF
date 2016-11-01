@@ -232,8 +232,8 @@ gulp.task('copy:js', function() {
 });
 
 gulp.task('copy:images', function() {
-  return gulp.src([config.folderAssets.images])
-  .pipe(gulp.dest(config.folderDev.base));
+  return gulp.src([config.folderAssets.images + '/**/*'])
+  .pipe(gulp.dest(config.folderDev.images));
 });
 
 
@@ -265,4 +265,4 @@ gulp.task('run', ['clean', 'serve'], function (){
 });
 
 // Define build task
-gulp.task('build', ['sass:build', 'processHtml']);
+gulp.task('build', ['sass:build', 'processHtml', 'copy:images', 'copy:js']);
