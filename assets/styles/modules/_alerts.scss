@@ -19,7 +19,7 @@ $alert-toast-animation-type: 'slide' !default; // Values: 'fade' or 'slide'
 ///
 $alert-animation-duration: 1s !default;
 ///
-$alert-animation-pesistence: 5s !default;
+$alert-animation-persistence: 5s !default;
 ///
 $alert-border-radius: none !default;
 ///
@@ -44,8 +44,7 @@ $alert-toast-positions: (
   )
 );
 
-
-/// Component Alert - 
+/// Component Alert -
 /// Is a component to show two different types
 /// of alert boxes: toast and top bar.
 /// @example
@@ -93,6 +92,7 @@ $alert-toast-positions: (
       transform: translateX(-#{$alert-toast-max-width + $alert-toast-margin});
     }
   }
+
   .c-alert {
     position: fixed;
     z-index: $alert-z-index-position;
@@ -110,7 +110,7 @@ $alert-toast-positions: (
       @if $alert-toast-animation-type == 'fade' {
         visibility: hidden;
         opacity: 0;
-        animation: fade-in $alert-animation-duration forwards, fade-out $alert-animation-duration forwards $alert-animation-pesistence;
+        animation: fade-in $alert-animation-duration forwards, fade-out $alert-animation-duration forwards $alert-animation-persistence;
       }
 
       // Iterate through $alert-toast-positions map and create the proper classes
@@ -125,12 +125,12 @@ $alert-toast-positions: (
             // Slide in and out from left
             @if $alert-toast-animation-type == 'slide' and map-get($coords, left) == 0 {
               transform: translateX(-#{$alert-toast-max-width + $alert-toast-margin});
-              animation: slide-in-left $alert-animation-duration forwards, slide-out-left $alert-animation-duration forwards $alert-animation-pesistence;
+              animation: slide-in-left $alert-animation-duration forwards, slide-out-left $alert-animation-duration forwards $alert-animation-persistence;
             }
             // Slide in and out from right
             @else if $alert-toast-animation-type == 'slide' and map-get($coords, right) == 0 {
               transform: translateX(#{$alert-toast-max-width + $alert-toast-margin});
-              animation: slide-in-right $alert-animation-duration forwards, slide-out-right $alert-animation-duration forwards $alert-animation-pesistence;
+              animation: slide-in-right $alert-animation-duration forwards, slide-out-right $alert-animation-duration forwards $alert-animation-persistence;
             }
           }
         }
@@ -158,7 +158,7 @@ $alert-toast-positions: (
       border-right: 0;
       border-left: 0;
       transform: translateY(-100%);
-      animation: slide-down $alert-animation-duration forwards, slide-up $alert-animation-duration forwards $alert-animation-pesistence;
+      animation: slide-down $alert-animation-duration forwards, slide-up $alert-animation-duration forwards $alert-animation-persistence;
     }
   }
 }
