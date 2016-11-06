@@ -59,7 +59,8 @@ $tabs-base-spacing: 10px !default;
 ///       <p><a href="#">Tab 3 content</a></p>
 ///     </div>
 ///   </div>
-@mixin c-tabs($tab-type: $tabs-type){
+
+@mixin c-tabs($type: $tabs-type){
   .c-tabs {
     margin: $tabs-base-spacing * 2;
 
@@ -69,7 +70,7 @@ $tabs-base-spacing: 10px !default;
       border: $tabs-border-width solid $tabs-color-primary;
       background-color: $tabs-color-bg;
 
-      @if $tab-type == "standalone" {
+      @if $type == "standalone" {
         &:target {
           display: block;
         }
@@ -93,7 +94,7 @@ $tabs-base-spacing: 10px !default;
       }
     }
 
-    @if $tab-type != "standalone" {
+    @if $type != "standalone" {
       @for $i from 1 to $tabs-tab-amount {
         &[data-active-tab="#{$i}"] {
           .c-tabs__tab {
