@@ -94,7 +94,7 @@ $tabs-base-spacing: 10px !default;
       }
     }
 
-    @if $type != "standalone" {
+    @if $type == "js" {
       @for $i from 1 to $tabs-tab-amount {
         &[data-active-tab="#{$i}"] {
           .c-tabs__tab {
