@@ -15,7 +15,7 @@ $tabs-color-secondary: #A1D045 !default;
 ///
 $tabs-color-bg: $msuif-background !default;
 ///
-$tabs-border: 1px solid $tabs-color-primary !default;
+$tabs-border-width: 1px !default;
 ///
 $tabs-base-spacing: 10px !default;
 
@@ -65,9 +65,8 @@ $tabs-base-spacing: 10px !default;
 
     &__tab {
       display: none;
-      margin: ($tabs-base-spacing - 1px) 0;
       padding: $tabs-base-spacing;
-      border: $tabs-border;
+      border: $tabs-border-width solid $tabs-color-primary;
       background-color: $tabs-color-bg;
 
       @if $tab-type == "standalone" {
@@ -78,9 +77,11 @@ $tabs-base-spacing: 10px !default;
     }
 
     &__tab-indicator {
+      display: inline-block;
+      margin-bottom: -#{$tabs-border-width};
       padding: $tabs-base-spacing;
       color: $tabs-color-primary;
-      border: $tabs-border;
+      border: $tabs-border-width  solid $tabs-color-primary;
 
       &:hover {
         color: $tabs-color-secondary;
@@ -88,7 +89,7 @@ $tabs-base-spacing: 10px !default;
 
       &--is-active {
         color: $tabs-color-secondary;
-        border-bottom: 1px solid $tabs-color-bg;
+        border-bottom: $tabs-border-width solid $tabs-color-bg;
       }
     }
 
@@ -104,7 +105,7 @@ $tabs-base-spacing: 10px !default;
           .c-tabs__tab-indicator {
             &:nth-of-type(#{$i}) {
               color: $tabs-color-secondary;
-              border-bottom: 1px solid $tabs-color-bg;
+              border-bottom: $tabs-border-width solid $tabs-color-bg;
             }
           }
         }
@@ -112,5 +113,3 @@ $tabs-base-spacing: 10px !default;
     }
   }
 }
-
-@include c-tabs();
