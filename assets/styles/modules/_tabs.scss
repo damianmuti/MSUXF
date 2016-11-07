@@ -5,46 +5,84 @@
 ////
 
 ///
+$tabs-type: "standalone" !default;
+///
+$tabs-tab-amount: 5 !default;
+///
 $tabs-color-primary: #000 !default;
 ///
 $tabs-color-secondary: #A1D045 !default;
 ///
 $tabs-color-bg: $msuif-background !default;
 ///
-$tabs-border: 1px solid $tabs-color-primary !default;
+$tabs-border-width: 1px !default;
 ///
 $tabs-base-spacing: 10px !default;
 
 
-/// Tabs Component - 
+/// Tabs Component -
 /// This is an almost JS-free Tab component that takes
-/// advantage of `:target` event to display tabs content
-/// @example
+/// advantage of `:target` event to display tabs content.
+/// It can also handle a JS version that depends on a data-attribute
+/// to indicate which tab is currently active.
+/// @param {string} $tabs-type ["js"] - Indicates if this component should be CSS-only (standalone) or JS dependant (js).
+/// @example - $tabs-type: "standalone"
 ///   <div class="c-tabs">
-///     <a class="c-tabs__tab c-tabs__tab--is-active" href="#tab1">Tab 1</a>
-///     <a class="c-tabs__tab" href="#tab2">Tab 2</a>
-///     <a class="c-tabs__tab" href="#tab3">Tab 3</a>
-///     <div class="c-tabs__tab__content" id="tab1">
+///     <a class="c-tabs__tab-indicator c-tabs__tab--is-active" href="#tab1">Tab 1</a>
+///     <a class="c-tabs__tab-indicator" href="#tab2">Tab 2</a>
+///     <a class="c-tabs__tab-indicator" href="#tab3">Tab 3</a>
+///     <div class="c-tabs__tab" id="tab1">
 ///       <p>Tab 1 content</p>
 ///     </div>
-///     <div class="c-tabs__tab__content" id="tab2">
+///     <div class="c-tabs__tab" id="tab2">
 ///       <p>Tab 2 content</p>
 ///     </div>
-///     <div class="c-tabs__tab__content" id="tab3">
+///     <div class="c-tabs__tab" id="tab3">
 ///       <p><a href="#">Tab 3 content</a></p>
 ///     </div>
 ///   </div>
-///   
+///
 ///   // Also add this in the JS
-///   $('.c-tabs__tab').on('click',function(){$(this).addClass('c-tabs__tab--is-active').siblings('.c-tabs__tab').removeClass('c-tabs__tab--is-active')});
-@mixin c-tabs{
+///   $('.c-tabs__tab-indicator').on('click',function(){$(this).addClass('c-tabs__tab-indicator--is-active').siblings('.c-tabs__tab-indicator').removeClass('c-tabs__tab-indicator--is-active')});
+/// @example - $tabs-type: "js"
+///   <div class="c-tabs" data-tab-active="1">
+///     <a class="c-tabs__tab-indicator" href="">Tab 1</a>
+///     <a class="c-tabs__tab-indicator" href="">Tab 2</a>
+///     <a class="c-tabs__tab-indicator" href="">Tab 3</a>
+///     <div class="c-tabs__tab">
+///       <p>Tab 1 content</p>
+///     </div>
+///     <div class="c-tabs__tab">
+///       <p>Tab 2 content</p>
+///     </div>
+///     <div class="c-tabs__tab">
+///       <p><a href="#">Tab 3 content</a></p>
+///     </div>
+///   </div>
+
+@mixin c-tabs($type: $tabs-type){
   .c-tabs {
     margin: $tabs-base-spacing * 2;
 
     &__tab {
+      display: none;
+      padding: $tabs-base-spacing;
+      border: $tabs-border-width solid $tabs-color-primary;
+      background-color: $tabs-color-bg;
+
+      @if $type == "standalone" {
+        &:target {
+          display: block;
+        }
+      }
+    }
+
+    &__tab-indicator {
+      display: inline-block;
+      margin-bottom: -#{$tabs-border-width};
       padding: $tabs-base-spacing;
       color: $tabs-color-primary;
-      border: $tabs-border;
+      border: $tabs-border-width  solid $tabs-color-primary;
 
       &:hover {
         color: $tabs-color-secondary;
@@ -52,18 +90,25 @@ $tabs-base-spacing: 10px !default;
 
       &--is-active {
         color: $tabs-color-secondary;
-        border-bottom: 1px solid $tabs-color-bg;
+        border-bottom: $tabs-border-width solid $tabs-color-bg;
       }
-      
-      &__content {
-        display: none;
-        margin: ($tabs-base-spacing - 1px) 0;
-        padding: $tabs-base-spacing;
-        border: $tabs-border;
-        background-color: $tabs-color-bg;
+    }
 
-        &:target {
-          display: block;
+    @if $type == "js" {
+      @for $i from 1 to $tabs-tab-amount {
+        &[data-active-tab="#{$i}"] {
+          .c-tabs__tab {
+            &:nth-of-type(#{$i}) {
+              display: block;
+            }
+          }
+
+          .c-tabs__tab-indicator {
+            &:nth-of-type(#{$i}) {
+              color: $tabs-color-secondary;
+              border-bottom: $tabs-border-width solid $tabs-color-bg;
+            }
+          }
         }
       }
     }

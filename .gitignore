@@ -10,9 +10,5 @@ node_modules/
 bower_components/
 
 doc/
-dev/css/
-dev/img/
-dev/js/vendor/
-dev/fonts/
-dev/*.html
+dev/
 libs/
