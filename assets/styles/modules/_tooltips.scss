@@ -22,13 +22,6 @@ $tooltip-display-event: hover;
   outline: none;
 
   &:before {
-    @if $position == top or $position == bottom {
-      @include align(horizontal);
-    }
-    @if $position == left or $position == right {
-      @include align(vertical);
-    }
-
     @if $position == top {
       bottom: 100%;
       margin-bottom: $tooltip-tip-size;
@@ -58,13 +51,6 @@ $tooltip-display-event: hover;
   &:after {
     @include triangle($position, $tooltip-background-color, $tooltip-tip-size);
 
-    @if $position == top or $position == bottom {
-      @include align(horizontal);
-    }
-    @if $position == left or $position == right {
-      @include align(vertical);
-    }
-
     @if $position == top {
       bottom: 100%;
     }
@@ -85,6 +71,13 @@ $tooltip-display-event: hover;
 
   &:before,
   &:after {
+    @if $position == top or $position == bottom {
+      @include align(horizontal);
+    }
+    @if $position == left or $position == right {
+      @include align(vertical);
+    }
+    
     opacity: 0;
     visibility: hidden;
     transition:.2s all ease;
