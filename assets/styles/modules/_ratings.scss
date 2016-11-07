@@ -7,7 +7,7 @@
 @import "../libs/sassy-cast/SassyCast";
 
 ///
-$rating-type:            "clickeable" !default;
+$rating-type:            "clickable" !default;
 ///
 $rating-color-empty:     #ccc !default;
 ///
@@ -38,7 +38,7 @@ $rating-icon-names: (
 /// on a data-attribute value.
 /// JS logic behing this component should
 /// round up values per quarter.
-/// @param {string} $rating-type ["clickeable"] - Indicates if whether this component should be clickeable (clickeable) or just representative (representative).
+/// @param {string} $rating-type ["clickable"] - Indicates if whether this component should be clickable (clickable) or just representative (representative).
 /// @example
 ///   <div class="c-rating" data-rating-value="3.25">
 ///     <button></button>
@@ -75,7 +75,7 @@ $rating-icon-names: (
         margin-left: 0;
       }
 
-      @if $type == "clickeable" {
+      @if $type == "clickable" {
         &:hover,
         &:hover ~ button {
           color: $rating-color-empty !important;
@@ -87,7 +87,7 @@ $rating-icon-names: (
       }
     }
 
-    @if $type == "clickeable" {
+    @if $type == "clickable" {
       &:hover {
         button {
           color: $rating-color-hover !important;
