@@ -3,3 +3,98 @@
 /// @group Component - Tooltips
 /// @author MS
 ////
+
+///
+$tooltip-border-radius: 0 !default;
+///
+$tooltip-padding: 10px !default;
+///
+$tooltip-background-color: black !default;
+///
+$tooltip-text-color: white !default;
+///
+$tooltip-tip-size: 7px !default;
+///
+$tooltip-display-event: hover;
+
+@mixin tooltip($position: top, $width: 100%, $content: attr(data-tooltip)){
+  position: relative;
+  outline: none;
+
+  &:before {
+    @if $position == top or $position == bottom {
+      @include align(horizontal);
+    }
+    @if $position == left or $position == right {
+      @include align(vertical);
+    }
+
+    @if $position == top {
+      bottom: 100%;
+      margin-bottom: $tooltip-tip-size;
+    }
+    @else if $position == right {
+      left: 100%;
+      margin-left: $tooltip-tip-size * 2;
+    }
+    @else if $position == bottom {
+      top: 100%;
+      margin-top: $tooltip-tip-size;
+    }
+    @else if $position == left {
+      right: 100%;
+      margin-right: $tooltip-tip-size * 2;
+    }
+
+    content: $content;
+    min-width: $width;
+    padding: $tooltip-padding;
+    text-align: center;
+    color: $tooltip-text-color;
+    background-color: $tooltip-background-color;
+    border-radius: $tooltip-border-radius;
+  }
+
+  &:after {
+    @include triangle($position, $tooltip-background-color, $tooltip-tip-size);
+
+    @if $position == top or $position == bottom {
+      @include align(horizontal);
+    }
+    @if $position == left or $position == right {
+      @include align(vertical);
+    }
+
+    @if $position == top {
+      bottom: 100%;
+    }
+    @else if $position == right {
+      left: 100%;
+      margin-left: $tooltip-tip-size;
+    }
+    @else if $position == bottom {
+      top: 100%;
+    }
+    @else if $position == left {
+      right: 100%;
+      margin-right: $tooltip-tip-size;
+    }
+
+    display:block;
+  }
+
+  &:before,
+  &:after {
+    opacity: 0;
+    visibility: hidden;
+    transition:.2s all ease;
+  }
+
+  &:#{$tooltip-display-event} {
+    &:before,
+    &:after {
+      opacity:1;
+      visibility: visible;
+    }
+  }
+}
