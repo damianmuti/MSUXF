@@ -55,6 +55,22 @@ var config = {
   },
   postCSS: {
     processors : [
+      // Support to browser from 2011. Maybe is too much support, but in some projects maybe we will need greater support.
+      // autoprefixer({browsers: [
+      // 'Android >= 2.3',
+      // 'BlackBerry >= 7',
+      // 'Chrome >= 9',
+      // 'Firefox >= 4',
+      // 'Explorer >= 9',
+      // 'iOS >= 5',
+      // 'Opera >= 11',
+      // 'Safari >= 5',
+      // 'OperaMobile >= 11',
+      // 'OperaMini >= 6',
+      // 'ChromeAndroid >= 9',
+      // 'FirefoxAndroid >= 4',
+      // 'ExplorerMobile >= 9'
+      // ]}),
       autoprefixer({browsers: ['last 2 versions', '> 1%', 'last 3 iOS versions', 'Firefox > 20', 'ie 9']}),
       mqpacker(), 
       cssnano(),
