@@ -5,7 +5,7 @@
 ////
 
 ///
-$tabs-type: "standalone" !default;
+$tabs-type: js !default;
 ///
 $tabs-tab-amount: 5 !default;
 ///
@@ -25,8 +25,8 @@ $tabs-base-spacing: 10px !default;
 /// advantage of `:target` event to display tabs content.
 /// It can also handle a JS version that depends on a data-attribute
 /// to indicate which tab is currently active.
-/// @param {string} $tabs-type ["js"] - Indicates if this component should be CSS-only (standalone) or JS dependant (js).
-/// @example - $tabs-type: "standalone"
+/// @param {string} $tabs-type [js] - Indicates if this component should be CSS-only or JS dependant.  Accepted values: `js` or `standalone`.
+/// @example markup - Type: "standalone", HTML markup
 ///   <div class="c-tabs">
 ///     <a class="c-tabs__tab-indicator c-tabs__tab--is-active" href="#tab1">Tab 1</a>
 ///     <a class="c-tabs__tab-indicator" href="#tab2">Tab 2</a>
@@ -41,10 +41,14 @@ $tabs-base-spacing: 10px !default;
 ///       <p><a href="#">Tab 3 content</a></p>
 ///     </div>
 ///   </div>
-///
-///   // Also add this in the JS
-///   $('.c-tabs__tab-indicator').on('click',function(){$(this).addClass('c-tabs__tab-indicator--is-active').siblings('.c-tabs__tab-indicator').removeClass('c-tabs__tab-indicator--is-active')});
-/// @example - $tabs-type: "js"
+/// @example javascript - Type: "standalone", Javascript code
+///   $('.c-tabs__tab-indicator').on('click',function(){
+///     $(this)
+///       .addClass('c-tabs__tab-indicator--is-active')
+///       .siblings('.c-tabs__tab-indicator')
+///       .removeClass('c-tabs__tab-indicator--is-active')
+///   });
+/// @example markup - Type: "js"
 ///   <div class="c-tabs" data-tab-active="1">
 ///     <a class="c-tabs__tab-indicator" href="">Tab 1</a>
 ///     <a class="c-tabs__tab-indicator" href="">Tab 2</a>
@@ -61,6 +65,10 @@ $tabs-base-spacing: 10px !default;
 ///   </div>
 
 @mixin c-tabs($type: $tabs-type){
+  @if not index(js standalone, $type) {
+    @error "Type must be either 'js' or 'standalone'.";
+  }
+
   .c-tabs {
     margin: $tabs-base-spacing * 2;
 
