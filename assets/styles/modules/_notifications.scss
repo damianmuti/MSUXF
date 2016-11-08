@@ -15,7 +15,7 @@ $notification-toast-margin: toem(20px) !default;
 ///
 $notification-toast-max-width: toem(330px) !default;
 ///
-$notification-toast-animation-type: 'slide' !default; // Values: 'fade' or 'slide'
+$notification-toast-animation-type: slide !default; // Values: 'fade' or 'slide'
 ///
 $notification-animation-duration: 1s !default;
 ///
@@ -105,7 +105,7 @@ $notification-toast-positions: (
       max-width: $notification-toast-max-width;
       margin: $notification-toast-margin;
 
-      @if variable-exists(notification-border-radius) and $notification-border-radius != 'none' {
+      @if variable-exists(notification-border-radius) and $notification-border-radius != none {
         border-radius: $notification-border-radius;
       }
 
