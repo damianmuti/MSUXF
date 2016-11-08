@@ -55,7 +55,7 @@ var config = {
   },
   postCSS: {
     processors : [
-      autoprefixer({browsers: [      
+      autoprefixer({browsers: [
       // 'Android >= 2.3',
       // 'BlackBerry >= 7',
       // 'Chrome >= 9',
@@ -69,13 +69,13 @@ var config = {
       // 'ChromeAndroid >= 9',
       // 'FirefoxAndroid >= 4',
       // 'ExplorerMobile >= 9',
-      'last 2 versions', 
-      '> 1%', 
-      'last 3 iOS versions', 
-      'Firefox > 20', 
-      'ie 9' //This is a Default Autoprefixer Config. In case that you need to add other browser support uncomment from above. 
+      'last 2 versions',
+      '> 1%',
+      'last 3 iOS versions',
+      'Firefox > 20',
+      'ie 9' //This is a Default Autoprefixer Config. In case that you need to add other browser support uncomment from above.
       ]}),
-      mqpacker(), 
+      mqpacker(),
       cssnano(),
     ]
   },
@@ -109,7 +109,7 @@ gulp.task('sass:build', ['webfont', 'bowercopy'], function(){
 
 // Sass Watch task definition
 gulp.task('sass', function(){
-  
+
   return gulp.src(config.folderAssets.styles + '/styles.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
@@ -135,9 +135,9 @@ gulp.task('serve:sassdoc', function() {
     server: {
       baseDir: config.folderAssets.base + '/doc/'
     },
+    port: 3030
   });
 });
-
 
 // Process HTML task definition
 gulp.task('processHtml', function () {
@@ -180,19 +180,21 @@ gulp.task('webfont', ['webfont:copy'], function(){
 
 // Sassdoc generation Task definition
 // doc task generates documentation and starts a live visualization of the docs in a browser
-gulp.task('doc', ['serve:sassdoc'], function () {
-  return gulp.src(config.folderAssets.base + '/**/*.scss')
-    .pipe(sassdoc(config.sassDocOptions))
-    .pipe(browserSync.reload({
-      stream: true
-    }));
+gulp.task('doc:watch', ['doc:serve'], function () {
+  gulp.watch(config.folderAssets.base + '/**/*.scss', ['doc']);
 });
-// doc:generate only generates documentation. no server, no live display of genereated docs.
-gulp.task('doc:generate', function () {
+
+gulp.task('doc:serve', ['serve:sassdoc'], function () {
   return gulp.src(config.folderAssets.base + '/**/*.scss')
     .pipe(sassdoc(config.sassDocOptions));
 });
 
+gulp.task('doc', function() {
+  var docstream = sassdoc(config.sassDocOptions);
+  gulp.src(config.folderAssets.base + '/**/*.scss')
+    .pipe(docstream);
+    return docstream.promise.then(browserSync.reload);
+});
 
 // Kraken image optimization task definition
 gulp.task('kraken', function () {
@@ -279,7 +281,7 @@ gulp.task('run', ['clean', 'serve'], function (){
   gulp.watch(config.folderAssets.images + '/*.*', ['copy:images']);
   gulp.watch(config.folderAssets.js + '/*' , ['copy:js']);
   gulp.watch(config.folderAssets.base + '/templates/*.html', ['processHtml']);
-  gulp.watch(config.folderDev.js + '/*' , browserSync.reload({ stream: true })); 
+  gulp.watch(config.folderDev.js + '/*' , browserSync.reload({ stream: true }));
 });
 
 // Define build task
