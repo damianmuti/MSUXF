@@ -9,40 +9,31 @@
     "ui development"
   ],
   "author": "Making Sense's UI Development team <hello@makingsense.com>",
-  "contributors": [
-    {
-      "name": "Damián Muti",
-      "email": "dmuti@makingsense.com"
-    },
-    {
-      "name": "Santiago Tribiani",
-      "email": "stribiani@makingsense.com"
-    },
-    {
-      "name": "Nazareno Oviedo",
-      "email": "noviedo@makingsense.com"
-    },
-    {
-      "name": "Federico Coronel",
-      "email": "fcoronel@makingsense.com"
-    },
-    {
-      "name": "Lucas Calviño",
-      "email": "lcalvino@makingsense.com"
-    },
-    {
-      "name": "Lucas Márquez",
-      "email": "lmarquez@makingsense.com"
-    },
-    {
-      "name": "Luciana García",
-      "email": "lgarcia@makingsense.com"
-    },
-    {
-      "name": "Franco Arza",
-      "email": "farza@makingsense.com"
-    }
-  ],
+  "contributors": [{
+    "name": "Damián Muti",
+    "email": "dmuti@makingsense.com"
+  }, {
+    "name": "Santiago Tribiani",
+    "email": "stribiani@makingsense.com"
+  }, {
+    "name": "Nazareno Oviedo",
+    "email": "noviedo@makingsense.com"
+  }, {
+    "name": "Federico Coronel",
+    "email": "fcoronel@makingsense.com"
+  }, {
+    "name": "Lucas Calviño",
+    "email": "lcalvino@makingsense.com"
+  }, {
+    "name": "Lucas Márquez",
+    "email": "lmarquez@makingsense.com"
+  }, {
+    "name": "Luciana García",
+    "email": "lgarcia@makingsense.com"
+  }, {
+    "name": "Franco Arza",
+    "email": "farza@makingsense.com"
+  }],
   "repository": {
     "type": "git",
     "url": "https://github.com/MakingSense/MSUIF.git"
@@ -77,6 +68,7 @@
     "gulp-bower": "0.0.13",
     "gulp-iconfont": "~8.0.0",
     "gulp-iconfont-css": "~2.1.0",
+    "gulp-imagemin": "^3.1.1",
     "gulp-kraken": "~0.2.0",
     "gulp-postcss": "^6.2.0",
     "gulp-processhtml": "~1.1.0",
