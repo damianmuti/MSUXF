@@ -87,19 +87,7 @@ $tooltip-display-event: "hover";
       @include align(vertical);
     }
 
-    @if $position == top {
-      bottom: 100%;
-    }
-    @else if $position == right {
-      left: 100%;
-    }
-    @else if $position == bottom {
-      top: 100%;
-    }
-    @else if $position == left {
-      right: 100%;
-    }
-
+    #{opposite-direction($position)}: 100%;
     opacity: 0;
     visibility: hidden;
     transition:.2s all ease;
