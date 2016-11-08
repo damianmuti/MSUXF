@@ -25,7 +25,7 @@ $tabs-base-spacing: 10px !default;
 /// advantage of `:target` event to display tabs content.
 /// It can also handle a JS version that depends on a data-attribute
 /// to indicate which tab is currently active.
-/// @param {string} $tabs-type [js] - Indicates if this component should be CSS-only or JS dependant.  Accepted values: `js` or `standalone`.
+/// @param {string} $tabs-type [js] - Indicates if this component should be CSS-only or JS dependant. Accepted values: `js` or `standalone`.
 /// @example markup - Type: "standalone", HTML markup
 ///   <div class="c-tabs">
 ///     <a class="c-tabs__tab-indicator c-tabs__tab--is-active" href="#tab1">Tab 1</a>
@@ -66,7 +66,7 @@ $tabs-base-spacing: 10px !default;
 
 @mixin c-tabs($type: $tabs-type){
   @if not index(js standalone, $type) {
-    @error "Type must be either 'js' or 'standalone'.";
+    @error "Type must be either `js` or `standalone`.";
   }
 
   .c-tabs {
