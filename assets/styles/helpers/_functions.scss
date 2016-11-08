@@ -9,7 +9,7 @@
 
 /// Convert to EMs function
 /// @param {Number} target - The value to be converted
-/// @param {Number} context [$msuif-font-size] The base font size 
+/// @param {Number} context [$msuif-font-size] The base font size
 /// @return {Em} value
 @function toem($target, $context: $msuif-font-size) {
    @if $target == 0 { @return 0 }
@@ -18,7 +18,7 @@
 
 /// Convert to REMs function
 /// @param {Number} target - The value to be converted
-/// @param {Number} context [$msuif-font-size] - The base font size 
+/// @param {Number} context [$msuif-font-size] - The base font size
 /// @return {Rem} value
 @function torem($target, $context: $msuif-font-size) {
    @if $target == 0 { @return 0 }
@@ -89,4 +89,33 @@
     $map: map-get($map, $key);
   }
   @return $map;
+}
+
+/// Returns the opposite direction of each direction in a list
+/// @author Hugo Giraudel
+/// @param {List} $directions - List of initial directions
+/// @return {List} - List of opposite directions
+@function opposite-direction($directions) {
+  $opposite-directions: ();
+  $direction-map: (
+    'top':    'bottom',
+    'right':  'left',
+    'bottom': 'top',
+    'left':   'right',
+    'center': 'center',
+    'ltr':    'rtl',
+    'rtl':    'ltr'
+  );
+
+  @each $direction in $directions {
+    $direction: to-lower-case($direction);
+
+    @if map-has-key($direction-map, $direction) {
+      $opposite-directions: append($opposite-directions, unquote(map-get($direction-map, $direction)));
+    } @else {
+      @warn "No opposite direction can be found for `#{$direction}`. Direction omitted.";
+    }
+  }
+
+  @return $opposite-directions;
 }
