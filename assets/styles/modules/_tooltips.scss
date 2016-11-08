@@ -114,17 +114,3 @@ $tooltip-display-event: "hover";
     }
   }
 }
-
-
-main {
-  padding: 300px;
-}
-
-body {
-  width: 100vw;
-  height: 100vh;
-}
-
-a {
-  @include tooltip(top, 300px, focus);
-}
