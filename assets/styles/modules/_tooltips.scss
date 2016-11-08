@@ -34,13 +34,13 @@ $tooltip-display-event: "hover";
 
 @mixin tooltip($position: top, $min-width: 100%, $event: $tooltip-display-event, $content: attr(data-tooltip)){
   @if not index(top right bottom left, $position) {
-    @error "Position must be either 'top', 'right', 'bottom' or 'left'.";
+    @error "Position must be either `top`, `right`, `bottom` or `left`.";
   }
   @if not index(hover focus active, $event) {
-    @error "Event must be either 'hover', 'focus' or 'active'.";
+    @error "Event must be either `hover`, `focus` or `active`.";
   }
   @if type-of($min-width) != number {
-    @error "Min-width must be a length value. E.g: 1em.";
+    @error "Min-width must be a length value. E.g: `1em`.";
   }
   @if type-of($content) != string {
     @error "Tooltip content must be a string.";
