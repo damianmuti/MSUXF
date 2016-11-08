@@ -21,9 +21,9 @@ $tooltip-display-event: "hover";
 /// This is a CSS-only tooptip component that uses
 /// a data-attribute to hold the tooltip's text.
 /// It can also be triggered by different events.
-/// @param {string} $position [top] - Indicates tooltip positioning. Accepted values: `top`, `right`, `bottom` and `left`.
-/// @param {length} $width [100%] - Tooltip content min-width.
-/// @param {string} $event [hover] - Specific event in which the tooltip is going to be shown.
+/// @param {string} $position [top] - Indicates tooltip positioning. Accepted values: `top`, `right`, `bottom` or `left`.
+/// @param {number} $width [100%] - Tooltip content min-width.
+/// @param {string} $event [hover] - Specific event in which the tooltip is going to be shown. Accepted values: `hover`, `focus` or `active`.
 /// @param {string} $content [attr(data-tooltip)] - Text to be shown inside the tooltip. If this argument is empty, the mixin is going to use the `data-tooltip` attribute of the HTML element.
 /// @example scss - Using the mixin
 ///  a {
@@ -33,6 +33,19 @@ $tooltip-display-event: "hover";
 ///   <a href="#" data-tooltip="This is a tooltip" tabindex="0">Link</a>
 
 @mixin tooltip($position: top, $min-width: 100%, $event: $tooltip-display-event, $content: attr(data-tooltip)){
+  @if not index(top right bottom left, $position) {
+    @error "Position must be either 'top', 'right', 'bottom' or 'left'.";
+  }
+  @if not index(hover focus active, $event) {
+    @error "Event must be either 'hover', 'focus' or 'active'.";
+  }
+  @if type-of($min-width) != number {
+    @error "Min-width must be a length value. E.g: 1em.";
+  }
+  @if type-of($content) != string {
+    @error "Tooltip content must be a string.";
+  }
+
   position: relative;
   outline: none;
 
@@ -100,4 +113,18 @@ $tooltip-display-event: "hover";
       visibility: visible;
     }
   }
+}
+
+
+main {
+  padding: 300px;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+a {
+  @include tooltip(top, 300px, focus);
 }
