@@ -7,15 +7,15 @@
 @import "../libs/sassy-cast/SassyCast";
 
 ///
-$rating-type:            "clickable" !default;
+$rating-type: clickable !default;
 ///
-$rating-color-empty:     #ccc !default;
+$rating-color-empty: #ccc !default;
 ///
-$rating-color-full:      gold !default;
+$rating-color-full: gold !default;
 ///
-$rating-color-hover:     grey !default;
+$rating-color-hover: grey !default;
 ///
-$rating-star-spacing:    3px !default;
+$rating-star-spacing: 3px !default;
 ///
 $rating-values: (
   '0.25', '0.50', '0.75', '1.00',
@@ -38,8 +38,8 @@ $rating-icon-names: (
 /// on a data-attribute value.
 /// JS logic behing this component should
 /// round up values per quarter.
-/// @param {string} $rating-type ["clickable"] - Indicates if whether this component should be clickable (clickable) or just representative (representative).
-/// @example
+/// @param {string} $rating-type [clickable] - Indicates if whether this component should be clickable or representative. Accepted values: `clickable` or `representative`.
+/// @example markup
 ///   <div class="c-rating" data-rating-value="3.25">
 ///     <button></button>
 ///     <button></button>
@@ -49,12 +49,16 @@ $rating-icon-names: (
 ///   </div>
 
 @mixin c-rating($type: $rating-type) {
+  @if not index(clickable representative, $type) {
+    @error "Type must be either `clickable` or `representative`.";
+  }
+
   .c-rating {
     @include clearfix();
 
     display: inline-block;
 
-    @if $type == "representative" {
+    @if $type == representative {
       pointer-events: none;
     }
 
@@ -75,7 +79,7 @@ $rating-icon-names: (
         margin-left: 0;
       }
 
-      @if $type == "clickable" {
+      @if $type == clickable {
         &:hover,
         &:hover ~ button {
           color: $rating-color-empty !important;
@@ -87,7 +91,7 @@ $rating-icon-names: (
       }
     }
 
-    @if $type == "clickable" {
+    @if $type == clickable {
       &:hover {
         button {
           color: $rating-color-hover !important;

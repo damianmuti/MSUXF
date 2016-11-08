@@ -15,7 +15,7 @@ $tooltip-text-color: white !default;
 ///
 $tooltip-tip-size: 7px !default;
 ///
-$tooltip-display-event: "hover";
+$tooltip-display-event: hover !default;
 
 /// Tooltips Component -
 /// This is a CSS-only tooptip component that uses
@@ -34,13 +34,13 @@ $tooltip-display-event: "hover";
 
 @mixin tooltip($position: top, $min-width: 100%, $event: $tooltip-display-event, $content: attr(data-tooltip)){
   @if not index(top right bottom left, $position) {
-    @error "Position must be either 'top', 'right', 'bottom' or 'left'.";
+    @error "Position must be either `top`, `right`, `bottom` or `left`.";
   }
   @if not index(hover focus active, $event) {
-    @error "Event must be either 'hover', 'focus' or 'active'.";
+    @error "Event must be either `hover`, `focus` or `active`.";
   }
   @if type-of($min-width) != number {
-    @error "Min-width must be a length value. E.g: 1em.";
+    @error "Min-width must be a length value. E.g: `1em`.";
   }
   @if type-of($content) != string {
     @error "Tooltip content must be a string.";
@@ -64,7 +64,10 @@ $tooltip-display-event: "hover";
     text-align: center;
     color: $tooltip-text-color;
     background-color: $tooltip-background-color;
-    border-radius: $tooltip-border-radius;
+
+    @if variable-exists(tooltip-border-radius) and $tooltip-border-radius != 0 {
+      border-radius: $tooltip-border-radius;
+    }
   }
 
   // Tooptip tip
@@ -87,22 +90,10 @@ $tooltip-display-event: "hover";
       @include align(vertical);
     }
 
-    @if $position == top {
-      bottom: 100%;
-    }
-    @else if $position == right {
-      left: 100%;
-    }
-    @else if $position == bottom {
-      top: 100%;
-    }
-    @else if $position == left {
-      right: 100%;
-    }
-
+    #{opposite-direction($position)}: 100%;
     opacity: 0;
     visibility: hidden;
-    transition:.2s all ease;
+    transition:$msuif-transition-duration all $msuif-transition-timing;
   }
 
   // Trigger different events depending on variable config

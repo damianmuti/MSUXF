@@ -14,12 +14,12 @@ $translate-position: (
 /// Hideable Element
 /// Mixin to make any element hideable using css transitions
 /// and a little bit of Js.
-/// @example
+/// @example scss - Using the mixin
 ///   .example_class {
 ///     @include hide-to('top');
 ///   }
-/// 
-///  $('body').scroll(function(e) {
+/// @example javascript - Javascript code
+///   $('body').scroll(function(e) {
 ///      var target = e.currentTarget,
 ///          self = $(target),
 ///          $element = $('.element'),
@@ -35,7 +35,7 @@ $translate-position: (
 ///      }
 ///      //saves the current scrollTop
 ///      self.data("lastScrollTop", scrollTop);
-///  });
+///   });
 
 @mixin hide-to($position) {
   transition: transform $msuif-transition-duration ease-in-out;

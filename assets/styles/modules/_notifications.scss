@@ -15,7 +15,7 @@ $notification-toast-margin: toem(20px) !default;
 ///
 $notification-toast-max-width: toem(330px) !default;
 ///
-$notification-toast-animation-type: 'slide' !default; // Values: 'fade' or 'slide'
+$notification-toast-animation-type: slide !default; // Values: 'fade' or 'slide'
 ///
 $notification-animation-duration: 1s !default;
 ///
@@ -46,12 +46,12 @@ $notification-toast-positions: (
 
 /// Component Notification -
 /// Component that shows two different types
-/// of notification boxes: toast and top bar.
-/// {position} can be 4 different values: `top-left`, `top-right`, `bottom-right` and `bottom-left`.
-/// {status} can be 4 different values as well: `notice`, `warning`, `error` and `success`.
-/// @example html - Toast
+/// of notification boxes: toast and top bar.<br>
+/// **{position}** can be 4 different values: `top-left`, `top-right`, `bottom-right` and `bottom-left`.<br>
+/// **{status}** can be 4 different values as well: `notice`, `warning`, `error` and `success`.
+/// @example markup - Toast
 ///   <div class="c-notification c-notification--toast c-notification--toast-{position} c-notification--{status}">Lorem ipsum dolor.</div>
-/// @example html - Top bar
+/// @example markup - Top bar
 ///   <div class="c-notification c-notification--top-bar c-notification--{status}">Lorem ipsum dolor.</div>
 
 @mixin c-notification {
@@ -105,7 +105,7 @@ $notification-toast-positions: (
       max-width: $notification-toast-max-width;
       margin: $notification-toast-margin;
 
-      @if variable-exists(notification-border-radius) and $notification-border-radius != 'none' {
+      @if variable-exists(notification-border-radius) and $notification-border-radius != none {
         border-radius: $notification-border-radius;
       }
 
