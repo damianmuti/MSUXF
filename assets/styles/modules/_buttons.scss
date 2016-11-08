@@ -2,3 +2,42 @@
 /// Buttons
 /// @group Component - Buttons
 ////
+
+///
+$c-button-padding: toem(8px) toem(10px) !default;
+///
+$c-button-text-color: white !default;
+///
+$c-button-background-color: black !default;
+///
+$c-button-border-radius: toem(5px) !default;
+
+/// Component Button -
+///
+
+.button {
+  appearance: none;
+  display: inline-block;
+  padding: $c-button-padding;
+  font: $msuif-font;
+  color: $c-button-text-color;
+  background-color: $c-button-background-color;
+  border: none;
+  transition: all $msuif-transition-duration $msuif-transition-timing;
+
+  @if variable-exists(c-button-border-radius) and $c-button-border-radius != 0 {
+    border-radius: $c-button-border-radius;
+  }
+
+  &:hover {
+    background-color: complementary-color($c-button-background-color, 30%);
+  }
+
+  &.button--small {
+    font-size: 80%;
+  }
+
+  &.button--large {
+    font-size: 120%;
+  }
+}
