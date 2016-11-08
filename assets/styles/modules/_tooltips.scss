@@ -64,7 +64,10 @@ $tooltip-display-event: hover !default;
     text-align: center;
     color: $tooltip-text-color;
     background-color: $tooltip-background-color;
-    border-radius: $tooltip-border-radius;
+
+    @if variable-exists(tooltip-border-radius) and $tooltip-border-radius != 0 {
+      border-radius: $tooltip-border-radius;
+    }
   }
 
   // Tooptip tip
