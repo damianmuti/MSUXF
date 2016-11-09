@@ -12,6 +12,8 @@ var gulp = require('gulp'),
   browserSync = require('browser-sync').create(),
   // Require Del to clean dev folder
   del = require('del'),
+  // Require Vinyl Paths to catch streams and pass them to del
+  vinylPaths = require('vinyl-paths'),
   // Require Process HTML
   processHtml = require('gulp-processhtml'),
   // Require iconfont generator plugin
@@ -21,12 +23,18 @@ var gulp = require('gulp'),
   postcss = require('gulp-postcss'),
   // Require PostCSS autoprefixer
   autoprefixer = require('autoprefixer'),
-  // Require Cssnano
-  cssnano = require('cssnano'),
-  // Require Css-MQpacker
+  // Require postCSS clean
+  cleanCSS = require('gulp-clean-css'),
+  // Require Css-MQpacker// Clean CSS
   mqpacker = require('css-mqpacker'),
   // Image optimization plugin
   imagemin = require('gulp-imagemin'),
+  // Zip plugin
+  zip = require('gulp-zip'),
+  // Concat plugin
+  concat = require('gulp-concat'),
+  // uglify plugin
+  uglify = require('gulp-uglify'),
   // SFTP deploy task
   sftp = require('gulp-sftp');
 
@@ -77,8 +85,7 @@ var config = {
           'ie 9' //This is a Default Autoprefixer Config. In case that you need to add other browser support uncomment from above.
         ]
       }),
-      mqpacker(),
-      cssnano(),
+      mqpacker()
     ]
   },
   // Sassdoc task options
@@ -101,6 +108,7 @@ gulp.task('sass:build', ['webfont', 'bowercopy'], function() {
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(postcss(config.postCSS.processors))
+    .pipe(cleanCSS({ advanced: true }))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(config.folderDev.css))
     .pipe(browserSync.reload({
@@ -114,6 +122,7 @@ gulp.task('sass', function() {
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(postcss(config.postCSS.processors))
+    .pipe(cleanCSS({ advanced: true }))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(config.folderDev.css))
     .pipe(browserSync.reload({
@@ -152,6 +161,15 @@ gulp.task('processHtml', function() {
 });
 
 // Generate webfonts
+gulp.task('webfont', ['webfont:copy'], function() {
+  return del([config.folderDev.fonts + '/*.scss']);
+});
+
+gulp.task('webfont:copy', ['webfont:generate'], function() {
+  return gulp.src([config.folderDev.fonts + '/_icon-font.scss'])
+  .pipe(gulp.dest(config.folderAssets.styles + '/libs/iconfont/'));
+});
+
 gulp.task('webfont:generate', function() {
   var fontName = 'icon-font';
   return gulp.src([config.folderAssets.base + '/icons/*.svg'])
@@ -170,17 +188,8 @@ gulp.task('webfont:generate', function() {
     .pipe(gulp.dest(config.folderDev.fonts));
 });
 
-gulp.task('webfont:copy', ['webfont:generate'], function() {
-  return gulp.src([config.folderDev.fonts + '/_icon-font.scss'])
-    .pipe(gulp.dest(config.folderAssets.styles + '/libs/iconfont/'));
-});
-
-gulp.task('webfont', ['webfont:copy'], function() {
-  return del([config.folderDev.fonts + '/*.scss']);
-});
-
 // Sassdoc generation Task definition
-// doc task generates documentation and starts a live visualization of the docs in a browser
+// starts doc browserSync server and watches for changes
 gulp.task('doc:watch', ['doc:serve'], function() {
   gulp.watch(config.folderAssets.base + '/**/*.scss', ['doc']);
 });
@@ -195,17 +204,6 @@ gulp.task('doc', function() {
   gulp.src(config.folderAssets.base + '/**/*.scss')
     .pipe(docstream);
   return docstream.promise.then(browserSync.reload);
-});
-
-gulp.task('deploy', ['build'], function() {
-  return gulp.src('dev/**')
-    .pipe(sftp({
-      host: '',
-      port: 3000,
-      user: '',
-      pass: '',
-      remotePath: ''
-    }));
 });
 
 // Run bower update
@@ -235,12 +233,18 @@ gulp.task('bowercopy:jquery', ['bower'], function() {
     .pipe(gulp.dest(config.folderDev.base + '/js/vendor'));
 });
 
-// Copy tasks
-gulp.task('copy:js', function() {
+gulp.task('js:build', function() {
   return gulp.src([config.folderAssets.js + '/**/*.js'])
+    .pipe(sourcemaps.init())
+    .pipe(concat('app.js', {
+      newLine: ';'
+    }))
+    .pipe(uglify())
+    .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(config.folderDev.js));
 });
 
+// Copy and optimize Images
 gulp.task('copy:images', function() {
   return gulp.src([config.folderAssets.images + '/**/*'])
     .pipe(imagemin())
@@ -248,13 +252,10 @@ gulp.task('copy:images', function() {
 });
 
 // Delete dev folder for cleaning
-gulp.task('clean', ['clean:fonts', 'clean:js', 'clean:libs', 'clean:bower']);
+gulp.task('clean', ['clean:dev', 'clean:libs', 'clean:bower']);
 
-gulp.task('clean:js', function() {
-  return del.sync(config.folderDev.js);
-});
-gulp.task('clean:fonts', function() {
-  return del.sync([config.folderDev.fonts, config.folderAssets.styles + '/libs/iconfont']);
+gulp.task('clean:dev', function() {
+  return del.sync(config.folderDev.base);
 });
 gulp.task('clean:libs', function() {
   return del.sync([config.folderAssets.styles + '/libs']);
@@ -268,12 +269,29 @@ gulp.task('run', ['clean', 'serve'], function() {
   gulp.watch(config.folderAssets.base + '/**/*.scss', ['sass']);
   gulp.watch(config.folderAssets.base + '/icons/*.svg', ['build']);
   gulp.watch(config.folderAssets.images + '/*.*', ['copy:images']);
-  gulp.watch(config.folderAssets.js + '/*', ['copy:js']);
+  gulp.watch(config.folderAssets.js + '/*', ['js:build']);
   gulp.watch(config.folderAssets.base + '/templates/*.html', ['processHtml']);
-  gulp.watch(config.folderDev.js + '/*', browserSync.reload({
-    stream: true
-  }));
+  gulp.watch(config.folderDev.js + '/*.js').on('change', browserSync.reload);
 });
 
 // Define build task
-gulp.task('build', ['sass:build', 'processHtml', 'copy:images', 'copy:js']);
+gulp.task('build', ['sass:build', 'js:build', 'processHtml', 'copy:images']);
+
+gulp.task('zip', ['build'], function() {
+  var today = new Date();
+  return gulp.src([config.folderDev.base + '/**/*.*', '!./dev/js/vendor/**'])
+    .pipe(zip('deploy --' + today.toDateString() + '.zip'))
+    .pipe(gulp.dest('./'));
+});
+
+// Define task to deploy to SFTP server
+gulp.task('deploy', ['build'], function() {
+  return gulp.src([config.folderDev.base + '/**/*.*', '!./dev/js/vendor/**'])
+    .pipe(sftp({
+      host: '',
+      port: 3000,
+      user: '',
+      pass: '',
+      remotePath: ''
+    }));
+});

@@ -9,31 +9,40 @@
     "ui development"
   ],
   "author": "Making Sense's UI Development team <hello@makingsense.com>",
-  "contributors": [{
-    "name": "Damián Muti",
-    "email": "dmuti@makingsense.com"
-  }, {
-    "name": "Santiago Tribiani",
-    "email": "stribiani@makingsense.com"
-  }, {
-    "name": "Nazareno Oviedo",
-    "email": "noviedo@makingsense.com"
-  }, {
-    "name": "Federico Coronel",
-    "email": "fcoronel@makingsense.com"
-  }, {
-    "name": "Lucas Calviño",
-    "email": "lcalvino@makingsense.com"
-  }, {
-    "name": "Lucas Márquez",
-    "email": "lmarquez@makingsense.com"
-  }, {
-    "name": "Luciana García",
-    "email": "lgarcia@makingsense.com"
-  }, {
-    "name": "Franco Arza",
-    "email": "farza@makingsense.com"
-  }],
+  "contributors": [
+    {
+      "name": "Damián Muti",
+      "email": "dmuti@makingsense.com"
+    },
+    {
+      "name": "Santiago Tribiani",
+      "email": "stribiani@makingsense.com"
+    },
+    {
+      "name": "Nazareno Oviedo",
+      "email": "noviedo@makingsense.com"
+    },
+    {
+      "name": "Federico Coronel",
+      "email": "fcoronel@makingsense.com"
+    },
+    {
+      "name": "Lucas Calviño",
+      "email": "lcalvino@makingsense.com"
+    },
+    {
+      "name": "Lucas Márquez",
+      "email": "lmarquez@makingsense.com"
+    },
+    {
+      "name": "Luciana García",
+      "email": "lgarcia@makingsense.com"
+    },
+    {
+      "name": "Franco Arza",
+      "email": "farza@makingsense.com"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/MakingSense/MSUIF.git"
@@ -45,7 +54,6 @@
     "autoprefixer": "~6.3.4",
     "browser-sync": "~2.12.10",
     "css-mqpacker": "^5.0.1",
-    "cssnano": "~3.5.2",
     "del": "~2.2.0",
     "grunt": "~0.4.5",
     "grunt-bowercopy": "~1.2.0",
@@ -64,20 +72,24 @@
     "grunt-sftp-deploy": "^0.2.5",
     "grunt-webfont": "~0.4.8",
     "gulp": "~3.9.1",
-    "gulp-autoprefixer": "~3.1.0",
     "gulp-bower": "0.0.13",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-concat": "^2.6.0",
     "gulp-iconfont": "~8.0.0",
     "gulp-iconfont-css": "~2.1.0",
     "gulp-imagemin": "^3.1.1",
-    "gulp-kraken": "~0.2.0",
     "gulp-postcss": "^6.2.0",
     "gulp-processhtml": "~1.1.0",
     "gulp-sass": "~2.3.1",
     "gulp-sftp": "^0.1.5",
     "gulp-sourcemaps": "~1.6.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-zip": "^3.2.0",
     "load-grunt-tasks": "~3.1.0",
     "node-sass": "~2.1.1",
-    "sassdoc": "~2.1.20"
+    "postcss-clean": "^1.0.2",
+    "sassdoc": "~2.1.20",
+    "vinyl-paths": "^2.1.0"
   },
   "main": "pdr",
   "engines": {
