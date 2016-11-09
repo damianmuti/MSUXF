@@ -12,8 +12,6 @@ var gulp = require('gulp'),
   browserSync = require('browser-sync').create(),
   // Require Del to clean dev folder
   del = require('del'),
-  // Require Vinyl Paths to catch streams and pass them to del
-  vinylPaths = require('vinyl-paths'),
   // Require Process HTML
   processHtml = require('gulp-processhtml'),
   // Require iconfont generator plugin
