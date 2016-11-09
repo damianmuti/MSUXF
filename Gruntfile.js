@@ -1,4 +1,4 @@
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
   'use strict';
 
@@ -55,7 +55,7 @@ module.exports = function (grunt) {
 
     // Templating engine
     processhtml: {
-      dist:{
+      dist: {
         options: {
           process: true
         },
@@ -131,9 +131,13 @@ module.exports = function (grunt) {
       options: {
         map: true,
         processors: [
-          require('autoprefixer')({browsers: ['last 2 versions', 'last 3 iOS versions', 'iOS 7']}),
+          require('autoprefixer')({
+            browsers: ['last 2 versions', 'last 3 iOS versions', 'iOS 7']
+          }),
           require("css-mqpacker")(),
-          require('cssnano')({zindex: false}) // minify the result
+          require('cssnano')({
+            zindex: false
+          }) // minify the result
         ]
       },
       dist: {
