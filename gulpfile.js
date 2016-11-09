@@ -199,9 +199,9 @@ gulp.task('doc:serve', ['serve:sassdoc'], function() {
 
 gulp.task('doc', function() {
   var docstream = sassdoc(config.sassDocOptions);
-  gulp.src(config.folderAssets.base + '/**/*.scss')
+  docstream.promise.then(browserSync.reload);
+  return gulp.src(config.folderAssets.base + '/**/*.scss')
     .pipe(docstream);
-  return docstream.promise.then(browserSync.reload);
 });
 
 // Run bower update
