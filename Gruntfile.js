@@ -15,7 +15,9 @@ module.exports = function(grunt) {
     // Local server info
     server_address: 'localhost',
     server_port: '1337',
-    server_doc_port: '1338'
+    server_ui_port: '1338',
+    server_doc_port: '1339',
+    server_doc_ui_port: '1340'
   };
 
   // Configure Grunt
@@ -34,8 +36,7 @@ module.exports = function(grunt) {
           src: [
             '<%= config.folder_dev %>/css/*.css',
             '<%= config.folder_dev %>/img/*',
-            '<%= config.folder_dev %>/js/*.js',
-            '<%= config.folder_dev %>/js/*.map',
+            '<%= config.folder_dev %>/js/*',
             '<%= config.folder_dev %>/*.html'
           ]
         },
@@ -44,20 +45,24 @@ module.exports = function(grunt) {
           port: config.server_port,
           server: {
             baseDir: '<%= config.folder_dev %>/'
+          },
+          ui: {
+            port:  config.server_ui_port
           }
         }
       },
       doc: {
         bsFiles: {
-          src: [
-            '<%= config.folder_doc %>/index.html'
-          ]
+          src: '<%= config.folder_doc %>/index.html'
         },
         options: {
           watchTask: true,
           port: config.server_doc_port,
           server: {
             baseDir: '<%= config.folder_doc %>'
+          },
+          ui: {
+            port:  config.server_doc_ui_port
           }
         }
       }
@@ -76,56 +81,6 @@ module.exports = function(grunt) {
           dest: './<%= config.folder_dev %>',
           ext: '.html'
         }]
-      }
-    },
-
-    // grunt-watch monitors the projects files and execute actions when a file changes
-    watch: {
-      options: {
-        livereload: true
-      },
-      scss: {
-        files: ['<%= config.folder_assets %>/styles/**'],
-        tasks: [
-          'sass:ui',
-          'postcss',
-          'cssmin'
-        ],
-        options: {
-          spawn: false
-        }
-      },
-      sassdoc: {
-        files: ['<%= config.folder_assets %>/styles/**'],
-        tasks: [
-          'sassdoc'
-        ],
-        options: {
-          spawn: false
-        }
-      },
-      js: {
-        files: '<%= config.folder_assets %>/js/**',
-        tasks: [
-          'uglify'
-        ],
-        options: {
-          spawn: false
-        }
-      },
-      templates: {
-        files: [
-          '<%= config.folder_assets %>/templates/*.*'
-        ],
-        tasks: ['processhtml']
-      },
-      images: {
-        files: '<%= config.folder_assets %>/img/**.*',
-        tasks: ['imagemin']
-      },
-      icons: {
-        files: '<%= config.folder_assets %>/icons/*.*',
-        tasks: ['webfont']
       }
     },
 
@@ -167,11 +122,9 @@ module.exports = function(grunt) {
         sourceMap: true
       },
       target: {
-        files: [{
-          cwd: '<%= config.folder_dev %>/css/',
-          src: '*.css',
-          dest: '<%= config.folder_dev %>/css/styles.css'
-        }]
+        files: {
+          '<%= config.folder_dev %>/css/styles.css': '<%= config.folder_dev %>/css/styles.css'
+        }
       }
     },
 
@@ -235,7 +188,10 @@ module.exports = function(grunt) {
         sourceMapName: '<%= config.folder_dev %>/js/app.map'
       },
       files: {
-        src: ['<%= config.folder_assets %>/js/vendor/*.js', '<%= config.folder_assets %>/js/*.js'],
+        src: [
+          '<%= config.folder_assets %>/js/vendor/*.js',
+          '<%= config.folder_assets %>/js/*.js'
+        ],
         dest: '<%= config.folder_dev %>/js/app.js'
       }
     },
@@ -276,16 +232,73 @@ module.exports = function(grunt) {
     compress: {
       build: {
         options: {
-          archive: 'deploy --' + grunt.template.today('yyyy-mm-dd') + '.zip',
+          archive: 'deploy--' + grunt.template.today('yyyy-mm-dd-HH:mm:ss') + '.zip',
           mode: 'zip'
         },
         files: [
           { src: '<%= config.folder_dev %>' }
         ]
       }
+    },
+
+    concurrent: {
+      options: {
+        logConcurrentOutput: true
+      },
+      dev: ['watch:scss', 'watch:js', 'watch:templates', 'watch:images', 'watch:icons']
+    },
+
+    // grunt-watch monitors the projects files and execute actions when a file changes
+    watch: {
+      scss: {
+        files: ['<%= config.folder_assets %>/styles/**'],
+        tasks: ['sass:ui', 'postcss', 'cssmin'],
+        options: {
+          spawn: false,
+          livereload: false
+        }
+      },
+      sassdoc: {
+        files: ['<%= config.folder_assets %>/styles/**'],
+        tasks: ['sassdoc'],
+        options: {
+          spawn: false,
+          livereload: false
+        }
+      },
+      js: {
+        files: '<%= config.folder_assets %>/js/**',
+        tasks: ['uglify'],
+        options: {
+          spawn: false,
+          livereload: false
+        }
+      },
+      templates: {
+        files: ['<%= config.folder_assets %>/templates/*.*'],
+        tasks: ['processhtml'],
+        options: {
+          livereload: false
+        }
+      },
+      images: {
+        files: '<%= config.folder_assets %>/img/**.*',
+        tasks: ['imagemin'],
+        options: {
+          livereload: false
+        }
+      },
+      icons: {
+        files: '<%= config.folder_assets %>/icons/*.*',
+        tasks: ['webfont'],
+        options: {
+          livereload: false
+        }
+      }
     }
   });
 
+  grunt.loadNpmTasks('grunt-concurrent');
   grunt.loadNpmTasks('grunt-browser-sync');
   grunt.loadNpmTasks('grunt-webfont');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -311,11 +324,7 @@ module.exports = function(grunt) {
     'sass:ui',
     'processhtml',
     'browserSync:dev',
-    'watch:scss',
-    'watch:js',
-    'watch:templates',
-    'watch:images',
-    'watch:icons'
+    'concurrent:dev'
   ]);
 
   grunt.registerTask('doc', [
