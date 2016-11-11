@@ -31,4 +31,14 @@ $c-table-caption-background: ;
   td {
     padding: $c-table-cell-padding
   }
+
+  &.table--zebra {
+    tbody {
+      tr:nth-of-type(odd) {
+        td {
+          
+        }
+      }
+    }
+  }
 }
