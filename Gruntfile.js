@@ -192,7 +192,7 @@ module.exports = function(grunt) {
 
       dev: {
         files: {
-          '<%= config.folder_assets %>/styles/libs/jeet': 'jeet.gs/scss/jeet',
+          '<%= config.folder_assets %>/styles/libs/jeet': 'jeet.gs/scss',
           '<%= config.folder_assets %>/styles/libs/normalize': 'normalize-scss',
           '<%= config.folder_assets %>/styles/libs/sassy-cast': 'sassy-cast/dist',
           '<%= config.folder_dev %>/js/vendor/jquery.min.js': 'jquery-latest/dist/jquery.min.js'

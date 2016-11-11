@@ -3,3 +3,32 @@
 /// @group Tables
 /// @author MS
 ////
+
+///
+$c-table-cell-padding: 10px !default;
+///
+$c-table-thead-background: #999 !default;
+$c-table-tbody-background: #fff !default;
+///
+$c-table-caption-background: ;
+
+
+.table {
+  width: 100%;
+
+  th {
+    background-color: $c-table-thead-background
+  }
+
+  tbody {
+    td {
+      background-color: $c-table-tbody-background;
+    }
+  }
+
+  caption,
+  th,
+  td {
+    padding: $c-table-cell-padding
+  }
+}
