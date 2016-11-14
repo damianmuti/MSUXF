@@ -11,6 +11,7 @@ module.exports = function(grunt) {
     folder_dev: 'dev', // If this path gets changed, remember to update .gitignore with the proper path to ignore images and css
     folder_assets: 'assets',
     folder_doc: 'doc',
+    folder_dist: 'dist',
 
     // Local server info
     server_address: 'localhost',
@@ -47,7 +48,7 @@ module.exports = function(grunt) {
             baseDir: '<%= config.folder_dev %>/'
           },
           ui: {
-            port:  config.server_ui_port
+            port: config.server_ui_port
           }
         }
       },
@@ -62,7 +63,7 @@ module.exports = function(grunt) {
             baseDir: '<%= config.folder_doc %>'
           },
           ui: {
-            port:  config.server_doc_ui_port
+            port: config.server_doc_ui_port
           }
         }
       }
@@ -196,7 +197,7 @@ module.exports = function(grunt) {
           '<%= config.folder_assets %>/js/vendor/*.js',
           '<%= config.folder_assets %>/js/*.js'
         ],
-        dest: '<%= config.folder_dev %>/js/app.js'
+        dest: '<%= config.folder_dist %>/js/app.js'
       }
     },
 
@@ -240,7 +241,7 @@ module.exports = function(grunt) {
           mode: 'zip'
         },
         files: [
-          { src: '<%= config.folder_dev %>' }
+          { src: '<%= config.folder_dist %>' }
         ]
       }
     },
@@ -272,7 +273,7 @@ module.exports = function(grunt) {
       },
       js: {
         files: '<%= config.folder_assets %>/js/**',
-        tasks: ['uglify'],
+        tasks: ['copy:js'],
         options: {
           spawn: false,
           livereload: false
@@ -287,7 +288,7 @@ module.exports = function(grunt) {
       },
       images: {
         files: '<%= config.folder_assets %>/img/**.*',
-        tasks: ['imagemin'],
+        tasks: ['copy:img'],
         options: {
           livereload: false
         }
@@ -298,6 +299,29 @@ module.exports = function(grunt) {
         options: {
           livereload: false
         }
+      }
+    },
+
+    copy: {
+      js: {
+        src: '<%= config.folder_assets %>/js/',
+        dest: '<%= config.folder_dev %>/js/'
+      },
+      img: {
+        src: '<%= config.folder_assets %>/img/',
+        dest: '<%= config.folder_dev %>/img/'
+      },
+      css: {
+        src: '<%= config.folder_dev %>/css/*.*',
+        dest: '<%= config.folder_dist %>/css/'
+      },
+      fonts: {
+        src: '<%= config.folder_dev %>/fonts/*.*',
+        dest: '<%= config.folder_dist %>/fonts/'
+      },
+      html: {
+        src: '<%= config.folder_dev %>/*.html',
+        dest: '<%= config.folder_dist %>'
       }
     }
   });
@@ -315,6 +339,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   /* ====================================================================================== */
   /* Tasks @registration                                                                    */
@@ -322,8 +347,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('run', [
     'bowercopy',
-    'imagemin',
-    'uglify',
+    'copy:img',
+    'copy:js',
     'webfont',
     'sass:ui',
     'processhtml',
@@ -337,7 +362,16 @@ module.exports = function(grunt) {
     'watch:sassdoc'
   ]);
 
-  grunt.registerTask('zip', [
+  grunt.registerTask('dist', [
+    'copy:css',
+    'copy:html',
+    'copy:fonts',
+    'imagemin',
+    'uglify'
+  ]);
+
+  grunt.registerTask('dist:zip', [
+    'dist',
     'compress'
   ]);
 };

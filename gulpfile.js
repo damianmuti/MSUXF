@@ -59,6 +59,13 @@ var config = {
     sassyCast: 'bower_components/sassy-cast',
     jquery: 'bower_components/jquery-latest'
   },
+  folderDist: {
+    base: 'dist',
+    css: 'dist/css',
+    fonts: 'dist/fonts',
+    images: 'dist/img',
+    js: 'dist/js'
+  },
   postCSS: {
     processors: [
       autoprefixer({
@@ -128,6 +135,12 @@ gulp.task('sass', function() {
     }));
 });
 
+// CSS copy to dist folder
+gulp.task('copy:css', ['sass:build'], function() {
+  return gulp.src(config.folderDev.css + '/*.*')
+    .pipe(gulp.dest(config.folderDist.css));
+});
+
 // Browser Sync task definition
 gulp.task('serve', ['build'], function() {
   return browserSync.init({
@@ -158,6 +171,12 @@ gulp.task('processHtml', function() {
     }));
 });
 
+// Copy HTML to Dist folder
+gulp.task('copy:html', ['processHtml'], function() {
+  return gulp.src(config.folderDev.base + '/*.html')
+    .pipe(gulp.dest(config.folderDist.base));
+});
+
 // Generate webfonts
 gulp.task('webfont', ['webfont:copy'], function() {
   return del([config.folderDev.fonts + '/*.scss']);
@@ -184,6 +203,12 @@ gulp.task('webfont:generate', function() {
       fontHeight: 1001
     }))
     .pipe(gulp.dest(config.folderDev.fonts));
+});
+
+// Copy webfonts to Dist folder
+gulp.task('copy:fonts', ['sass:build'], function() {
+  return gulp.src(config.folderDev.fonts + '/*.*')
+  .pipe(gulp.dest(config.folderDist.fonts));
 });
 
 // Sassdoc generation Task definition
@@ -231,7 +256,8 @@ gulp.task('bowercopy:jquery', ['bower'], function() {
     .pipe(gulp.dest(config.folderDev.base + '/js/vendor'));
 });
 
-gulp.task('js:build', function() {
+// Optimize JS
+gulp.task('js:dist', function() {
   return gulp.src([config.folderAssets.js + '/**/*.js'])
     .pipe(sourcemaps.init())
     .pipe(concat('app.js', {
@@ -239,17 +265,30 @@ gulp.task('js:build', function() {
     }))
     .pipe(uglify())
     .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(config.folderDist.js));
+});
+
+// Copy JS
+gulp.task('copy:js', function() {
+  return gulp.src([config.folderAssets.js + '/**/*.js'])
     .pipe(gulp.dest(config.folderDev.js));
 });
 
-// Copy and optimize Images
-gulp.task('copy:images', function() {
+// Optimize Images
+gulp.task('images:dist', function() {
   return gulp.src([config.folderAssets.images + '/**/*'])
     .pipe(imagemin({
-      optimizationLevel: 7,
-      progressive: true
+      optimizationLevel: 5,
+      progressive: true,
+      svgoPlugins: [{ removeViewBox: true }]
     }))
-    .pipe(gulp.dest(config.folderDev.images));
+    .pipe(gulp.dest(config.folderDist.images));
+});
+
+// Copy Images
+gulp.task('copy:images', function() {
+  return gulp.src([config.folderAssets.images + '/**/*'])
+    .pipe(gulp.dest(config.folderDist.images));
 });
 
 // Delete dev folder for cleaning
@@ -270,19 +309,9 @@ gulp.task('run', ['clean', 'serve'], function() {
   gulp.watch(config.folderAssets.base + '/**/*.scss', ['sass']);
   gulp.watch(config.folderAssets.base + '/icons/*.svg', ['build']);
   gulp.watch(config.folderAssets.images + '/*.*', ['copy:images']);
-  gulp.watch(config.folderAssets.js + '/*', ['js:build']);
+  gulp.watch(config.folderAssets.js + '/*', ['copy:js']);
   gulp.watch(config.folderAssets.base + '/templates/*.html', ['processHtml']);
   gulp.watch(config.folderDev.js + '/*.js').on('change', browserSync.reload);
-});
-
-// Define build task
-gulp.task('build', ['sass:build', 'js:build', 'processHtml', 'copy:images']);
-
-gulp.task('zip', ['build'], function() {
-  var today = new Date();
-  return gulp.src([config.folderDev.base + '/**/*.*', '!./dev/js/vendor/**'])
-    .pipe(zip('deploy --' + today.toDateString() + '.zip'))
-    .pipe(gulp.dest('./'));
 });
 
 // Define task to deploy to SFTP server
@@ -296,3 +325,16 @@ gulp.task('deploy', ['build'], function() {
       remotePath: ''
     }));
 });
+
+// Define Dist generation and zipping
+gulp.task('dist:zip', ['dist'], function() {
+  var today = new Date();
+  return gulp.src(config.folderDist.base + '/**/*.*')
+    .pipe(zip('deploy--' + today.toDateString() + '.zip'))
+    .pipe(gulp.dest('./'));
+});
+// Define Dist generation task
+gulp.task('dist', ['copy:css', 'copy:fonts','js:dist', 'copy:html', 'images:dist']);
+
+// Define build task
+gulp.task('build', ['sass:build', 'copy:js', 'processHtml', 'copy:images']);
