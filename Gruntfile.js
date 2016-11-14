@@ -172,10 +172,14 @@ module.exports = function(grunt) {
 
     imagemin: { // Task
       dynamic: {
+        options: {
+          optimizationLevel: 7,
+          progressive: true
+        },
         files: [{
           expand: true, // Enable dynamic expansion
           cwd: '<%= config.folder_assets %>/img/', // Src matches are relative to this path
-          src: ['**/*.{png,jpg,gif}'], // Actual patterns to match
+          src: ['**/*.{png,jpg,gif,svg}'], // Actual patterns to match
           dest: '<%= config.folder_dev %>/img/' // Destination path prefix
         }]
       },

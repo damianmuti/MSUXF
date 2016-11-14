@@ -88,7 +88,7 @@ var config = {
   },
   // Sassdoc task options
   sassDocOptions: {
-    dest: 'assets/doc/',
+    dest: 'doc/',
     display: {
       watermark: false
     },
@@ -140,7 +140,7 @@ gulp.task('serve', ['build'], function() {
 gulp.task('serve:sassdoc', function() {
   return browserSync.init({
     server: {
-      baseDir: config.folderAssets.base + '/doc/'
+      baseDir: 'doc/'
     },
     port: 3030
   });
@@ -165,7 +165,7 @@ gulp.task('webfont', ['webfont:copy'], function() {
 
 gulp.task('webfont:copy', ['webfont:generate'], function() {
   return gulp.src([config.folderDev.fonts + '/_icon-font.scss'])
-  .pipe(gulp.dest(config.folderAssets.styles + '/libs/iconfont/'));
+    .pipe(gulp.dest(config.folderAssets.styles + '/libs/iconfont/'));
 });
 
 gulp.task('webfont:generate', function() {
@@ -245,7 +245,10 @@ gulp.task('js:build', function() {
 // Copy and optimize Images
 gulp.task('copy:images', function() {
   return gulp.src([config.folderAssets.images + '/**/*'])
-    .pipe(imagemin())
+    .pipe(imagemin({
+      optimizationLevel: 7,
+      progressive: true
+    }))
     .pipe(gulp.dest(config.folderDev.images));
 });
 
