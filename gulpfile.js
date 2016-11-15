@@ -163,7 +163,8 @@ gulp.task('serve:sassdoc', function() {
 gulp.task('processHtml', function() {
   return gulp.src(config.folderAssets.base + '/templates/*.html')
     .pipe(processHtml({
-      recursive: true
+      recursive: true,
+      environment: 'dev'
     }))
     .pipe(gulp.dest(config.folderDev.base))
     .pipe(browserSync.reload({
@@ -171,9 +172,13 @@ gulp.task('processHtml', function() {
     }));
 });
 
-// Copy HTML to Dist folder
-gulp.task('copy:html', ['processHtml'], function() {
-  return gulp.src(config.folderDev.base + '/*.html')
+// Process HTML task definition for distribution purposes
+gulp.task('processHtml:dist', function() {
+  return gulp.src(config.folderAssets.base + '/templates/*.html')
+    .pipe(processHtml({
+      recursive: true,
+      environment: 'dist'
+    }))
     .pipe(gulp.dest(config.folderDist.base));
 });
 
@@ -208,7 +213,7 @@ gulp.task('webfont:generate', function() {
 // Copy webfonts to Dist folder
 gulp.task('copy:fonts', ['sass:build'], function() {
   return gulp.src(config.folderDev.fonts + '/*.*')
-  .pipe(gulp.dest(config.folderDist.fonts));
+    .pipe(gulp.dest(config.folderDist.fonts));
 });
 
 // Sassdoc generation Task definition
@@ -285,6 +290,18 @@ gulp.task('images:dist', function() {
     .pipe(gulp.dest(config.folderDist.images));
 });
 
+// Kraken task (set up if needed)
+gulp.task('kraken', function() {
+  gulp.src([config.folderAssets.images + '/**/*'])
+    .pipe(kraken({
+      key: 'kraken-api-key-here',
+      secret: 'kraken-api-secret-here',
+      lossy: true,
+      concurrency: 6
+    }))
+    .pipe(gulp.dest(config.folderDist.images));
+});
+
 // Copy Images
 gulp.task('copy:images', function() {
   return gulp.src([config.folderAssets.images + '/**/*'])
@@ -334,7 +351,7 @@ gulp.task('dist:zip', ['dist'], function() {
     .pipe(gulp.dest('./'));
 });
 // Define Dist generation task
-gulp.task('dist', ['copy:css', 'copy:fonts','js:dist', 'copy:html', 'images:dist']);
+gulp.task('dist', ['copy:css', 'copy:fonts', 'js:dist', 'processHtml:dist', 'images:dist']);
 
 // Define build task
 gulp.task('build', ['sass:build', 'copy:js', 'processHtml', 'copy:images']);

@@ -71,7 +71,7 @@ module.exports = function(grunt) {
 
     // Templating engine
     processhtml: {
-      dist: {
+      dev: {
         options: {
           process: true
         },
@@ -80,6 +80,18 @@ module.exports = function(grunt) {
           cwd: '<%= config.folder_assets %>/templates/',
           src: ['*.html'],
           dest: './<%= config.folder_dev %>',
+          ext: '.html'
+        }]
+      },
+      dist: {
+        options: {
+          process: true
+        },
+        files: [{
+          expand: true,
+          cwd: '<%= config.folder_assets %>/templates/',
+          src: ['*.html'],
+          dest: './<%= config.folder_dist %>',
           ext: '.html'
         }]
       }
@@ -181,9 +193,27 @@ module.exports = function(grunt) {
           expand: true, // Enable dynamic expansion
           cwd: '<%= config.folder_assets %>/img/', // Src matches are relative to this path
           src: ['**/*.{png,jpg,gif,svg}'], // Actual patterns to match
-          dest: '<%= config.folder_dev %>/img/' // Destination path prefix
+          dest: '<%= config.folder_dist %>/img/' // Destination path prefix
         }]
       },
+    },
+
+    // Kraken image optimization task, set up if needed
+    kraken: {
+      options: {
+        key: 'kraken-api-key-here',
+        secret: 'kraken-api-secret-here',
+        lossy: true
+      },
+
+      dynamic: {
+        files: [{
+          expand: true, // Enable dynamic expansion
+          cwd: '<%= config.folder_assets %>/img/', // Src matches are relative to this path
+          src: ['**/*.{png,jpg,gif,svg}'], // Actual patterns to match
+          dest: '<%= config.folder_dist %>/img/' // Destination path prefix
+        }]
+      }
     },
 
     // Uglify JS
@@ -281,7 +311,7 @@ module.exports = function(grunt) {
       },
       templates: {
         files: ['<%= config.folder_assets %>/templates/*.*'],
-        tasks: ['processhtml'],
+        tasks: ['processhtml:dev'],
         options: {
           livereload: false
         }
@@ -304,24 +334,38 @@ module.exports = function(grunt) {
 
     copy: {
       js: {
-        src: '<%= config.folder_assets %>/js/',
+        expand: true,
+        cwd: '<%= config.folder_assets %>/js',
+        src: '**',
         dest: '<%= config.folder_dev %>/js/'
       },
       img: {
-        src: '<%= config.folder_assets %>/img/',
-        dest: '<%= config.folder_dev %>/img/'
+        expand: true,
+        flatten: true,
+        src: ['<%= config.folder_assets %>/img/**'],
+        dest: '<%= config.folder_dev %>/img/',
+        filter: 'isFile'
       },
       css: {
-        src: '<%= config.folder_dev %>/css/*.*',
-        dest: '<%= config.folder_dist %>/css/'
+        expand: true,
+        flatten: true,
+        src: ['<%= config.folder_dev %>/css/**'],
+        dest: '<%= config.folder_dist %>/css/',
+        filter: 'isFile'
       },
       fonts: {
-        src: '<%= config.folder_dev %>/fonts/*.*',
-        dest: '<%= config.folder_dist %>/fonts/'
+        expand: true,
+        flatten: true,
+        src: ['<%= config.folder_dev %>/fonts/**'],
+        dest: '<%= config.folder_dist %>/fonts/',
+        filter: 'isFile'
       },
       html: {
-        src: '<%= config.folder_dev %>/*.html',
-        dest: '<%= config.folder_dist %>'
+        expand: true,
+        flatten: true,
+        src: ['<%= config.folder_dev %>/*.html'],
+        dest: '<%= config.folder_dist %>/',
+        filter: 'isFile'
       }
     }
   });
@@ -337,6 +381,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.loadNpmTasks('grunt-sassdoc');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-kraken');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -351,7 +396,7 @@ module.exports = function(grunt) {
     'copy:js',
     'webfont',
     'sass:ui',
-    'processhtml',
+    'processhtml:dev',
     'browserSync:dev',
     'concurrent:dev'
   ]);
@@ -363,6 +408,12 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('dist', [
+    'bowercopy',
+    'copy:img',
+    'copy:js',
+    'webfont',
+    'sass:ui',
+    'processhtml:dist',
     'copy:css',
     'copy:html',
     'copy:fonts',
