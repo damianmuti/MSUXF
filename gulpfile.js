@@ -27,6 +27,8 @@ var gulp = require('gulp'),
   mqpacker = require('css-mqpacker'),
   // Image optimization plugin
   imagemin = require('gulp-imagemin'),
+  // Image optimization using Kraken API
+  kraken = require('gulp-kraken'),
   // Zip plugin
   zip = require('gulp-zip'),
   // Concat plugin
@@ -66,6 +68,9 @@ var config = {
     images: 'dist/img',
     js: 'dist/js'
   },
+  folderDoc: {
+    base: 'documentation'
+  },
   postCSS: {
     processors: [
       autoprefixer({
@@ -95,7 +100,7 @@ var config = {
   },
   // Sassdoc task options
   sassDocOptions: {
-    dest: 'doc/',
+    dest: '/documentation',
     display: {
       watermark: false
     },
@@ -144,18 +149,25 @@ gulp.task('copy:css', ['sass:build'], function() {
 // Browser Sync task definition
 gulp.task('serve', ['build'], function() {
   return browserSync.init({
+    port: 1337,
     server: {
       baseDir: config.folderDev.base
     },
+    ui: {
+      port: 1338
+    }
   });
 });
 
 gulp.task('serve:sassdoc', function() {
   return browserSync.init({
+    port: 1339,
     server: {
-      baseDir: 'doc/'
+      baseDir: config.folderDoc.base
     },
-    port: 3030
+    ui: {
+      port: 1340
+    }
   });
 });
 
@@ -198,7 +210,7 @@ gulp.task('webfont:generate', function() {
     .pipe(iconfontCss({
       fontName: fontName,
       fontPath: '../fonts/',
-      path: 'gulp-icontemplate.css',
+      path: config.folderAssets.styles + '/libs/iconfont/gulp-icontemplate.css',
       targetPath: '_icon-font.scss'
     }))
     .pipe(iconfont({
@@ -309,13 +321,10 @@ gulp.task('copy:images', function() {
 });
 
 // Delete dev folder for cleaning
-gulp.task('clean', ['clean:dev', 'clean:libs', 'clean:bower']);
+gulp.task('clean', ['clean:dev', 'clean:bower']);
 
 gulp.task('clean:dev', function() {
   return del.sync(config.folderDev.base);
-});
-gulp.task('clean:libs', function() {
-  return del.sync([config.folderAssets.styles + '/libs']);
 });
 gulp.task('clean:bower', function() {
   return del.sync([config.folderBower.base]);
@@ -324,7 +333,7 @@ gulp.task('clean:bower', function() {
 // Watch for changes
 gulp.task('run', ['clean', 'serve'], function() {
   gulp.watch(config.folderAssets.base + '/**/*.scss', ['sass']);
-  gulp.watch(config.folderAssets.base + '/icons/*.svg', ['build']);
+  gulp.watch(config.folderAssets.base + '/icons/*.svg', ['webfont']);
   gulp.watch(config.folderAssets.images + '/*.*', ['copy:images']);
   gulp.watch(config.folderAssets.js + '/*', ['copy:js']);
   gulp.watch(config.folderAssets.base + '/templates/*.html', ['processHtml']);
@@ -346,12 +355,21 @@ gulp.task('deploy', ['build'], function() {
 // Define Dist generation and zipping
 gulp.task('dist:zip', ['dist'], function() {
   var today = new Date();
-  return gulp.src(config.folderDist.base + '/**/*.*')
-    .pipe(zip('deploy--' + today.toDateString() + '.zip'))
+  return gulp.src(config.folderDist.base)
+    .pipe(zip('deploy--' +
+      today.getFullYear() + '-' +
+      (today.getMonth() + 1) + '-' +
+      today.getDate() +
+      '_' +
+      today.getHours() + '-' +
+      today.getMinutes() + '-' +
+      today.getSeconds() +
+    '.zip'))
     .pipe(gulp.dest('./'));
 });
+
 // Define Dist generation task
 gulp.task('dist', ['copy:css', 'copy:fonts', 'js:dist', 'processHtml:dist', 'images:dist']);
 
 // Define build task
-gulp.task('build', ['sass:build', 'copy:js', 'processHtml', 'copy:images']);
+gulp.task('build', ['sass:build', 'copy:js', 'processHtml', 'copy:images', 'doc']);

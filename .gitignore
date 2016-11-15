@@ -9,7 +9,7 @@ normalize/
 node_modules/
 bower_components/
 
-doc/
+documentation/
 dev/
 dist/
 libs/
