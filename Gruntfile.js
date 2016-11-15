@@ -8,17 +8,16 @@ module.exports = function(grunt) {
   // Project settings
   var config = {
     // Folders for assets, development environment and production environment
-    folder_dev: 'dev', // If this path gets changed, remember to update .gitignore with the proper path to ignore images and css
-    folder_assets: 'assets',
-    folder_doc: 'doc',
-    folder_dist: 'dist',
+    folderDev: 'dev', // If this path gets changed, remember to update .gitignore with the proper path to ignore images and css
+    folderAssets: 'assets',
+    folderDoc: 'documentation',
+    folderDist: 'dist',
 
     // Local server info
-    server_address: 'localhost',
-    server_port: '1337',
-    server_ui_port: '1338',
-    server_doc_port: '1339',
-    server_doc_ui_port: '1340'
+    serverPort: '1337',
+    serverUiPort: '1338',
+    serverDocPort: '1339',
+    serverDocUiPort: '1340'
   };
 
   // Configure Grunt
@@ -35,35 +34,35 @@ module.exports = function(grunt) {
       dev: {
         bsFiles: {
           src: [
-            '<%= config.folder_dev %>/css/*.css',
-            '<%= config.folder_dev %>/img/*',
-            '<%= config.folder_dev %>/js/*',
-            '<%= config.folder_dev %>/*.html'
+            '<%= config.folderDev %>/css/*.css',
+            '<%= config.folderDev %>/img/*',
+            '<%= config.folderDev %>/js/*',
+            '<%= config.folderDev %>/*.html'
           ]
         },
         options: {
           watchTask: true,
-          port: config.server_port,
+          port: config.serverPort,
           server: {
-            baseDir: '<%= config.folder_dev %>/'
+            baseDir: '<%= config.folderDev %>/'
           },
           ui: {
-            port: config.server_ui_port
+            port: config.serverUiPort
           }
         }
       },
       doc: {
         bsFiles: {
-          src: '<%= config.folder_doc %>/index.html'
+          src: '<%= config.folderDoc %>/index.html'
         },
         options: {
           watchTask: true,
-          port: config.server_doc_port,
+          port: config.serverDocPort,
           server: {
-            baseDir: '<%= config.folder_doc %>'
+            baseDir: '<%= config.folderDoc %>'
           },
           ui: {
-            port: config.server_doc_ui_port
+            port: config.serverDocUiPort
           }
         }
       }
@@ -77,9 +76,9 @@ module.exports = function(grunt) {
         },
         files: [{
           expand: true,
-          cwd: '<%= config.folder_assets %>/templates/',
+          cwd: '<%= config.folderAssets %>/templates/',
           src: ['*.html'],
-          dest: './<%= config.folder_dev %>',
+          dest: './<%= config.folderDev %>',
           ext: '.html'
         }]
       },
@@ -89,9 +88,9 @@ module.exports = function(grunt) {
         },
         files: [{
           expand: true,
-          cwd: '<%= config.folder_assets %>/templates/',
+          cwd: '<%= config.folderAssets %>/templates/',
           src: ['*.html'],
-          dest: './<%= config.folder_dist %>',
+          dest: './<%= config.folderDist %>',
           ext: '.html'
         }]
       }
@@ -106,7 +105,7 @@ module.exports = function(grunt) {
 
       ui: {
         files: {
-          '<%= config.folder_dev %>/css/styles.css': '<%= config.folder_assets %>/styles/styles.scss'
+          '<%= config.folderDev %>/css/styles.css': '<%= config.folderAssets %>/styles/styles.scss'
         }
       },
     },
@@ -115,7 +114,7 @@ module.exports = function(grunt) {
     postcss: {
       options: {
         map: {
-          prev: '<%= config.folder_dev %>/css/'
+          prev: '<%= config.folderDev %>/css/'
         },
         processors: [
           require('autoprefixer')({
@@ -125,7 +124,7 @@ module.exports = function(grunt) {
         ]
       },
       dist: {
-        src: '<%= config.folder_dev %>/css/*.css'
+        src: '<%= config.folderDev %>/css/*.css'
       }
     },
 
@@ -136,7 +135,7 @@ module.exports = function(grunt) {
       },
       target: {
         files: {
-          '<%= config.folder_dev %>/css/styles.css': '<%= config.folder_dev %>/css/styles.css'
+          '<%= config.folderDev %>/css/styles.css': '<%= config.folderDev %>/css/styles.css'
         }
       }
     },
@@ -144,9 +143,9 @@ module.exports = function(grunt) {
     // Create an icon font from SVG files insode /icons folder
     webfont: {
       icons: {
-        src: '<%= config.folder_assets %>/icons/*.svg',
-        dest: '<%= config.folder_dev %>/fonts',
-        destCss: '<%= config.folder_assets %>/styles/libs/iconfont',
+        src: '<%= config.folderAssets %>/icons/*.svg',
+        dest: '<%= config.folderDev %>/fonts',
+        destCss: '<%= config.folderAssets %>/styles/libs/iconfont',
         options: {
           font: 'icon-font',
           hashes: false,
@@ -154,7 +153,7 @@ module.exports = function(grunt) {
           stylesheet: 'scss',
           relativeFontPath: '../fonts/',
           // syntax: 'bootstrap',
-          template: 'grunt-icontemplate.css',
+          template: '<%= config.folderAssets %>/styles/libs/iconfont/grunt-icontemplate.css',
           htmlDemo: false,
           skip: false, // Set this variable to false to create the icon font. If /icons folder is empty, leave this variable as is
           templateOptions: {
@@ -172,13 +171,12 @@ module.exports = function(grunt) {
         // Bower components folder will be removed afterwards
         clean: true
       },
-
       dev: {
         files: {
-          '<%= config.folder_assets %>/styles/libs/jeet': 'jeet.gs/scss/index.scss',
-          '<%= config.folder_assets %>/styles/libs/normalize': 'normalize-scss',
-          '<%= config.folder_assets %>/styles/libs/sassy-cast': 'sassy-cast/dist',
-          '<%= config.folder_assets %>/js/vendor/jquery.min.js': 'jquery-latest/dist/jquery.min.js'
+          '<%= config.folderAssets %>/styles/libs/jeet': 'jeet.gs/scss/index.scss',
+          '<%= config.folderAssets %>/styles/libs/normalize': 'normalize-scss',
+          '<%= config.folderAssets %>/styles/libs/sassy-cast': 'sassy-cast/dist',
+          '<%= config.folderAssets %>/js/vendor/jquery.min.js': 'jquery-latest/dist/jquery.min.js'
         }
       }
     },
@@ -191,9 +189,9 @@ module.exports = function(grunt) {
         },
         files: [{
           expand: true, // Enable dynamic expansion
-          cwd: '<%= config.folder_assets %>/img/', // Src matches are relative to this path
+          cwd: '<%= config.folderAssets %>/img/', // Src matches are relative to this path
           src: ['**/*.{png,jpg,gif,svg}'], // Actual patterns to match
-          dest: '<%= config.folder_dist %>/img/' // Destination path prefix
+          dest: '<%= config.folderDist %>/img/' // Destination path prefix
         }]
       },
     },
@@ -209,9 +207,9 @@ module.exports = function(grunt) {
       dynamic: {
         files: [{
           expand: true, // Enable dynamic expansion
-          cwd: '<%= config.folder_assets %>/img/', // Src matches are relative to this path
+          cwd: '<%= config.folderAssets %>/img/', // Src matches are relative to this path
           src: ['**/*.{png,jpg,gif,svg}'], // Actual patterns to match
-          dest: '<%= config.folder_dist %>/img/' // Destination path prefix
+          dest: '<%= config.folderDist %>/img/' // Destination path prefix
         }]
       }
     },
@@ -220,14 +218,14 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         sourceMap: true,
-        sourceMapName: '<%= config.folder_dev %>/js/app.map'
+        sourceMapName: '<%= config.folderDev %>/js/app.map'
       },
       files: {
         src: [
-          '<%= config.folder_assets %>/js/vendor/*.js',
-          '<%= config.folder_assets %>/js/*.js'
+          '<%= config.folderAssets %>/js/vendor/*.js',
+          '<%= config.folderAssets %>/js/*.js'
         ],
-        dest: '<%= config.folder_dist %>/js/app.js'
+        dest: '<%= config.folderDist %>/js/app.js'
       }
     },
 
@@ -240,7 +238,7 @@ module.exports = function(grunt) {
           authKey: 'key1' // Config credentials in .ftppass file
         },
         cache: 'sftpCache.json',
-        src: '<%= config.folder_dev %>',
+        src: '<%= config.folderDev %>',
         dest: '',
         concurrency: 4,
         progress: true
@@ -252,7 +250,7 @@ module.exports = function(grunt) {
       default: {
         src: 'assets/styles/',
         options: {
-          dest: '<%= config.folder_doc %>',
+          dest: '<%= config.folderDoc %>',
           exclude: ['assets/styles/libs/*'],
           display: {
             watermark: false
@@ -267,11 +265,11 @@ module.exports = function(grunt) {
     compress: {
       build: {
         options: {
-          archive: 'deploy--' + grunt.template.today('yyyy-mm-dd-HH:mm:ss') + '.zip',
+          archive: 'deploy--' + grunt.template.today('yyyy-mm-dd_HH-mm-ss') + '.zip',
           mode: 'zip'
         },
         files: [
-          { src: '<%= config.folder_dist %>' }
+          { src: '<%= config.folderDist %>' }
         ]
       }
     },
@@ -286,7 +284,7 @@ module.exports = function(grunt) {
     // grunt-watch monitors the projects files and execute actions when a file changes
     watch: {
       scss: {
-        files: ['<%= config.folder_assets %>/styles/**'],
+        files: ['<%= config.folderAssets %>/styles/**'],
         tasks: ['sass:ui', 'postcss', 'cssmin'],
         options: {
           spawn: false,
@@ -294,7 +292,7 @@ module.exports = function(grunt) {
         }
       },
       sassdoc: {
-        files: ['<%= config.folder_assets %>/styles/**'],
+        files: ['<%= config.folderAssets %>/styles/**'],
         tasks: ['sassdoc'],
         options: {
           spawn: false,
@@ -302,7 +300,7 @@ module.exports = function(grunt) {
         }
       },
       js: {
-        files: '<%= config.folder_assets %>/js/**',
+        files: '<%= config.folderAssets %>/js/**',
         tasks: ['copy:js'],
         options: {
           spawn: false,
@@ -310,21 +308,21 @@ module.exports = function(grunt) {
         }
       },
       templates: {
-        files: ['<%= config.folder_assets %>/templates/*.*'],
+        files: ['<%= config.folderAssets %>/templates/*.*'],
         tasks: ['processhtml:dev'],
         options: {
           livereload: false
         }
       },
       images: {
-        files: '<%= config.folder_assets %>/img/**.*',
+        files: '<%= config.folderAssets %>/img/**.*',
         tasks: ['copy:img'],
         options: {
           livereload: false
         }
       },
       icons: {
-        files: '<%= config.folder_assets %>/icons/*.*',
+        files: '<%= config.folderAssets %>/icons/*.*',
         tasks: ['webfont'],
         options: {
           livereload: false
@@ -335,36 +333,36 @@ module.exports = function(grunt) {
     copy: {
       js: {
         expand: true,
-        cwd: '<%= config.folder_assets %>/js',
+        cwd: '<%= config.folderAssets %>/js',
         src: '**',
-        dest: '<%= config.folder_dev %>/js/'
+        dest: '<%= config.folderDev %>/js/'
       },
       img: {
         expand: true,
         flatten: true,
-        src: ['<%= config.folder_assets %>/img/**'],
-        dest: '<%= config.folder_dev %>/img/',
+        src: ['<%= config.folderAssets %>/img/**'],
+        dest: '<%= config.folderDev %>/img/',
         filter: 'isFile'
       },
       css: {
         expand: true,
         flatten: true,
-        src: ['<%= config.folder_dev %>/css/**'],
-        dest: '<%= config.folder_dist %>/css/',
+        src: ['<%= config.folderDev %>/css/**'],
+        dest: '<%= config.folderDist %>/css/',
         filter: 'isFile'
       },
       fonts: {
         expand: true,
         flatten: true,
-        src: ['<%= config.folder_dev %>/fonts/**'],
-        dest: '<%= config.folder_dist %>/fonts/',
+        src: ['<%= config.folderDev %>/fonts/**'],
+        dest: '<%= config.folderDist %>/fonts/',
         filter: 'isFile'
       },
       html: {
         expand: true,
         flatten: true,
-        src: ['<%= config.folder_dev %>/*.html'],
-        dest: '<%= config.folder_dist %>/',
+        src: ['<%= config.folderDev %>/*.html'],
+        dest: '<%= config.folderDist %>/',
         filter: 'isFile'
       }
     }
@@ -381,7 +379,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.loadNpmTasks('grunt-sassdoc');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
-  grunt.loadNpmTasks('grunt-kraken');
+  grunt.loadNpmTasks('grunt-contrib-kraken');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -391,6 +389,7 @@ module.exports = function(grunt) {
   /* ====================================================================================== */
 
   grunt.registerTask('run', [
+    'doc',
     'bowercopy',
     'copy:img',
     'copy:js',
@@ -402,6 +401,10 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('doc', [
+    'sassdoc'
+  ]);
+
+  grunt.registerTask('doc:watch', [
     'sassdoc',
     'browserSync:doc',
     'watch:sassdoc'
