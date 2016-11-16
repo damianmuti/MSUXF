@@ -12,4 +12,9 @@ bower_components/
 documentation/
 dev/
 dist/
-libs/
+assets/js/vendor/
+assets/styles/libs/*
+!assets/styles/libs/iconfont/
+assets/styles/libs/iconfont/_icon-font.scss
+!assets/styles/libs/iconfont/grunt-icontemplate.css
+!assets/styles/libs/iconfont/gulp-icontemplate.css
