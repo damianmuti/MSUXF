@@ -13,31 +13,41 @@ $c-button-background-color: black !default;
 $c-button-border-radius: toem(5px) !default;
 
 /// Component Button -
-///
+/// General styles for buttons. There are also a couple
+/// of modifier classes to handle smaller and bigger
+/// styles for the buttons.
+/// @example markup - Regular size buttons
+///   <button class="button"></button>
+/// @example markup - Small size buttons
+///   <button class="button button--small"></button>
+/// @example markup - Large size buttons
+///   <button class="button button--large"></button>
 
-.button {
-  appearance: none;
-  display: inline-block;
-  padding: $c-button-padding;
-  font: $msuif-font;
-  color: $c-button-text-color;
-  background-color: $c-button-background-color;
-  border: none;
-  transition: all $msuif-transition-duration $msuif-transition-timing;
+@mixin c-button() {
+  .button {
+    appearance: none;
+    display: inline-block;
+    padding: $c-button-padding;
+    font: $msuif-font;
+    color: $c-button-text-color;
+    background-color: $c-button-background-color;
+    border: none;
+    transition: all $msuif-transition-duration $msuif-transition-timing;
 
-  @if variable-exists(c-button-border-radius) and $c-button-border-radius != 0 {
-    border-radius: $c-button-border-radius;
-  }
+    @if variable-exists(c-button-border-radius) and $c-button-border-radius != 0 {
+      border-radius: $c-button-border-radius;
+    }
 
-  &:hover {
-    background-color: complementary-color($c-button-background-color, 30%);
-  }
+    &:hover {
+      background-color: complementary-color($c-button-background-color, 30%);
+    }
 
-  &.button--small {
-    font-size: 80%;
-  }
+    &.button--small {
+      font-size: 80%;
+    }
 
-  &.button--large {
-    font-size: 120%;
+    &.button--large {
+      font-size: 120%;
+    }
   }
 }
