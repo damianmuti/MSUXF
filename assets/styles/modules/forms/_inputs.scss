@@ -1,0 +1,26 @@
+$inputs-text-color: $msuif-font-color;
+$inputs-placeholder-color: blue;
+$inputs-padding: 0 7px;
+$inputs-border-radius: 5px !default;
+$inputs-border: 1px solid #666 !default;
+$inputs-background-color: #eee !default;
+$inputs-focus: red !default;
+
+@include placeholder(){
+  color: $inputs-placeholder-color;
+}
+
+input:not([type="radio"]),
+input:not([type="checkbox"]),
+input:not([type="submit"]),
+input:not([type="reset"]),
+textarea {
+  padding: $inputs-padding;
+  font: $msuif-font;
+  height: #{toem($msuif-font-size) * 3};
+  line-height: #{toem($msuif-font-size)};
+  color: $inputs-text-color;
+  background-color: $inputs-background-color;
+  border: $inputs-border;
+  border-radius: $inputs-border-radius;
+}

@@ -27,7 +27,7 @@ $rc-checkbox-border-radius: toem(3px) !default;
 /// Radio Buttons & Checkboxes
 /// Mixin that styles Radio buttons and
 /// Checkboxes with CSS only.
-/// @example
+/// @example scss
 ///   [type="checkbox"],
 ///   [type="radio"]{
 ///     @include do-radio-checkbox('{type}', {label-color}, {marker-color}, {background-color});
