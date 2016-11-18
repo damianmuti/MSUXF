@@ -100,7 +100,7 @@ var config = {
   },
   // Sassdoc task options
   sassDocOptions: {
-    dest: '/documentation',
+    dest: './documentation',
     display: {
       watermark: false
     },
