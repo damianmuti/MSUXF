@@ -29,7 +29,10 @@ $c-button-border-radius: toem(5px) !default;
     display: inline-block;
     padding: $c-button-padding;
     font: $msuif-font;
+    line-height: 1; // Normalize height
     color: $c-button-text-color;
+    text-align: center;
+    text-decoration: none;
     background-color: $c-button-background-color;
     border: none;
     transition: all $msuif-transition-duration $msuif-transition-timing;
@@ -51,3 +54,5 @@ $c-button-border-radius: toem(5px) !default;
     }
   }
 }
+
+@include c-button();
