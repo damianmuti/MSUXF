@@ -77,3 +77,16 @@ or
 grunt kraken
 ```
 To optimize images using kraken.io API
+
+==============
+
+# SassDoc Documentation
+
+We use SassDoc to generate our pretty documentation. This is a documentation system to build docs
+parsing our code to grab specific comments and writing a styled HTML document with all our 
+*Variables*, *Mixins* and *Functions* detailed.
+
+To run and watch SassDoc Documentation
+```
+gulp doc:watch
+```
