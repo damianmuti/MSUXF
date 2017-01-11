@@ -2,6 +2,8 @@
 var gulp = require('gulp'),
   // Require Gulp-sass plugin
   sass = require('gulp-sass'),
+  // Sass globbing import for LibSass
+  globbing = require('gulp-css-globbing'),
   // Require Gulp-bower to install dependencies
   bower = require('gulp-bower'),
   // Require Sassdoc
@@ -115,6 +117,10 @@ var config = {
 // Sass Build task definition, only ran once
 gulp.task('sass:build', ['webfont', 'bowercopy'], function() {
   return gulp.src(config.folderAssets.styles + '/styles.scss')
+    .pipe(globbing({
+      // Configure it to use SCSS files
+      extensions: ['.scss']
+    }))
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(postcss(config.postCSS.processors))
@@ -129,6 +135,10 @@ gulp.task('sass:build', ['webfont', 'bowercopy'], function() {
 // Sass Watch task definition
 gulp.task('sass', function() {
   return gulp.src(config.folderAssets.styles + '/styles.scss')
+    .pipe(globbing({
+      // Configure it to use SCSS files
+      extensions: ['.scss']
+    }))
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(postcss(config.postCSS.processors))
