@@ -7,9 +7,15 @@
 @import "../libs/sassy-cast/SassyCast";
 
 ///
-$rating-color-empty:     #ccc !default;
+$rating-type: clickable !default;
 ///
-$rating-color-full:      gold !default;
+$rating-color-empty: #ccc !default;
+///
+$rating-color-full: gold !default;
+///
+$rating-color-hover: grey !default;
+///
+$rating-star-spacing: 3px !default;
 ///
 $rating-values: (
   '0.25', '0.50', '0.75', '1.00',
@@ -26,35 +32,75 @@ $rating-icon-names: (
   'full': '.icon-star-full'
 );
 
-
-/// Star Rating Component - 
+/// Star Rating Component -
 /// This is a CSS-only star rating component
 /// that shows the proper rating depending
 /// on a data-attribute value.
-/// @example
+/// JS logic behing this component should
+/// round up values per quarter.
+/// @param {string} $rating-type [clickable] - Indicates if whether this component should be clickable or representative. Accepted values: `clickable` or `representative`.
+/// @example markup
 ///   <div class="c-rating" data-rating-value="3.25">
-///     <span></span>
-///     <span></span>
-///     <span></span>
-///     <span></span>
-///     <span></span>
+///     <button></button>
+///     <button></button>
+///     <button></button>
+///     <button></button>
+///     <button></button>
 ///   </div>
-@mixin c-rating{
+
+@mixin c-rating($type: $rating-type) {
+  @if not index(clickable representative, $type) {
+    @error "Type must be either `clickable` or `representative`.";
+  }
+
   .c-rating {
+    @include clearfix();
+
     display: inline-block;
 
-    span {
+    @if $type == representative {
+      pointer-events: none;
+    }
+
+    button {
       @extend .ms-icon;
       @extend #{map-get($rating-icon-names, 'full')};
 
       position: relative;
-      margin: 0 3px;
+      float: left;
+      padding: 0 $rating-star-spacing;
       font-size: toem(16px);
       color: $rating-color-empty;
+      background-color: transparent;
+      border: none;
       transition: color $msuif-transition-duration $msuif-transition-timing;
 
       &:first-child {
         margin-left: 0;
+      }
+
+      @if $type == clickable {
+        &:hover,
+        &:hover ~ button {
+          color: $rating-color-empty !important;
+
+          &:after {
+            color: $rating-color-empty !important;
+          }
+        }
+      }
+    }
+
+    @if $type == clickable {
+      &:hover {
+        button {
+          color: $rating-color-hover !important;
+          transition: none;
+
+          &:after {
+            color: $rating-color-hover !important;
+          }
+        }
       }
     }
 
@@ -63,11 +109,11 @@ $rating-icon-names: (
       $rating-value-ceil: ceil(to-number($rating-value));
 
       &[data-rating-value="#{unquote($rating-value)}"] {
-        span:nth-child(-n+#{$rating-value-ceil}) {
+        button:nth-child(-n+#{$rating-value-ceil}) {
           color: $rating-color-full;
         }
 
-        span:nth-child(#{$rating-value-ceil}) {
+        button:nth-child(#{$rating-value-ceil}) {
           @if explode($rating-value, '.') == '.25' {
             @extend #{map-get($rating-icon-names, 'quarter')};
           }
@@ -85,8 +131,9 @@ $rating-icon-names: (
 
           &:after {
             @extend .icon-star-full:before;
+
             position: absolute;
-            left: 0;
+            left: $rating-star-spacing;
             z-index: 0;
             color: $rating-color-empty;
           }

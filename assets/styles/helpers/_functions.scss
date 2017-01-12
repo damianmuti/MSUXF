@@ -9,7 +9,7 @@
 
 /// Convert to EMs function
 /// @param {Number} target - The value to be converted
-/// @param {Number} context [$msuif-font-size] The base font size 
+/// @param {Number} context [$msuif-font-size] The base font size
 /// @return {Em} value
 @function toem($target, $context: $msuif-font-size) {
    @if $target == 0 { @return 0 }
@@ -18,7 +18,7 @@
 
 /// Convert to REMs function
 /// @param {Number} target - The value to be converted
-/// @param {Number} context [$msuif-font-size] - The base font size 
+/// @param {Number} context [$msuif-font-size] - The base font size
 /// @return {Rem} value
 @function torem($target, $context: $msuif-font-size) {
    @if $target == 0 { @return 0 }
@@ -79,7 +79,7 @@
   }
 }
 
-/// Get values in a multidimentional map. Thanks to Hugo Giraudel
+/// Get values in a multidimentional map
 /// @author Hugo Giraudel
 /// @param {map} $map - Map
 /// @param {arglist} $keys - Keys to fetch
@@ -89,4 +89,69 @@
     $map: map-get($map, $key);
   }
   @return $map;
+}
+
+/// Returns the opposite direction of each direction in a list
+/// @author Hugo Giraudel
+/// @param {List} $directions - List of initial directions
+/// @return {List} - List of opposite directions
+@function opposite-direction($directions) {
+  $opposite-directions: ();
+  $direction-map: (
+    'top':    'bottom',
+    'right':  'left',
+    'bottom': 'top',
+    'left':   'right',
+    'center': 'center',
+    'ltr':    'rtl',
+    'rtl':    'ltr'
+  );
+
+  @each $direction in $directions {
+    $direction: to-lower-case($direction);
+
+    @if map-has-key($direction-map, $direction) {
+      $opposite-directions: append($opposite-directions, unquote(map-get($direction-map, $direction)));
+    } @else {
+      @warn "No opposite direction can be found for `#{$direction}`. Direction omitted.";
+    }
+  }
+
+  @return $opposite-directions;
+}
+
+/// Evaluates if the passed $color is light or dark based on how close it is to black or white
+/// @author Mike Kelly - <https://medium.com/@mkel23> with some minor tweaks
+/// @param {color} $color - Color value to be evaluated
+/// @return {string} Whether a color is `light` or `dark`
+@function get-luminosity($color) {
+  @if type-of($color) != color {
+    @error "Color must be a valid color value. E.g: `#000000`.";
+  }
+
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+
+  // Convert color to YIQ
+  $yiq: (($r*299)+($g*587)+($b*114))/1000;
+
+  @return if($yiq >= 128, light, dark);
+}
+
+/// Returns the complementary value of a given color
+/// @param {color} $color - Color value to get the complementary value from
+/// @param {number} $percentage [30%] - Percentage of difference between the given color and the complementary value
+/// @return {color} Complementary color value
+@function complementary-color($color, $percentage: 30%) {
+  @if type-of($color) != color {
+    @error "Color must be a valid color value. E.g: `#000000`.";
+  }
+  @if type-of($percentage) != number {
+    @error "Percentage must be a percentage value. E.g: `30%`.";
+  }
+
+  $eval: get-luminosity($color);
+
+  @return if($eval == light, shade($color, $percentage), tint($color, $percentage));
 }

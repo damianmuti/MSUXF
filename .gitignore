@@ -3,15 +3,18 @@
 .project
 *.map
 *.scssc
+.node-version
 jeet/
 normalize/
 node_modules/
 bower_components/
 
-doc/
-dev/css/
-dev/img/
-dev/js/vendor/
-dev/fonts/
-dev/*.html
-libs/
+documentation/
+dev/
+dist/
+assets/js/vendor/
+assets/styles/libs/*
+!assets/styles/libs/iconfont/
+assets/styles/libs/iconfont/_icon-font.scss
+!assets/styles/libs/iconfont/grunt-icontemplate.css
+!assets/styles/libs/iconfont/gulp-icontemplate.css
