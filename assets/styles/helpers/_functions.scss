@@ -4,9 +4,6 @@
 /// @author Damian Muti
 ////
 
-///
-@import "../core/settings";
-
 /// Convert to EMs function
 /// @param {Number} target - The value to be converted
 /// @param {Number} context [$msuif-font-size] The base font size
@@ -79,7 +76,7 @@
   }
 }
 
-/// Get values in a multidimentional map. Thanks to Hugo Giraudel
+/// Get values in a multidimentional map
 /// @author Hugo Giraudel
 /// @param {map} $map - Map
 /// @param {arglist} $keys - Keys to fetch
@@ -118,4 +115,40 @@
   }
 
   @return $opposite-directions;
+}
+
+/// Evaluates if the passed $color is light or dark based on how close it is to black or white
+/// @author Mike Kelly - <https://medium.com/@mkel23> with some minor tweaks
+/// @param {color} $color - Color value to be evaluated
+/// @return {string} Whether a color is `light` or `dark`
+@function get-luminosity($color) {
+  @if type-of($color) != color {
+    @error "Color must be a valid color value. E.g: `#000000`.";
+  }
+
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+
+  // Convert color to YIQ
+  $yiq: (($r*299)+($g*587)+($b*114))/1000;
+
+  @return if($yiq >= 128, light, dark);
+}
+
+/// Returns the complementary value of a given color
+/// @param {color} $color - Color value to get the complementary value from
+/// @param {number} $percentage [30%] - Percentage of difference between the given color and the complementary value
+/// @return {color} Complementary color value
+@function complementary-color($color, $percentage: 30%) {
+  @if type-of($color) != color {
+    @error "Color must be a valid color value. E.g: `#000000`.";
+  }
+  @if type-of($percentage) != number {
+    @error "Percentage must be a percentage value. E.g: `30%`.";
+  }
+
+  $eval: get-luminosity($color);
+
+  @return if($eval == light, shade($color, $percentage), tint($color, $percentage));
 }
