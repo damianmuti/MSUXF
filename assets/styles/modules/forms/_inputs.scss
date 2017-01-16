@@ -1,7 +1,7 @@
 $inputs-text-color: $msuif-font-color;
 $inputs-placeholder-color: blue;
-$inputs-padding: 0 7px;
-$inputs-border-radius: 5px !default;
+$inputs-padding: 0 toem(7px);
+$inputs-border-radius: toem(5px) !default;
 $inputs-border: 1px solid #666 !default;
 $inputs-background-color: #eee !default;
 $inputs-focus: red !default;
