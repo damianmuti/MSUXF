@@ -29,6 +29,7 @@ $accordion-item-padding:         10px !default;
 ///       <p class="c-accordion__content">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 ///     </div>
 ///   </div>
+
 @mixin c-accordion {
   .c-accordion {
     @at-root {

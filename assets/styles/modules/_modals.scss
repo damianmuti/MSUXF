@@ -21,6 +21,7 @@ $modal-transition-delay:       $msuif-transition-duration !default;
 ///     <a href="#!" class="c-modal__close">Close</a>
 ///     <div class="c-modal__content">Modal dialog content goes here.</div>
 ///   </div>
+
 @mixin c-modal{
   .c-modal {
     position: absolute;

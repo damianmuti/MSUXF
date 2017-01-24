@@ -1,26 +1,49 @@
+$inputs-height: toem($msuif-font-size) * 3;
 $inputs-text-color: $msuif-font-color;
 $inputs-placeholder-color: blue;
-$inputs-padding: 0 toem(7px);
+$inputs-padding: toem(7px);
 $inputs-border-radius: toem(5px) !default;
 $inputs-border: 1px solid #666 !default;
 $inputs-background-color: #eee !default;
 $inputs-focus: red !default;
 
-@include placeholder(){
-  color: $inputs-placeholder-color;
-}
+@mixin inputs($style) {
+  @if not index(block inline-block fixed, $style) {
+    @error "Inputs style must be either `block`, `inline-block` or `fixed`.";
+  }
 
-input:not([type="radio"]),
-input:not([type="checkbox"]),
-input:not([type="submit"]),
-input:not([type="reset"]),
-textarea {
-  padding: $inputs-padding;
-  font: $msuif-font;
-  height: #{toem($msuif-font-size) * 3};
-  line-height: #{toem($msuif-font-size)};
-  color: $inputs-text-color;
-  background-color: $inputs-background-color;
-  border: $inputs-border;
-  border-radius: $inputs-border-radius;
+  @include placeholder(){
+    color: $inputs-placeholder-color;
+  }
+
+  input:not([type="radio"]),
+  input:not([type="checkbox"]),
+  input:not([type="submit"]),
+  input:not([type="reset"]),
+  textarea {
+    padding: 0 $inputs-padding;
+    font: $msuif-font;
+    height: $inputs-height;
+    line-height: #{toem($msuif-font-size)};
+    color: $inputs-text-color;
+    background-color: $inputs-background-color;
+    border: $inputs-border;
+    border-radius: $inputs-border-radius;
+
+    @if $style == block or $style == inline-block {
+      display: $style;
+    }
+    @else {
+      display: inline-block;
+      width: 70%;
+    }
+
+    @if $style == block {
+      width: 100%;
+    }
+  }
+
+  textarea {
+    height: auto;
+  }
 }

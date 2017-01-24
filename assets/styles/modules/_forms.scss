@@ -7,7 +7,77 @@
 @import "forms/radio-checkbox";
 @import "forms/inputs";
 
+$form-gutter: 40px;
 
 main {
   padding: 500px;
+}
+
+@mixin forms($form-column-layout: 2, $form-style: inline-block, $form-include-elements: true) {
+  @if not index(inline-block block fixed, $form-style) {
+    @error "Form style must be either `block`, `inline-block` or `fixed`.";
+  }
+  @if not index(true false, $form-include-elements) {
+    @error "Include form elements must be either `true` or `false`.";
+  }
+
+  @if $form-include-elements {
+    @include inputs($form-style);
+    @include do-radio-checkbox(radio, inline-block, red, green, blue);
+  }
+
+  .input-holder {
+    @include span(1/$form-column-layout, $cycle: $form-column-layout);
+
+    margin-bottom: #{($inputs-height/2)};
+
+    @if $form-column-layout > 1 {
+      padding-left: $form-gutter/2;
+      padding-right: $form-gutter/2;
+
+      &:nth-of-type(#{$form-column-layout}n + 1) {
+        padding-left: 0;
+        padding-right: $form-gutter/2;
+      }
+
+      &:nth-of-type(#{$form-column-layout}n + #{$form-column-layout}) {
+        padding-left: $form-gutter/2;
+        padding-right: 0;
+      }
+    }
+
+    label {
+
+      font-weight: $msuif-font-weight-bold;
+
+      @if $form-style == fixed or $form-style == inline-block {
+        display: inline-block;
+        padding-right: #{($inputs-height/4)};
+        vertical-align: top;
+        line-height: $inputs-height;
+      }
+      @else {
+        display: block;
+      }
+
+      @if $form-style == fixed {
+        width: 30%;
+        text-align: right;
+      }
+
+      @if $form-style == inline-block {
+        vertical-align: top;
+        line-height: $inputs-height;
+      }
+
+      @if $form-style == block {
+        max-width: 100%;
+        padding-bottom: $inputs-padding;
+      }
+    }
+  }
+}
+
+form {
+  @include forms(1, fixed);
 }
