@@ -3,7 +3,7 @@ var gulp = require('gulp'),
   // Require Gulp-sass plugin
   sass = require('gulp-sass'),
   // Sass globbing import for LibSass
-  globbing = require('gulp-css-globbing'),
+  globbing = require('gulp-sass-glob'),
   // Require Gulp-bower to install dependencies
   bower = require('gulp-bower'),
   // Require Sassdoc

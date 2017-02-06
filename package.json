@@ -1,6 +1,7 @@
 {
   "name": "MS-UI-Development-Framework",
   "version": "1.1.1",
+  "license": "MIT",
   "description": "Starter framework for UI Development projects",
   "homepage": "http://makingsense.com",
   "keywords": [
@@ -39,33 +40,30 @@
     "type": "git",
     "url": "https://github.com/MakingSense/MSUIF.git"
   },
-  "dependencies": {
-    "sassdoc-theme-vulcan": "~0.2.0"
-  },
   "devDependencies": {
-    "autoprefixer": "~6.3.4",
-    "browser-sync": "~2.12.10",
+    "autoprefixer": "~6.7.2",
+    "browser-sync": "~2.18.7",
     "css-mqpacker": "~5.0.1",
     "del": "~2.2.0",
     "gulp": "~3.9.1",
     "gulp-bower": "0.0.13",
-    "gulp-clean-css": "~2.0.13",
+    "gulp-clean-css": "~3.0.0",
     "gulp-concat": "~2.6.0",
-    "gulp-css-globbing": "~0.1.9",
     "gulp-iconfont": "~8.0.0",
     "gulp-iconfont-css": "~2.1.0",
     "gulp-imagemin": "~3.1.1",
     "gulp-kraken": "~0.2.0",
-    "gulp-postcss": "~6.2.0",
+    "gulp-postcss": "~6.3.0",
     "gulp-processhtml": "~1.1.0",
-    "gulp-sass": "~2.3.1",
+    "gulp-sass": "~3.1.0",
+    "gulp-sass-glob": "^1.0.8",
     "gulp-sftp": "~0.1.5",
-    "gulp-sourcemaps": "~1.6.0",
+    "gulp-sourcemaps": "~2.4.1",
     "gulp-uglify": "~2.0.0",
-    "gulp-zip": "~3.2.0",
-    "node-sass": "~2.1.1",
+    "gulp-zip": "~4.0.0",
+    "node-sass": "~4.5.0",
     "postcss-clean": "~1.0.2",
-    "sassdoc": "~2.1.20"
+    "sassdoc": "^2.1.20"
   },
   "main": "pdr",
   "engines": {
