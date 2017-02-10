@@ -47,8 +47,8 @@ $notification-toast-positions: (
 /// Component Notification -
 /// Component that shows two different types
 /// of notification boxes: toast and top bar.<br>
-/// **{position}** can be 4 different values: `top-left`, `top-right`, `bottom-right` and `bottom-left`.<br>
-/// **{status}** can be 4 different values as well: `notice`, `warning`, `error` and `success`.
+/// {position} can be 4 different values: `top-left`, `top-right`, `bottom-right` and `bottom-left`.<br>
+/// {status} can be 4 different values as well: `notice`, `warning`, `error` and `success`.
 /// @example markup - Toast
 ///   <div class="c-notification c-notification--toast c-notification--toast-{position} c-notification--{status}">Lorem ipsum dolor.</div>
 /// @example markup - Top bar

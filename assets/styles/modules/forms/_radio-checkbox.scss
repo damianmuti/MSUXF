@@ -1,41 +1,52 @@
 ////
 /// Radio Buttons & Checkboxes
-/// @group Component - Radio Buttons & Checkboxes
-/// @author MS
+/// @group Component - Forms
+/// @author Damián Muti
 ////
 
 ///
-$rc-width: toem(20px) !default;
+$msuif-rc-width: toem(20px) !default;
 ///
-$rc-height: toem(20px) !default;
+$msuif-rc-height: toem(20px) !default;
 ///
-$rc-font-size: toem(16px) !default;
+$msuif-rc-font-size: toem(16px) !default;
 ///
-$rc-label-color: #000 !default;
+$msuif-rc-label-color: #000 !default;
 ///
-$rc-marker-color: #fff !default;
+$msuif-rc-marker-color: #fff !default;
 ///
-$rc-background-color: #CD5C5C !default;
+$msuif-rc-background-color: #CD5C5C !default;
 ///
-$rc-radio-marker: '\25CF' !default; // Unicode for '●'
+$msuif-rc-radio-marker: '\25CF' !default; // Unicode for '●'
 ///
-$rc-checkbox-marker: '\2714' !default; // Unicode for '✔'
+$msuif-rc-checkbox-marker: '\2714' !default; // Unicode for '✔'
 ///
-$rc-checkbox-border-radius: toem(3px) !default;
+$msuif-rc-checkbox-border-radius: toem(3px) !default;
 
-
-/// Radio Buttons & Checkboxes
 /// Mixin that styles Radio buttons and
 /// Checkboxes with CSS only.
-/// @example scss
-///   @include do-radio-checkbox({type}, {label-color}, {marker-color}, {background-color});
+/// @param {string} $type - Indicates input type. Accepted values: `radio` or `checkbox`.
+/// @param {string} $style [inline-block] - Element's box model behavior. Accepted values: `inline-block` or `block`.
+/// @param {color} $label-color [#000] - Element's label color.
+/// @param {color} $label-color [#fff] - Element's marker color.
+/// @param {color} $label-color [#CD5C5C] - Element's background color.
+/// @see {mixin} form
+/// @example scss - Using the mixin
+///   @include do-radio-checkbox(checkbox, block, black, red, blue);
+/// @example markup - HTML structure: Element must be followed by a label tag to properly work and inherit styles
+///   <input type="checkbox" id="element">
+///   <label for="element">Elements's label</label>
 
-@mixin do-radio-checkbox($type, $style, $label-color, $marker-color, $background-color) {
+
+@mixin form-radio-checkbox($type, $style: inline-block, $label-color: $msuif-rc-label-color, $marker-color: $msuif-rc-marker-color, $background-color: $msuif-rc-background-color) {
   @if not index(radio checkbox, $type) {
     @error "Element type must be either `radio` or `checkbox`.";
   }
-  @if not index(radio checkbox, $type) {
+  @if not index(block inline-block, $style) {
     @error "Element style must be either `block` or `inline-block`.";
+  }
+  @if type-of($label-color) != color or type-of($marker-color) != color or type-of($background-color) != color {
+    @error "Param must be a valid color value. E.g: `#000`.";
   }
 
   // Default styles
@@ -49,8 +60,8 @@ $rc-checkbox-border-radius: toem(3px) !default;
       + label {
         position: relative;
         display: $style;
-        padding-left: $rc-width * 1.25;
-        line-height: $rc-height;
+        padding-left: $msuif-rc-width * 1.25;
+        line-height: $msuif-rc-height;
         color: $label-color;
         cursor: pointer;
 
@@ -59,7 +70,7 @@ $rc-checkbox-border-radius: toem(3px) !default;
         }
 
         @if $style == inline-block {
-          margin-right: $rc-width * 1.25;
+          margin-right: $msuif-rc-width * 1.25;
         }
 
         // Not :checked state
@@ -67,14 +78,14 @@ $rc-checkbox-border-radius: toem(3px) !default;
           content: '';
           position: absolute;
           left: 0;
-          width: $rc-width;
-          height: $rc-height;
+          width: $msuif-rc-width;
+          height: $msuif-rc-height;
           background-color: $background-color;
           border: 1px dotted transparent;
           transition: all $msuif-transition-duration $msuif-transition-timing;
 
           @if $type == checkbox {
-            border-radius: $rc-checkbox-border-radius
+            border-radius: $msuif-rc-checkbox-border-radius
           }
 
           @if $type == radio {
@@ -85,16 +96,16 @@ $rc-checkbox-border-radius: toem(3px) !default;
         // :checked state
         &:after {
           @if $type == radio {
-            content: $rc-radio-marker;
+            content: $msuif-rc-radio-marker;
           }
           @else if $type == checkbox {
-            content: $rc-checkbox-marker;
+            content: $msuif-rc-checkbox-marker;
           }
 
           position: absolute;
           left: 0;
-          width: $rc-width;
-          font-size: $rc-font-size;
+          width: $msuif-rc-width;
+          font-size: $msuif-rc-font-size;
           text-align: center;
           color: $marker-color;
           transition: transform #{$msuif-transition-duration / 2} $msuif-transition-timing;

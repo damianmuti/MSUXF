@@ -1,83 +1,190 @@
 ////
 /// Forms
+/// -> Inputs and Textareas
 /// -> Radio and checkboxes
-/// @group Forms
+/// @group Component - Forms
+/// @author Damián Muti
 ////
 
+@import "forms/input";
 @import "forms/radio-checkbox";
-@import "forms/inputs";
 
-$form-gutter: 40px;
+///
+$msuif-form-gutter: 40px !global;
+///
+$msuif-form-fixed-label-width: 30% !default;
 
-main {
-  padding: 500px;
-}
+/// This file contains structure and look&feel for the form element.
+/// @param {number} $msuif-form-column-layout [1] - Indicates the amount of columns the form must be split in.
+/// @param {string} $msuif-form-style [block] - Specifies how form labels should behave. Accepted values: `inline-block`, `block` or `fixed`.
+/// @param {bool} $msuif-form-include-elements [true] - Indicates whether to include styles for all form components or not.
+/// @example scss - Using the mixin
+///   form {
+///     @include form(1, block, true);
+///   }
+/// @example markup - Using **input** fields.
+///   <div class="input-holder">
+///     <label for="field">Elements's label</label>
+///     <input type="text" id="field">
+///   </div>
+/// @example markup - Using **checkbox** and **radio** fields. **Note:** for multiple fields, use the same input holder.
+///   <div class="input-holder">
+///     <input type="checkbox" id="field">
+///     <label for="field">Elements's label</label>
+///
+///     <input type="checkbox" id="field1">
+///     <label for="field1">Elements's label</label
+///   </div>
+/// @example markup - Using **select** fields.
+///   <div class="input-holder">
+///     <label for="field">Elements's label</label>
+///     <select id="field">
+///       <option value="">Option 1</option>
+///       <option value="">Option 2</option>
+///       <option value="">Option 3</option>
+///     </select>
+///     <span class="select-caret"></span>
+///   </div>
 
-@mixin forms($form-column-layout: 2, $form-style: inline-block, $form-include-elements: true) {
-  @if not index(inline-block block fixed, $form-style) {
+@mixin form($msuif-form-column-layout: 1, $msuif-form-style: block, $msuif-form-include-elements: true) {
+  @if type-of($msuif-form-column-layout) != number {
+    @error "Form column layout must be a quantity value. E.g: `1`.";
+  }
+  @if not index(inline-block block fixed, $msuif-form-style) {
     @error "Form style must be either `block`, `inline-block` or `fixed`.";
   }
-  @if not index(true false, $form-include-elements) {
+   @if type-of($msuif-form-include-elements) != bool {
     @error "Include form elements must be either `true` or `false`.";
   }
 
-  @if $form-include-elements {
-    @include inputs($form-style);
-    @include do-radio-checkbox(radio, inline-block, red, green, blue);
+  // If true, include logic and look&feel for other form components
+  @if $msuif-form-include-elements {
+    @include form-radio-checkbox(checkbox, inline-block, red, green, blue);
+    @include form-input();
   }
 
+  // Layout for each container
   .input-holder {
-    @include span(1/$form-column-layout, $cycle: $form-column-layout);
+    @include span(1/$msuif-form-column-layout, $cycle: $msuif-form-column-layout);
 
-    margin-bottom: #{($inputs-height/2)};
+    position: relative;
+    margin-bottom: #{($msuif-input-height/2)};
 
-    @if $form-column-layout > 1 {
-      padding-left: $form-gutter/2;
-      padding-right: $form-gutter/2;
+    // Control the padding of columns
+    @if $msuif-form-column-layout > 1 {
+      padding-left: $msuif-form-gutter/2;
+      padding-right: $msuif-form-gutter/2;
 
-      &:nth-of-type(#{$form-column-layout}n + 1) {
+      &:nth-of-type(#{$msuif-form-column-layout}n + 1) {
         padding-left: 0;
-        padding-right: $form-gutter/2;
+        padding-right: $msuif-form-gutter/2;
       }
 
-      &:nth-of-type(#{$form-column-layout}n + #{$form-column-layout}) {
-        padding-left: $form-gutter/2;
+      &:nth-of-type(#{$msuif-form-column-layout}n + #{$msuif-form-column-layout}) {
+        padding-left: $msuif-form-gutter/2;
         padding-right: 0;
+      }
+
+      input[type="checkbox"],
+      input[type="radio"] {
+        &:first-child {
+          margin: 0 0 0 $msuif-form-fixed-label-width;
+          padding-bottom: $msuif-input-padding;
+        }
+      }
+    }
+    @else {
+      input:first-child + label {
+        margin-left: $msuif-form-fixed-label-width;
+      }
+    }
+
+    @if $msuif-form-style == fixed {
+      @if $msuif-form-include-elements {
+        @if $msuif-form-column-layout > 1 {
+          > input + label {
+            margin: 0 0 0 $msuif-form-fixed-label-width;
+            padding-bottom: $msuif-input-padding;
+          }
+        }
+        @else {
+          > input:first-child + label {
+            margin-left: $msuif-form-fixed-label-width;
+          }
+        }
+      }
+      @else {
+        @if $msuif-form-column-layout > 1 {
+          input,
+          label {
+            float: left;
+          }
+          > input + label {
+            display: block;
+            width: calc(70% - 20px);
+          }
+        }
       }
     }
 
     label {
-
       font-weight: $msuif-font-weight-bold;
 
-      @if $form-style == fixed or $form-style == inline-block {
+      @if $msuif-form-style == fixed or $msuif-form-style == inline-block {
         display: inline-block;
-        padding-right: #{($inputs-height/4)};
         vertical-align: top;
-        line-height: $inputs-height;
+      }
+
+      @if $msuif-form-style == fixed {
+        &:first-child {
+          float: left;
+          width: $msuif-form-fixed-label-width;
+          text-align: right;
+        }
+      }
+
+      @if $msuif-form-include-elements {
+        @if $msuif-form-style == inline-block {
+          padding-right: #{($msuif-input-height/4)};
+          line-height: $msuif-input-height;
+        }
+
+        @if $msuif-form-style == block {
+          display: block;
+          max-width: 100%;
+          padding-bottom: $msuif-input-padding;
+        }
+
+        @if $msuif-form-style == fixed or $msuif-form-style == inline-block {
+          display: inline-block;
+          padding-right: #{($msuif-input-height/4)};
+          vertical-align: top;
+          line-height: $msuif-input-height;
+        }
+        @else {
+          display: block;
+        }
+      }
+    }
+
+    input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="reset"]),
+    textarea,
+    select {
+      @if $msuif-form-style == block or $msuif-form-style == inline-block {
+        display: $msuif-form-style;
       }
       @else {
-        display: block;
+        display: inline-block;
+        width: 70%;
       }
 
-      @if $form-style == fixed {
-        width: 30%;
-        text-align: right;
-      }
-
-      @if $form-style == inline-block {
-        vertical-align: top;
-        line-height: $inputs-height;
-      }
-
-      @if $form-style == block {
-        max-width: 100%;
-        padding-bottom: $inputs-padding;
+      @if $msuif-form-style == block {
+        width: 100%;
       }
     }
   }
 }
 
 form {
-  @include forms(1, fixed);
+  @include form(2, fixed, false);
 }

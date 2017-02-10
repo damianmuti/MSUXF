@@ -1,0 +1,81 @@
+////
+/// Inputs
+/// @group Component - Forms
+/// @author Damián Muti
+////
+
+///
+$msuif-input-height: toem($msuif-font-size) * 3 !default;
+///
+$msuif-input-text-color: $msuif-font-color !default;
+///
+$msuif-input-placeholder-color: blue !default;
+///
+$msuif-input-padding: toem(7px) !default;
+///
+$msuif-input-border-radius: toem(5px) !default;
+///
+$msuif-input-border: 1px solid #666 !default;
+///
+$msuif-input-background-color: #eee !default;
+///
+$msuif-input-focus: red !default;
+///
+$msuif-select-caret: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNzY4IiBoZWlnaHQ9Ijc2OCIgdmlld0JveD0iMCAwIDc2OCA3NjgiPiAgICA8cGF0aCBmaWxsPSIjYjhiOGI4IiBkPSJNMjIzLjUgMzE5LjVoMzIxbC0xNjAuNSAxNjAuNXoiPjwvcGF0aD48L3N2Zz4=") !default;
+
+/// This file contains structure and look&feel for form elements different from radio buttons and checkboxes.
+/// @see {mixin} form
+/// @example scss - Using the mixin
+///   input[type="text"] {
+///     @include form-input();
+///   }
+
+@mixin form-input() {
+  input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="reset"]),
+  textarea,
+  select {
+    @include placeholder(){
+      color: $msuif-input-placeholder-color;
+    }
+
+    display: inline-block;
+    padding: 0 $msuif-input-padding;
+    font: $msuif-font;
+    height: $msuif-input-height;
+    line-height: #{toem($msuif-font-size)};
+    color: $msuif-input-text-color;
+    background-color: $msuif-input-background-color;
+    border: $msuif-input-border;
+    border-radius: $msuif-input-border-radius;
+    appearance: none;
+    outline: none;
+
+    &:focus {
+      color: $msuif-input-focus;
+    }
+  }
+
+  // Specific styles for <select> elements
+  select {
+    position: relative;
+    padding-right: #{toem($msuif-form-gutter)};
+
+    + .select-caret {
+      position: absolute;
+      top: 0;
+      right: $msuif-form-gutter/2;
+      display: block;
+      width: $msuif-input-height;
+      height: $msuif-input-height;
+      background: $msuif-select-caret center / 50% no-repeat;
+      content: "";
+      transition: transform $msuif-transition-duration $msuif-transition-timing;
+    }
+
+    &:focus {
+      + .select-caret {
+        transform: rotate(0.5turn);
+      }
+    }
+  }
+}
