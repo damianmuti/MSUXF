@@ -1,7 +1,7 @@
 ////
 /// Tooltips
-/// @group Component - Tooltips
-/// @author MS
+/// @group components
+/// @author Damián Muti
 ////
 
 ///
@@ -17,7 +17,6 @@ $tooltip-tip-size: 7px !default;
 ///
 $tooltip-display-event: hover !default;
 
-/// Tooltips Component -
 /// This is a CSS-only tooptip component that uses
 /// a data-attribute to hold the tooltip's text.
 /// It can also be triggered by different events.
@@ -32,7 +31,7 @@ $tooltip-display-event: hover !default;
 /// @example markup - HTML structure
 ///   <a href="#" data-tooltip="This is a tooltip" tabindex="0">Link</a>
 
-@mixin tooltip($position: top, $min-width: 100%, $event: $tooltip-display-event, $content: attr(data-tooltip)){
+@mixin c-tooltip($position: top, $min-width: 100%, $event: $tooltip-display-event, $content: attr(data-tooltip)){
   @if not index(top right bottom left, $position) {
     @error "Position must be either `top`, `right`, `bottom` or `left`.";
   }
