@@ -1,17 +1,19 @@
 {
-  "name": "MS-UI-Development-Framework",
+  "name": "MS-UX-Development-Framework",
   "version": "1.1.1",
   "license": "MIT",
-  "description": "Starter framework for UI Development projects",
+  "description": "Starter framework for UX Development projects",
   "homepage": "http://makingsense.com",
   "keywords": [
     "ui",
     "ui framework",
-    "ui development"
+    "ui development",
+    "ux development",
+    "ux framework",
+    "ux"
   ],
-  "author": "Making Sense's UI Development team <hello@makingsense.com>",
-  "contributors": [
-    {
+  "author": "Making Sense's UX Development team <hello@makingsense.com>",
+  "contributors": [{
       "name": "Damián Muti",
       "email": "dmuti@makingsense.com"
     },
