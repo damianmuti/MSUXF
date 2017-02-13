@@ -1,4 +1,4 @@
-MSUIF - Making Sense's UI Development Framework
+MSUXF - Making Sense's UX Development Framework
 ==============
 
 After downloading the framework you should choose Gulp or Grunt as a task runner.
