@@ -45,6 +45,7 @@ $msuif-form-fixed-label-width: 30% !default;
 ///     </select>
 ///     <span class="select-caret"></span>
 ///   </div>
+/// @todo Refactor once :has() pseudo-class is implemented in browsers.
 
 @mixin form($msuif-form-column-layout: 1, $msuif-form-style: block, $msuif-form-include-elements: true) {
   @if type-of($msuif-form-column-layout) != number {
@@ -70,7 +71,7 @@ $msuif-form-fixed-label-width: 30% !default;
     position: relative;
     margin-bottom: #{($msuif-input-height/2)};
 
-    // Control the padding of columns
+    // Control the padding between columns
     @if $msuif-form-column-layout > 1 {
       padding-left: $msuif-form-gutter/2;
       padding-right: $msuif-form-gutter/2;
@@ -84,21 +85,9 @@ $msuif-form-fixed-label-width: 30% !default;
         padding-left: $msuif-form-gutter/2;
         padding-right: 0;
       }
-
-      input[type="checkbox"],
-      input[type="radio"] {
-        &:first-child {
-          margin: 0 0 0 $msuif-form-fixed-label-width;
-          padding-bottom: $msuif-input-padding;
-        }
-      }
-    }
-    @else {
-      input:first-child + label {
-        margin-left: $msuif-form-fixed-label-width;
-      }
     }
 
+    // Give higher specificity to prevent the use of !important flag
     @if $msuif-form-style == fixed {
       @if $msuif-form-include-elements {
         @if $msuif-form-column-layout > 1 {
@@ -115,10 +104,17 @@ $msuif-form-fixed-label-width: 30% !default;
       }
       @else {
         @if $msuif-form-column-layout > 1 {
+          input[type="checkbox"],
+          input[type="radio"] {
+            margin: 0 0 0 $msuif-form-fixed-label-width;
+            padding-bottom: $msuif-input-padding;
+          }
+
           input,
           label {
             float: left;
           }
+
           > input + label {
             display: block;
             width: calc(70% - 20px);
@@ -127,6 +123,7 @@ $msuif-form-fixed-label-width: 30% !default;
       }
     }
 
+    // Styles for labels
     label {
       font-weight: $msuif-font-weight-bold;
 
@@ -143,6 +140,7 @@ $msuif-form-fixed-label-width: 30% !default;
         }
       }
 
+      // If true, give labels a different structure
       @if $msuif-form-include-elements {
         @if $msuif-form-style == inline-block {
           padding-right: #{($msuif-input-height/4)};
@@ -167,6 +165,28 @@ $msuif-form-fixed-label-width: 30% !default;
       }
     }
 
+    // Styles for radio/checkbox component
+    input[type="checkbox"],
+    input[type="radio"] {
+      &:first-child {
+        @if $msuif-form-column-layout > 1 {
+          margin: 0 0 0 $msuif-form-fixed-label-width;
+          padding-bottom: $msuif-input-padding;
+        }
+        @else {
+          + label {
+            @if $msuif-form-style == fixed {
+              margin-left: $msuif-form-fixed-label-width;
+            }
+            @else {
+              margin-left: 0;
+            }
+          }
+        }
+      }
+    }
+
+    // Styles for general form elements
     input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="reset"]),
     textarea,
     select {
@@ -180,6 +200,13 @@ $msuif-form-fixed-label-width: 30% !default;
 
       @if $msuif-form-style == block {
         width: 100%;
+      }
+    }
+
+    // Styles for submit input/button
+    [type="submit"] {
+      @if $msuif-form-style == fixed {
+        margin-left: $msuif-form-fixed-label-width;
       }
     }
   }
