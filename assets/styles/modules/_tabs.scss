@@ -19,8 +19,6 @@ $tabs-border-width: 1px !default;
 ///
 $tabs-base-spacing: 10px !default;
 
-
-/// Tabs Component -
 /// This is an almost JS-free Tab component that takes
 /// advantage of `:target` event to display tabs content.
 /// It can also handle a JS version that depends on a data-attribute

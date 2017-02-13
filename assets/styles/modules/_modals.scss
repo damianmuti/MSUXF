@@ -1,7 +1,7 @@
 ////
 /// Modal Dialogs
 /// @group components
-/// @author Damián Muti
+/// @author MS
 ////
 
 ///
@@ -58,8 +58,8 @@ $modal-transition-delay: $msuif-transition-duration !default;
 
       // Would be great to use '&' for consistency, but for some reason, it compiles to .modal:target__content
       .c-modal__content {
-          margin-top: 0;
-          opacity: 1;
+        margin-top: 0;
+        opacity: 1;
       }
     }
   }

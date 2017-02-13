@@ -1,6 +1,6 @@
 ////
 /// Radio Buttons & Checkboxes
-/// @group Component - Radio Buttons & Checkboxes
+/// @group components
 /// @author MS
 ////
 
@@ -23,16 +23,14 @@ $rc-checkbox-marker: '\2714' !default; // Unicode for '✔'
 ///
 $rc-checkbox-border-radius: toem(3px) !default;
 
-
-/// Radio Buttons & Checkboxes
 /// Mixin that styles Radio buttons and
 /// Checkboxes with CSS only.
-/// @example
+/// @example scss - Using the mixin
 ///   [type="checkbox"],
 ///   [type="radio"]{
-///     @include do-radio-checkbox('{type}', {label-color}, {marker-color}, {background-color});
+///     @include c-radio-checkbox('{type}', {label-color}, {marker-color}, {background-color});
 ///   }
-@mixin do-radio-checkbox($type, $label-color, $marker-color, $background-color) {
+@mixin c-radio-checkbox($type, $label-color, $marker-color, $background-color) {
   // Default styles
   &:checked,
   &:not(:checked) {

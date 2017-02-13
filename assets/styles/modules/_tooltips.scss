@@ -1,7 +1,7 @@
 ////
 /// Tooltips
 /// @group components
-/// @author Damián Muti
+/// @author MS
 ////
 
 ///
@@ -26,7 +26,7 @@ $tooltip-display-event: hover !default;
 /// @param {string} $content [attr(data-tooltip)] - Text to be shown inside the tooltip. If this argument is empty, the mixin is going to use the `data-tooltip` attribute of the HTML element.
 /// @example scss - Using the mixin
 ///  a {
-///    @include tooltip(top, 100%, hover);
+///    @include c-tooltip(top, 100%, hover);
 ///  }
 /// @example markup - HTML structure
 ///   <a href="#" data-tooltip="This is a tooltip" tabindex="0">Link</a>
