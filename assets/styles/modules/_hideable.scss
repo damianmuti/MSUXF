@@ -14,7 +14,7 @@ $translate-position: (
 /// Mixin to make any element hideable using css transitions and a little bit of Js.
 /// @example scss - Using the mixin
 ///   .example_class {
-///     @include hide-to('top');
+///     @include c-hide-to('top');
 ///   }
 /// @example javascript - Javascript code
 ///   $('body').scroll(function(e) {
@@ -36,7 +36,7 @@ $translate-position: (
 ///   });
 /// @todo Should be refactored to check if `$position` is within the available values.
 
-@mixin hide-to($position) {
+@mixin c-hide-to($position) {
   transition: transform $msuif-transition-duration ease-in-out;
 
   &.hide {
