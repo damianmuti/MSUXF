@@ -69,20 +69,20 @@ $msuxf-form-fixed-label-width: 30% !default;
     @include span(1/$msuxf-form-column-layout, $cycle: $msuxf-form-column-layout);
 
     position: relative;
-    margin-bottom: #{($msuxf-input-height/2)};
+    margin-bottom: #{($msuxf-input-height / 2)};
 
     // Control the padding between columns
     @if $msuxf-form-column-layout > 1 {
-      padding-left: $msuxf-form-gutter/2;
-      padding-right: $msuxf-form-gutter/2;
+      padding-left: $msuxf-form-gutter / 2;
+      padding-right: $msuxf-form-gutter / 2;
 
       &:nth-of-type(#{$msuxf-form-column-layout}n + 1) {
         padding-left: 0;
-        padding-right: $msuxf-form-gutter/2;
+        padding-right: $msuxf-form-gutter / 2;
       }
 
       &:nth-of-type(#{$msuxf-form-column-layout}n + #{$msuxf-form-column-layout}) {
-        padding-left: $msuxf-form-gutter/2;
+        padding-left: $msuxf-form-gutter / 2;
         padding-right: 0;
       }
     }
@@ -144,7 +144,7 @@ $msuxf-form-fixed-label-width: 30% !default;
       // If true, give labels a different structure
       @if $msuxf-form-include-elements {
         @if $msuxf-form-style == inline-block {
-          padding-right: #{($msuxf-input-height/4)};
+          padding-right: #{($msuxf-input-height / 4)};
           line-height: $msuxf-input-height;
         }
 
@@ -156,7 +156,7 @@ $msuxf-form-fixed-label-width: 30% !default;
 
         @if $msuxf-form-style == fixed or $msuxf-form-style == inline-block {
           display: inline-block;
-          padding-right: #{($msuxf-input-height/4)};
+          padding-right: #{($msuxf-input-height / 4)};
           vertical-align: top;
           line-height: $msuxf-input-height;
         }
