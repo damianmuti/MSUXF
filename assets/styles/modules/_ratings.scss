@@ -3,9 +3,7 @@
 /// @group components
 /// @author MS
 ////
-
 @import "../libs/sassy-cast/SassyCast";
-
 ///
 $rating-type: clickable !default;
 ///
@@ -18,12 +16,12 @@ $rating-color-hover: grey !default;
 $rating-star-spacing: 3px !default;
 ///
 $rating-values: (
-  '0.25', '0.50', '0.75', '1.00',
-  '1.25', '1.50', '1.75', '2.00',
-  '2.25', '2.50', '2.75', '3.00',
-  '3.25', '3.50', '3.75', '4.00',
-  '4.25', '4.50', '4.75', '5.00'
-);
+   '0.25', '0.50', '0.75', '1.00',
+   '1.25', '1.50', '1.75', '2.00',
+   '2.25', '2.50', '2.75', '3.00',
+   '3.25', '3.50', '3.75', '4.00',
+   '4.25', '4.50', '4.75', '5.00'
+ );
 ///
 $rating-icon-names: (
   'quarter': '.icon-star-quarter',
@@ -43,25 +41,19 @@ $rating-icon-names: (
 ///     <button></button>
 ///     <button></button>
 ///   </div>
-
 @mixin c-rating($type: $rating-type) {
   @if not index(clickable representative, $type) {
     @error "Type must be either `clickable` or `representative`.";
   }
-
   .c-rating {
     @include clearfix();
-
     display: inline-block;
-
-    @if $type == representative {
+    @if $type==representative {
       pointer-events: none;
     }
-
     button {
       @extend .ms-icon;
       @extend #{map-get($rating-icon-names, 'full')};
-
       position: relative;
       float: left;
       padding: 0 $rating-star-spacing;
@@ -69,65 +61,54 @@ $rating-icon-names: (
       color: $rating-color-empty;
       background-color: transparent;
       border: none;
-      transition: color $msuif-transition-duration $msuif-transition-timing;
-
+      transition: color $msuxf-transition-duration $msuxf-transition-timing;
       &:first-child {
         margin-left: 0;
       }
-
-      @if $type == clickable {
+      @if $type==clickable {
         &:hover,
-        &:hover ~ button {
+        &:hover~button {
           color: $rating-color-empty !important;
-
           &:after {
             color: $rating-color-empty !important;
           }
         }
       }
     }
-
-    @if $type == clickable {
+    @if $type==clickable {
       &:hover {
         button {
           color: $rating-color-hover !important;
           transition: none;
-
           &:after {
             color: $rating-color-hover !important;
           }
         }
       }
     }
-
     @each $rating-value in $rating-values {
       // Get the next higher integer.
       $rating-value-ceil: ceil(to-number($rating-value));
-
       &[data-rating-value="#{unquote($rating-value)}"] {
         button:nth-child(-n+#{$rating-value-ceil}) {
           color: $rating-color-full;
         }
-
         button:nth-child(#{$rating-value-ceil}) {
-          @if explode($rating-value, '.') == '.25' {
+          @if explode($rating-value, '.')=='.25' {
             @extend #{map-get($rating-icon-names, 'quarter')};
           }
-          @else if explode($rating-value, '.') == '.50' {
+          @else if explode($rating-value, '.')=='.50' {
             @extend #{map-get($rating-icon-names, 'half')};
           }
-          @else if explode($rating-value, '.') == '.75' {
+          @else if explode($rating-value, '.')=='.75' {
             @extend #{map-get($rating-icon-names, 'three-quarters')};
           }
-
           &:before {
             position: relative;
             z-index: 1;
           }
-
           &:after {
             @extend .icon-star-full:before;
-
             position: absolute;
             left: $rating-star-spacing;
             z-index: 0;

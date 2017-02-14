@@ -3,7 +3,6 @@
 /// @group components
 /// @author MS
 ////
-
 ///
 $c-button-padding: toem(8px) toem(10px) !default;
 ///
@@ -20,12 +19,11 @@ $c-button-border-radius: toem(5px) !default;
 ///   <button class="button button--small"></button>
 /// @example markup - Large size buttons
 ///   <button class="button button--large"></button>
-
 @mixin c-button() {
   .button {
     display: inline-block;
     padding: $c-button-padding;
-    font: $msuif-font;
+    font: $msuxf-font;
     line-height: 1; // Normalize height
     color: $c-button-text-color;
     text-align: center;
@@ -38,15 +36,12 @@ $c-button-border-radius: toem(5px) !default;
     @if variable-exists(c-button-border-radius) and $c-button-border-radius != 0 {
       border-radius: $c-button-border-radius;
     }
-
     &:hover {
       background-color: complementary-color($c-button-background-color, 30%);
     }
-
     &.button--small {
       font-size: 80%;
     }
-
     &.button--large {
       font-size: 120%;
     }

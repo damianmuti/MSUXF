@@ -3,7 +3,6 @@
 /// @group components
 /// @author MS
 ////
-
 ///
 $modal-backdrop-background: rgba(#000, 0.5) !default;
 ///
@@ -30,18 +29,15 @@ $modal-transition-delay: $msuif-transition-duration !default;
     visibility: hidden;
     opacity: 0;
     background-color: $modal-backdrop-background;
-    transition: visibility $msuif-transition-duration 0s, opacity $msuif-transition-duration $msuif-transition-timing;
-
+    transition: visibility $msuxf-transition-duration 0s, opacity $msuxf-transition-duration $msuxf-transition-timing;
     @at-root {
       &__content {
         @include align(both);
-
         margin-top: -20px;
         opacity: 0;
         background-color: $modal-content-background;
-        transition: opacity $msuif-transition-duration $msuif-transition-timing $modal-transition-delay, margin $msuif-transition-duration $msuif-transition-timing $modal-transition-delay;
+        transition: opacity $msuxf-transition-duration $msuxf-transition-timing $modal-transition-delay, margin $msuxf-transition-duration $msuxf-transition-timing $modal-transition-delay;
       }
-
       &__close {
         position: absolute;
         top: 20px;
@@ -49,13 +45,11 @@ $modal-transition-delay: $msuif-transition-duration !default;
         z-index: 10;
       }
     }
-
     // Show modal dialog and it's content
     &:target,
     &--is-visible {
       visibility: visible;
       opacity: 1;
-
       // Would be great to use '&' for consistency, but for some reason, it compiles to .modal:target__content
       .c-modal__content {
         margin-top: 0;
