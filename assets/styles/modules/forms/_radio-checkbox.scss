@@ -44,7 +44,6 @@ $msuif-rc-checkbox-border-radius: toem(3px) !default;
 ///     <label for="field1">Elements's label</label
 ///   </div>
 
-
 @mixin c-form-radio-checkbox($type, $style: inline-block, $label-color: $msuif-rc-label-color, $marker-color: $msuif-rc-marker-color, $background-color: $msuif-rc-background-color) {
   @if not index(radio checkbox, $type) {
     @error "Element type must be either `radio` or `checkbox`.";

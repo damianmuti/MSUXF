@@ -36,68 +36,58 @@ $tooltip-display-event: hover !default;
   @if not index(hover focus active, $event) {
     @error "Event must be either `hover`, `focus` or `active`.";
   }
-  @if type-of($min-width) != number {
+  @if type-of($min-width) !=number {
     @error "Min-width must be a length value. E.g: `1em`.";
   }
-  @if type-of($content) != string {
+  @if type-of($content) !=string {
     @error "Tooltip content must be a string.";
   }
-
   position: relative;
   outline: none;
-
   // Tooltip content block
   &:before {
-    @if $position == top or $position == bottom {
+    @if $position==top or $position==bottom {
       margin-#{opposite-direction($position)}: $tooltip-tip-size;
     }
-    @else if $position == left or $position == right {
+    @else if $position==left or $position==right {
       margin-#{opposite-direction($position)}: $tooltip-tip-size * 2;
     }
-
     content: $content;
     min-width: $min-width;
     padding: $tooltip-padding;
     text-align: center;
     color: $tooltip-text-color;
     background-color: $tooltip-background-color;
-
-    @if variable-exists(tooltip-border-radius) and $tooltip-border-radius != 0 {
+    @if variable-exists(tooltip-border-radius) and $tooltip-border-radius !=0 {
       border-radius: $tooltip-border-radius;
     }
   }
-
   // Tooptip tip
   &:after {
     @include triangle($position, $tooltip-background-color, $tooltip-tip-size);
-
-    @if $position == left or $position == right {
+    @if $position==left or $position==right {
       margin-#{opposite-direction($position)}: $tooltip-tip-size;
     }
-
     display:block;
   }
-
   &:before,
   &:after {
-    @if $position == top or $position == bottom {
+    @if $position==top or $position==bottom {
       @include align(horizontal);
     }
-    @else if $position == left or $position == right {
+    @else if $position==left or $position==right {
       @include align(vertical);
     }
-
     #{opposite-direction($position)}: 100%;
     opacity: 0;
     visibility: hidden;
-    transition:$msuif-transition-duration all $msuif-transition-timing;
+    transition:$msuxf-transition-duration all $msuxf-transition-timing;
   }
-
   // Trigger different events depending on variable config
   &:#{$event} {
     &:before,
     &:after {
-      opacity:1;
+      opacity: 1;
       visibility: visible;
     }
   }

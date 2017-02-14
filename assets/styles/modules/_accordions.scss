@@ -3,13 +3,12 @@
 /// @group components
 /// @author MS
 ////
-
 ///
-$accordion-item-background:      rgba(#ccc, 0.75) !default;
+$accordion-item-background : rgba(#ccc, 0.75) !default;
 ///
-$accordion-header-background:    #ccc !default;
+$accordion-header-background : #ccc !default;
 ///
-$accordion-header-height:        50px !default;
+$accordion-header-height : 50px !default;
 ///
 $accordion-item-padding:         10px !default;
 
@@ -34,12 +33,10 @@ $accordion-item-padding:         10px !default;
         overflow: hidden;
         border-bottom: 1px solid tint($accordion-header-background, 20%);
         background-color: $accordion-item-background;
-        transition: max-height $msuif-transition-duration $msuif-transition-timing 0s;
-
+        transition: max-height $msuxf-transition-duration $msuxf-transition-timing 0s;
         // Show accordion item
         &:target {
           max-height: 1000px;
-
           .c-accordion__header {
             &:before {
               content: '-';
@@ -47,22 +44,18 @@ $accordion-item-padding:         10px !default;
           }
         }
       }
-
       &__header {
         position: relative;
         display: block;
         padding-left: 30px;
         line-height: $accordion-header-height;
         background-color: $accordion-header-background;
-
         &:before {
           @include align(vertical);
-
           content: '+';
           margin-left: -20px;
         }
       }
-
       &__content {
         padding: $accordion-item-padding $accordion-item-padding*3;
       }

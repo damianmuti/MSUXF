@@ -212,7 +212,3 @@ $msuif-form-fixed-label-width: 30% !default;
     }
   }
 }
-
-form {
-  @include c-form(2, fixed, true);
-}
