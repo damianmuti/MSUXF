@@ -26,7 +26,7 @@ $accordion-item-padding:         10px !default;
 ///     </div>
 ///   </div>
 
-@mixin c-accordion {
+@mixin c-accordion() {
   .c-accordion {
     @at-root {
       &__item {
