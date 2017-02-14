@@ -1,0 +1,46 @@
+////
+/// Dropdown menu
+/// @group components
+/// @author MS
+////
+
+///
+$msuxf-dropdown-width: 200px !default;
+///
+$msuxf-dropdown-event: focus !default;
+///
+$msuxf-dropdown-animation: fade !default;
+
+@mixin c-dropdown($width: $msuxf-dropdown-width, $event: $msuxf-dropdown-event, $animation: $msuxf-dropdown-animation) {
+  @if not index(focus hover, $event) {
+    @error "Event must be either `focus` or `hover`.";
+  }
+  @if not index(fade slide-down, $animation) {
+    @error "Animation must be either `fade` or `slide-down`.";
+  }
+
+  @include c-button();
+
+  .c-dropdown {
+    position: relative;
+    display: inline-block;
+    width: $width;
+
+    &__items {
+      display: block;
+
+      @if $animation == fade {
+
+      }
+      @else if $animation == slide-down {
+
+      }
+
+      a {
+        display: block;
+      }
+    }
+  }
+}
+
+@include c-dropdown();
