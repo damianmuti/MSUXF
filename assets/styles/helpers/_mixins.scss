@@ -53,22 +53,6 @@
   }
 }
 
-/// Style input's placeholder
-@mixin placeholder {
-   ::-webkit-input-placeholder {
-    @content;
-  }
-   :-moz-placeholder {
-    @content;
-  }
-   ::-moz-placeholder {
-    @content;
-  }
-   :-ms-input-placeholder {
-    @content;
-  }
-}
-
 /// Create a single media condition out of a map of queries
 /// @param {String} queries - The queries
 @mixin media($queries) {

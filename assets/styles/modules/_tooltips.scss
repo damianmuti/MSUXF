@@ -3,6 +3,7 @@
 /// @group components
 /// @author MS
 ////
+
 ///
 $tooltip-border-radius: 0 !default;
 ///
@@ -16,9 +17,7 @@ $tooltip-tip-size: 7px !default;
 ///
 $tooltip-display-event: hover !default;
 
-/// This is a CSS-only tooptip component that uses
-/// a data-attribute to hold the tooltip's text.
-/// It can also be triggered by different events.
+/// This is a CSS-only tooptip component that uses a data-attribute to hold the tooltip's text. It can also be triggered by different events.
 /// @param {string} $position [top] - Indicates tooltip positioning. Accepted values: `top`, `right`, `bottom` or `left`.
 /// @param {number} $width [100%] - Tooltip content min-width.
 /// @param {string} $event [hover] - Specific event in which the tooltip is going to be shown. Accepted values: `hover`, `focus` or `active`.
