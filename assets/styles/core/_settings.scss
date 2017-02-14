@@ -4,48 +4,41 @@
 /// @group Settings
 ////
 
-
 /// Fonts ///
 ///
-$msuxf-font-size:                 16px;
+$msuxf-font-size: 16px !default;
 ///
-$msuxf-font-weight:               400;
+$msuxf-font-weight: 400 !default;
 ///
-$msuxf-font-family:               Arial, "Helvetica Neue", Helvetica, sans-serif;
+$msuxf-font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !default;
 ///
-$msuxf-font:                      $msuxf-font-weight toem($msuxf-font-size) $msuxf-font-family;
+$msuxf-font: $msuxf-font-weight toem($msuxf-font-size) $msuxf-font-family !default;
 ///
-$msuxf-font-weight-light:         300;
+$msuxf-font-weight-light: 300 !default;
 ///
-$msuxf-font-weight-regular:       $msuxf-font-weight;
+$msuxf-font-weight-regular: $msuxf-font-weight !default;
 ///
-$msuxf-font-weight-semibold:      600;
+$msuxf-font-weight-semibold: 600 !default;
 ///
-$msuxf-font-weight-bold:          700;
+$msuxf-font-weight-bold: 700 !default;
 ///
-$msuxf-font-color:                #101010;
+$msuxf-font-color: #101010 !default;
 ///
-$msuxf-font-color-bright:         #edede6;
+$msuxf-font-color-bright: #edede6 !default;
 ///
-$msuxf-font-color-dark:           $msuxf-font-color;
+$msuxf-font-color-dark: $msuxf-font-color !default;
 ///
-$msuxf-font-color-white:          #fff;
-
-
+$msuxf-font-color-white: #fff !default;
 
 /// Background ///
 ///
-$msuxf-background:                $msuxf-font-color-bright;
+$msuxf-background: $msuxf-font-color-bright !default;
 ///
-$msuxf-background-bright:         $msuxf-background;
-
-
+$msuxf-background-bright: $msuxf-background !default;
 
 /// Wrapper ///
 ///
-$msuxf-wrapper-min-width:         torem(1200px);
-
-
+$msuxf-wrapper-min-width: torem(1200px) !default;
 
 /// Breakpoints ///
 ///
@@ -56,12 +49,10 @@ $msuxf-breakpoints: (
   'isdesktop': (min-width: 1024px),
   'ismobile': (max-width: 1024px),
   'iphone': (max-width: 980px)
-);
-
-
+) !default;
 
 /// Transition/Animation ///
 ///
-$msuxf-transition-duration:      0.25s;
+$msuxf-transition-duration: 0.25s !default;
 ///
-$msuxf-transition-timing:        ease;
+$msuxf-transition-timing: ease !default;

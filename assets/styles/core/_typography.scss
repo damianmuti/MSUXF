@@ -3,8 +3,9 @@
 /// Init typography basic settings
 /// @group Typography
 ////
-///
+
 @import "./settings";
+
 ///
 $msuxf-headers-h1-font-size: toem(46px);
 ///
@@ -17,6 +18,7 @@ $msuxf-headers-h4-font-size: toem(22px);
 $msuxf-headers-h5-font-size: toem(18px);
 ///
 $msuxf-headers-h6-font-size: toem(16px);
+
 html,
 button {
   -webkit-font-smoothing: antialiased;

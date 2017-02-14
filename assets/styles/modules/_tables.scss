@@ -62,7 +62,6 @@ $table-tbody-background: #fff !default;
     }
 
     tbody {
-
       tr {
         @if $table-do-hover == true {
           &:hover {

@@ -10,14 +10,14 @@
 @import "forms/radio-checkbox";
 
 ///
-$msuif-form-gutter: 40px !global;
+$msuxf-form-gutter: 40px !global;
 ///
-$msuif-form-fixed-label-width: 30% !default;
+$msuxf-form-fixed-label-width: 30% !default;
 
 /// This file contains structure and look&feel for the form element.
-/// @param {number} $msuif-form-column-layout [1] - Indicates the amount of columns the form must be split in.
-/// @param {string} $msuif-form-style [block] - Specifies how form labels should behave. Accepted values: `inline-block`, `block` or `fixed`.
-/// @param {bool} $msuif-form-include-elements [true] - Indicates whether to include styles for all form components or not.
+/// @param {number} $msuxf-form-column-layout [1] - Indicates the amount of columns the form must be split in.
+/// @param {string} $msuxf-form-style [block] - Specifies how form labels should behave. Accepted values: `inline-block`, `block` or `fixed`.
+/// @param {bool} $msuxf-form-include-elements [true] - Indicates whether to include styles for all form components or not.
 /// @example scss - Using the mixin
 ///   form {
 ///     @include c-form(1, block, true);
@@ -47,68 +47,68 @@ $msuif-form-fixed-label-width: 30% !default;
 ///   </form>
 /// @todo Refactor once :has() pseudo-class is implemented in browsers.
 
-@mixin c-form($msuif-form-column-layout: 1, $msuif-form-style: block, $msuif-form-include-elements: true) {
-  @if type-of($msuif-form-column-layout) != number {
+@mixin c-form($msuxf-form-column-layout: 1, $msuxf-form-style: block, $msuxf-form-include-elements: true) {
+  @if type-of($msuxf-form-column-layout) != number {
     @error "Form column layout must be a quantity value. E.g: `1`.";
   }
-  @if not index(inline-block block fixed, $msuif-form-style) {
+  @if not index(inline-block block fixed, $msuxf-form-style) {
     @error "Form style must be either `block`, `inline-block` or `fixed`.";
   }
-   @if type-of($msuif-form-include-elements) != bool {
+   @if type-of($msuxf-form-include-elements) != bool {
     @error "Include form elements must be either `true` or `false`.";
   }
 
   // If true, include logic and look&feel for other form components
-  @if $msuif-form-include-elements {
+  @if $msuxf-form-include-elements {
     @include c-form-radio-checkbox(checkbox, inline-block, red, green, blue);
     @include c-form-input();
   }
 
   // Layout for each container
   .input-holder {
-    @include span(1/$msuif-form-column-layout, $cycle: $msuif-form-column-layout);
+    @include span(1/$msuxf-form-column-layout, $cycle: $msuxf-form-column-layout);
 
     position: relative;
-    margin-bottom: #{($msuif-input-height/2)};
+    margin-bottom: #{($msuxf-input-height/2)};
 
     // Control the padding between columns
-    @if $msuif-form-column-layout > 1 {
-      padding-left: $msuif-form-gutter/2;
-      padding-right: $msuif-form-gutter/2;
+    @if $msuxf-form-column-layout > 1 {
+      padding-left: $msuxf-form-gutter/2;
+      padding-right: $msuxf-form-gutter/2;
 
-      &:nth-of-type(#{$msuif-form-column-layout}n + 1) {
+      &:nth-of-type(#{$msuxf-form-column-layout}n + 1) {
         padding-left: 0;
-        padding-right: $msuif-form-gutter/2;
+        padding-right: $msuxf-form-gutter/2;
       }
 
-      &:nth-of-type(#{$msuif-form-column-layout}n + #{$msuif-form-column-layout}) {
-        padding-left: $msuif-form-gutter/2;
+      &:nth-of-type(#{$msuxf-form-column-layout}n + #{$msuxf-form-column-layout}) {
+        padding-left: $msuxf-form-gutter/2;
         padding-right: 0;
       }
     }
 
     // Give higher specificity to prevent the use of !important flag
-    @if $msuif-form-style == fixed {
+    @if $msuxf-form-style == fixed {
       // Check if look&feel must be applied to form elements
-      @if $msuif-form-include-elements {
-        @if $msuif-form-column-layout > 1 {
+      @if $msuxf-form-include-elements {
+        @if $msuxf-form-column-layout > 1 {
           > input + label {
-            margin: 0 0 0 $msuif-form-fixed-label-width;
-            padding-bottom: $msuif-input-padding;
+            margin: 0 0 0 $msuxf-form-fixed-label-width;
+            padding-bottom: $msuxf-input-padding;
           }
         }
         @else {
           > input:first-child + label {
-            margin-left: $msuif-form-fixed-label-width;
+            margin-left: $msuxf-form-fixed-label-width;
           }
         }
       }
       @else {
-        @if $msuif-form-column-layout > 1 {
+        @if $msuxf-form-column-layout > 1 {
           input[type="checkbox"],
           input[type="radio"] {
-            margin: 0 0 0 $msuif-form-fixed-label-width;
-            padding-bottom: $msuif-input-padding;
+            margin: 0 0 0 $msuxf-form-fixed-label-width;
+            padding-bottom: $msuxf-input-padding;
           }
 
           input,
@@ -126,39 +126,39 @@ $msuif-form-fixed-label-width: 30% !default;
 
     // Styles for labels
     label {
-      font-weight: $msuif-font-weight-bold;
+      font-weight: $msuxf-font-weight-bold;
 
-      @if $msuif-form-style == fixed or $msuif-form-style == inline-block {
+      @if $msuxf-form-style == fixed or $msuxf-form-style == inline-block {
         display: inline-block;
         vertical-align: top;
       }
 
-      @if $msuif-form-style == fixed {
+      @if $msuxf-form-style == fixed {
         &:first-child {
           float: left;
-          width: $msuif-form-fixed-label-width;
+          width: $msuxf-form-fixed-label-width;
           text-align: right;
         }
       }
 
       // If true, give labels a different structure
-      @if $msuif-form-include-elements {
-        @if $msuif-form-style == inline-block {
-          padding-right: #{($msuif-input-height/4)};
-          line-height: $msuif-input-height;
+      @if $msuxf-form-include-elements {
+        @if $msuxf-form-style == inline-block {
+          padding-right: #{($msuxf-input-height/4)};
+          line-height: $msuxf-input-height;
         }
 
-        @if $msuif-form-style == block {
+        @if $msuxf-form-style == block {
           display: block;
           max-width: 100%;
-          padding-bottom: $msuif-input-padding;
+          padding-bottom: $msuxf-input-padding;
         }
 
-        @if $msuif-form-style == fixed or $msuif-form-style == inline-block {
+        @if $msuxf-form-style == fixed or $msuxf-form-style == inline-block {
           display: inline-block;
-          padding-right: #{($msuif-input-height/4)};
+          padding-right: #{($msuxf-input-height/4)};
           vertical-align: top;
-          line-height: $msuif-input-height;
+          line-height: $msuxf-input-height;
         }
         @else {
           display: block;
@@ -170,14 +170,14 @@ $msuif-form-fixed-label-width: 30% !default;
     input[type="checkbox"],
     input[type="radio"] {
       &:first-child {
-        @if $msuif-form-column-layout > 1 {
-          margin: 0 0 0 $msuif-form-fixed-label-width;
-          padding-bottom: $msuif-input-padding;
+        @if $msuxf-form-column-layout > 1 {
+          margin: 0 0 0 $msuxf-form-fixed-label-width;
+          padding-bottom: $msuxf-input-padding;
         }
         @else {
           + label {
-            @if $msuif-form-style == fixed {
-              margin-left: $msuif-form-fixed-label-width;
+            @if $msuxf-form-style == fixed {
+              margin-left: $msuxf-form-fixed-label-width;
             }
             @else {
               margin-left: 0;
@@ -191,23 +191,23 @@ $msuif-form-fixed-label-width: 30% !default;
     input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="reset"]),
     textarea,
     select {
-      @if $msuif-form-style == block or $msuif-form-style == inline-block {
-        display: $msuif-form-style;
+      @if $msuxf-form-style == block or $msuxf-form-style == inline-block {
+        display: $msuxf-form-style;
       }
       @else {
         display: inline-block;
         width: 70%;
       }
 
-      @if $msuif-form-style == block {
+      @if $msuxf-form-style == block {
         width: 100%;
       }
     }
 
     // Styles for submit input/button
     [type="submit"] {
-      @if $msuif-form-style == fixed {
-        margin-left: $msuif-form-fixed-label-width;
+      @if $msuxf-form-style == fixed {
+        margin-left: $msuxf-form-fixed-label-width;
       }
     }
   }

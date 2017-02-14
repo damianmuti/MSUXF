@@ -11,7 +11,7 @@ $accordion-header-background : #ccc !default;
 ///
 $accordion-header-height : 50px !default;
 ///
-$accordion-item-padding:         10px !default;
+$accordion-item-padding: 10px !default;
 
 /// This is a CSS-only accordion component that uses CSS `:target` event to show or hide blocks of content in an accordion fashion.
 /// @example markup
@@ -35,9 +35,11 @@ $accordion-item-padding:         10px !default;
         border-bottom: 1px solid tint($accordion-header-background, 20%);
         background-color: $accordion-item-background;
         transition: max-height $msuxf-transition-duration $msuxf-transition-timing 0s;
+
         // Show accordion item
         &:target {
           max-height: 1000px;
+
           .c-accordion__header {
             &:before {
               content: '-';
@@ -45,20 +47,24 @@ $accordion-item-padding:         10px !default;
           }
         }
       }
+
       &__header {
         position: relative;
         display: block;
         padding-left: 30px;
         line-height: $accordion-header-height;
         background-color: $accordion-header-background;
+
         &:before {
           @include align(vertical);
+
           content: '+';
           margin-left: -20px;
         }
       }
+
       &__content {
-        padding: $accordion-item-padding $accordion-item-padding*3;
+        padding: $accordion-item-padding $accordion-item-padding * 3;
       }
     }
   }

@@ -63,34 +63,41 @@ $tabs-base-spacing: 10px !default;
   @if not index(js standalone, $type) {
     @error "Type must be either `js` or `standalone`.";
   }
+
   .c-tabs {
     margin: $tabs-base-spacing * 2;
+
     &__tab {
       display: none;
       padding: $tabs-base-spacing;
       border: $tabs-border-width solid $tabs-color-primary;
       background-color: $tabs-color-bg;
-      @if $type=="standalone" {
+
+      @if $type == standalone {
         &:target {
           display: block;
         }
       }
     }
+
     &__tab-indicator {
       display: inline-block;
       margin-bottom: -#{$tabs-border-width};
       padding: $tabs-base-spacing;
       color: $tabs-color-primary;
       border: $tabs-border-width solid $tabs-color-primary;
+
       &:hover {
         color: $tabs-color-secondary;
       }
+
       &--is-active {
         color: $tabs-color-secondary;
         border-bottom: $tabs-border-width solid $tabs-color-bg;
       }
     }
-    @if $type=="js" {
+
+    @if $type == js {
       @for $i from 1 to $tabs-tab-amount {
         &[data-active-tab="#{$i}"] {
           .c-tabs__tab {
@@ -98,6 +105,7 @@ $tabs-base-spacing: 10px !default;
               display: block;
             }
           }
+
           .c-tabs__tab-indicator {
             &:nth-of-type(#{$i}) {
               color: $tabs-color-secondary;
