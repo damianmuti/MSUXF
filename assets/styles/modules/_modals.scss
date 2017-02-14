@@ -19,7 +19,7 @@ $modal-transition-delay:       $msuif-transition-duration !default;
 ///     <div class="c-modal__content">Modal dialog content goes here.</div>
 ///   </div>
 
-@mixin c-modal{
+@mixin c-modal() {
   .c-modal {
     position: absolute;
     top: 0;

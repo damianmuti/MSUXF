@@ -53,7 +53,7 @@ $notification-toast-positions: (
 /// @example markup - Top bar
 ///   <div class="c-notification c-notification--top-bar c-notification--{status}">Lorem ipsum dolor.</div>
 
-@mixin c-notification {
+@mixin c-notification() {
   @keyframes slide-in-right {
     from {
       transform: translateX(#{$notification-toast-max-width + $notification-toast-margin});
