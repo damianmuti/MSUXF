@@ -1,6 +1,6 @@
 ////
 /// Tabs
-/// @group Component - Tabs
+/// @group components
 /// @author MS
 ////
 
@@ -19,12 +19,7 @@ $tabs-border-width: 1px !default;
 ///
 $tabs-base-spacing: 10px !default;
 
-
-/// Tabs Component -
-/// This is an almost JS-free Tab component that takes
-/// advantage of `:target` event to display tabs content.
-/// It can also handle a JS version that depends on a data-attribute
-/// to indicate which tab is currently active.
+/// This is an almost JS-free Tab component that takes advantage of `:target` event to display tabs content. It can also handle a JS version that depends on a data-attribute to indicate which tab is currently active.
 /// @param {string} $tabs-type [js] - Indicates if this component should be CSS-only or JS dependant. Accepted values: `js` or `standalone`.
 /// @example markup - Type: "standalone", HTML markup
 ///   <div class="c-tabs">

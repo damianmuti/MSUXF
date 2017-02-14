@@ -1,6 +1,6 @@
 ////
 /// Modal Dialogs
-/// @group Component - Modal Dialogs
+/// @group components
 /// @author MS
 ////
 
@@ -11,10 +11,7 @@ $modal-content-background:     #fff !default;
 ///
 $modal-transition-delay:       $msuif-transition-duration !default;
 
-/// Component Dialog -
-/// This is a CSS-only modal that takes
-/// advantage of :target event to show
-/// a modal-like component using HTML anchors.
+/// This is a CSS-only modal that takes advantage of :target event to show a modal-like component using HTML anchors.
 /// @example markup
 ///   <a href="#modal">Show modal dialog</a>
 ///   <div class="c-modal" id="modal">

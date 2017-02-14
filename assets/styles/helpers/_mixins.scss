@@ -38,14 +38,6 @@
   }
 }
 
-/// Style input's placeholder
-@mixin placeholder {
-  ::-webkit-input-placeholder {@content;}
-  :-moz-placeholder           {@content;}
-  ::-moz-placeholder          {@content;}
-  :-ms-input-placeholder      {@content;}
-}
-
 /// Create a single media condition out of a map of queries
 /// @param {String} queries - The queries
 @mixin media($queries) {
@@ -104,28 +96,5 @@
   } @else if $direction == right or $direction == left {
     border-bottom: $perpendicular-borders;
     border-top:    $perpendicular-borders;
-  }
-}
-
-@mixin parent {
-
-  @each $selector in & {
-
-    $l: length($selector);
-
-    @if ($l == 1) {
-      @error "Used parent mixin on a top-level selector";
-    } @else {
-
-      $parent: nth($selector,1);
-      @for $i from 2 to $l {
-        $parent: append($parent,nth($selector,$i));
-      }
-
-      @at-root #{$parent} {
-        @content;
-      }
-
-    }
   }
 }

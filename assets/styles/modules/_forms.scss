@@ -2,8 +2,8 @@
 /// Forms
 /// -> Inputs and Textareas
 /// -> Radio and checkboxes
-/// @group Component - Forms
-/// @author Damián Muti
+/// @group components
+/// @author MS
 ////
 
 @import "forms/input";
@@ -20,34 +20,34 @@ $msuif-form-fixed-label-width: 30% !default;
 /// @param {bool} $msuif-form-include-elements [true] - Indicates whether to include styles for all form components or not.
 /// @example scss - Using the mixin
 ///   form {
-///     @include form(1, block, true);
+///     @include c-form(1, block, true);
 ///   }
-/// @example markup - Using **input** fields.
-///   <div class="input-holder">
-///     <label for="field">Elements's label</label>
-///     <input type="text" id="field">
-///   </div>
-/// @example markup - Using **checkbox** and **radio** fields. **Note:** for multiple fields, use the same input holder.
-///   <div class="input-holder">
-///     <input type="checkbox" id="field">
-///     <label for="field">Elements's label</label>
+/// @example markup - For the layout to properly work, each field (or set of fields) should be hold inside an element with an `.input-holder` class.
+///   <form>
+///     <fieldset>
+///       <div class="input-holder">
+///         <label for="field1">Elements's label</label>
+///         <input type="text" id="field1">
+///       </div>
+///       <div class="input-holder">
+///         <label for="field2">Elements's label</label>
+///         <textarea id="field2" rows="10"></textarea>
+///       </div>
+///       <div class="input-holder">
+///         <input type="checkbox" id="field">
+///         <label for="field">Elements's label</label>
 ///
-///     <input type="checkbox" id="field1">
-///     <label for="field1">Elements's label</label
-///   </div>
-/// @example markup - Using **select** fields.
-///   <div class="input-holder">
-///     <label for="field">Elements's label</label>
-///     <select id="field">
-///       <option value="">Option 1</option>
-///       <option value="">Option 2</option>
-///       <option value="">Option 3</option>
-///     </select>
-///     <span class="select-caret"></span>
-///   </div>
+///         <input type="checkbox" id="field1">
+///         <label for="field1">Elements's label</label
+///       </div>
+///       <div class="input-holder">
+///         <button class="button button--small" type="submit"></button>
+///       </div>
+///     </fieldset>
+///   </form>
 /// @todo Refactor once :has() pseudo-class is implemented in browsers.
 
-@mixin form($msuif-form-column-layout: 1, $msuif-form-style: block, $msuif-form-include-elements: true) {
+@mixin c-form($msuif-form-column-layout: 1, $msuif-form-style: block, $msuif-form-include-elements: true) {
   @if type-of($msuif-form-column-layout) != number {
     @error "Form column layout must be a quantity value. E.g: `1`.";
   }
@@ -60,8 +60,8 @@ $msuif-form-fixed-label-width: 30% !default;
 
   // If true, include logic and look&feel for other form components
   @if $msuif-form-include-elements {
-    @include form-radio-checkbox(checkbox, inline-block, red, green, blue);
-    @include form-input();
+    @include c-form-radio-checkbox(checkbox, inline-block, red, green, blue);
+    @include c-form-input();
   }
 
   // Layout for each container
@@ -89,6 +89,7 @@ $msuif-form-fixed-label-width: 30% !default;
 
     // Give higher specificity to prevent the use of !important flag
     @if $msuif-form-style == fixed {
+      // Check if look&feel must be applied to form elements
       @if $msuif-form-include-elements {
         @if $msuif-form-column-layout > 1 {
           > input + label {
@@ -213,5 +214,5 @@ $msuif-form-fixed-label-width: 30% !default;
 }
 
 form {
-  @include form(2, fixed, false);
+  @include c-form(2, fixed, true);
 }

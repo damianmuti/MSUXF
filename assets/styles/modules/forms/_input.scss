@@ -1,7 +1,7 @@
 ////
 /// Inputs
-/// @group Component - Forms
-/// @author Damián Muti
+/// @group components
+/// @author MS
 ////
 
 ///
@@ -27,17 +27,32 @@ $msuif-select-caret: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBl
 /// @see {mixin} form
 /// @example scss - Using the mixin
 ///   input[type="text"] {
-///     @include form-input();
+///     @include c-form-input();
 ///   }
+/// @example markup - Using **input** and **textarea** fields.
+///   <div class="input-holder">
+///     <label for="field1">Elements's label</label>
+///     <input type="text" id="field1">
+///   </div>
+///   <div class="input-holder">
+///     <label for="field2">Elements's label</label>
+///     <textarea id="field2" rows="10"></textarea>
+///   </div>
+/// @example markup - Using **select** fields.
+///   <div class="input-holder">
+///     <label for="field">Elements's label</label>
+///     <select id="field">
+///       <option value="">Option 1</option>
+///       <option value="">Option 2</option>
+///       <option value="">Option 3</option>
+///     </select>
+///     <span class="select-caret"></span>
+///   </div>
 
-@mixin form-input() {
+@mixin c-form-input() {
   input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="reset"]),
   textarea,
   select {
-    @include placeholder(){
-      color: $msuif-input-placeholder-color;
-    }
-
     display: inline-block;
     padding: 0 $msuif-input-padding;
     font: $msuif-font;
@@ -52,6 +67,10 @@ $msuif-select-caret: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBl
 
     &:focus {
       color: $msuif-input-focus;
+    }
+
+    &::placeholder {
+      color: $msuif-input-placeholder-color;
     }
   }
 

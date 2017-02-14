@@ -1,7 +1,7 @@
 ////
 /// Radio Buttons & Checkboxes
-/// @group Component - Forms
-/// @author Damián Muti
+/// @group components
+/// @author MS
 ////
 
 ///
@@ -23,8 +23,7 @@ $msuif-rc-checkbox-marker: '\2714' !default; // Unicode for '✔'
 ///
 $msuif-rc-checkbox-border-radius: toem(3px) !default;
 
-/// Mixin that styles Radio buttons and
-/// Checkboxes with CSS only.
+/// Mixin that styles radio buttons and checkboxes with CSS only.
 /// @param {string} $type - Indicates input type. Accepted values: `radio` or `checkbox`.
 /// @param {string} $style [inline-block] - Element's box model behavior. **Note:** This parameter will be overriden if this mixin is being called from within the `form()` mixin. Accepted values: `inline-block` or `block`.
 /// @param {color} $label-color [#000] - Element's label color.
@@ -32,13 +31,21 @@ $msuif-rc-checkbox-border-radius: toem(3px) !default;
 /// @param {color} $label-color [#CD5C5C] - Element's background color.
 /// @see {mixin} form
 /// @example scss - Using the mixin
-///   @include do-radio-checkbox(checkbox, block, black, red, blue);
+///   @include c-form-radio-checkbox(checkbox, block, black, red, blue);
 /// @example markup - HTML structure: Element must be followed by a label tag to properly work and inherit styles
 ///   <input type="checkbox" id="element">
 ///   <label for="element">Elements's label</label>
+/// @example markup - Using **checkbox** and **radio** fields. **Note:** for multiple fields, use the same input holder.
+///   <div class="input-holder">
+///     <input type="checkbox" id="field">
+///     <label for="field">Elements's label</label>
+///
+///     <input type="checkbox" id="field1">
+///     <label for="field1">Elements's label</label
+///   </div>
 
 
-@mixin form-radio-checkbox($type, $style: inline-block, $label-color: $msuif-rc-label-color, $marker-color: $msuif-rc-marker-color, $background-color: $msuif-rc-background-color) {
+@mixin c-form-radio-checkbox($type, $style: inline-block, $label-color: $msuif-rc-label-color, $marker-color: $msuif-rc-marker-color, $background-color: $msuif-rc-background-color) {
   @if not index(radio checkbox, $type) {
     @error "Element type must be either `radio` or `checkbox`.";
   }
