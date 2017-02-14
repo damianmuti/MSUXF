@@ -1,6 +1,6 @@
 ////
 /// Star Rating
-/// @group Component - Star Rating
+/// @group components
 /// @author MS
 ////
 @import "../libs/sassy-cast/SassyCast";
@@ -24,17 +24,14 @@ $rating-values: (
  );
 ///
 $rating-icon-names: (
-   'quarter': '.icon-star-quarter',
-   'half': '.icon-star-half',
-   'three-quarters': '.icon-star-three-quarters',
-   'full': '.icon-star-full'
-  );
-/// Star Rating Component -
-/// This is a CSS-only star rating component
-/// that shows the proper rating depending
-/// on a data-attribute value.
-/// JS logic behing this component should
-/// round up values per quarter.
+  'quarter': '.icon-star-quarter',
+  'half': '.icon-star-half',
+  'three-quarters': '.icon-star-three-quarters',
+  'full': '.icon-star-full'
+);
+
+/// This is a CSS-only star rating component that shows the proper rating depending on a data-attribute value.<br>
+/// JS logic behing this component should round up values per quarter.
 /// @param {string} $rating-type [clickable] - Indicates if whether this component should be clickable or representative. Accepted values: `clickable` or `representative`.
 /// @example markup
 ///   <div class="c-rating" data-rating-value="3.25">

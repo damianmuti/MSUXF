@@ -1,6 +1,6 @@
 ////
 ///	Tables
-/// @group Tables
+/// @group components
 /// @author MS
 ////
 
@@ -11,13 +11,12 @@ $table-thead-background: #999 !default;
 ///
 $table-tbody-background: #fff !default;
 
-/// Table Component -
 /// This is a simple easy-to-use table component.
 /// @param {string} $table-do-hover [true] - Indicates whether table rows are going to be highlighted on hover.
 /// @param {string} $table-is-zebra [true] - Indicates whether the background color should change for odd and even rows.
 /// @example markup
 ///   <table class="c-table">
-///     <caption>asdasdasd</caption>
+///     <caption>Table caption</caption>
 ///     <thead>
 ///       <tr>
 ///         <th>
