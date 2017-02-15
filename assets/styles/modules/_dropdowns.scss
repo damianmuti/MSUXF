@@ -54,6 +54,13 @@ $msuxf-dropdown-link-color: #fff !default;
     @error "Style must be either `true` or `false`.";
   }
 
+  // Placeholder to provide the active styling without repeating code
+  %c-dropdown--active {
+    max-height: 1000px; // Random value to max-height can be animated as height property
+    visibility: visible;
+    opacity: 1;
+  }
+
   .c-dropdown {
     position: relative;
     display: inline-block;
@@ -118,9 +125,7 @@ $msuxf-dropdown-link-color: #fff !default;
       &__button {
         &:#{$event} {
           + .c-dropdown__items {
-            max-height: 1000px; // Random value to max-height can be animated as height property
-            visibility: visible;
-            opacity: 1;
+            @extend %c-dropdown--active;
           }
         }
       }
@@ -128,9 +133,7 @@ $msuxf-dropdown-link-color: #fff !default;
     @else if $event == hover {
       &:#{$event} {
         > .c-dropdown__items {
-          max-height: 1000px; // Random value to max-height can be animated as height property
-          visibility: visible;
-          opacity: 1;
+          @extend %c-dropdown--active;
         }
       }
     }
