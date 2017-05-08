@@ -1,6 +1,6 @@
 {
-  "name": "msuif",
-  "description": "Making Sense's UI Dev project Bower Dependencies.",
+  "name": "msuxf",
+  "description": "Making Sense's UX Dev project Bower Dependencies.",
   "version": "1.1.1",
   "dependencies": {
     "jeet.gs": "latest",

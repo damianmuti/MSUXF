@@ -1,6 +1,7 @@
 ////
 /// Buttons
-/// @group Component - Buttons
+/// @group components
+/// @author MS
 ////
 
 ///
@@ -12,10 +13,7 @@ $c-button-background-color: black !default;
 ///
 $c-button-border-radius: toem(5px) !default;
 
-/// Component Button -
-/// General styles for buttons. There are also a couple
-/// of modifier classes to handle smaller and bigger
-/// styles for the buttons.
+/// General styles for buttons. There are also a couple of modifier classes to handle smaller and bigger styles for the buttons.
 /// @example markup - Regular size buttons
 ///   <button class="button"></button>
 /// @example markup - Small size buttons
@@ -25,17 +23,17 @@ $c-button-border-radius: toem(5px) !default;
 
 @mixin c-button() {
   .button {
-    appearance: none;
     display: inline-block;
     padding: $c-button-padding;
-    font: $msuif-font;
+    font: $msuxf-font;
     line-height: 1; // Normalize height
     color: $c-button-text-color;
     text-align: center;
     text-decoration: none;
     background-color: $c-button-background-color;
     border: none;
-    transition: all $msuif-transition-duration $msuif-transition-timing;
+    transition: all $msuxf-transition-duration $msuxf-transition-timing;
+    appearance: none;
 
     @if variable-exists(c-button-border-radius) and $c-button-border-radius != 0 {
       border-radius: $c-button-border-radius;
@@ -54,5 +52,3 @@ $c-button-border-radius: toem(5px) !default;
     }
   }
 }
-
-@include c-button();

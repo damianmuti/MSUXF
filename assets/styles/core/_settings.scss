@@ -4,64 +4,55 @@
 /// @group Settings
 ////
 
-
 /// Fonts ///
 ///
-$msuif-font-size:                 16px;
+$msuxf-font-size: 16px !default;
 ///
-$msuif-font-weight:               400;
+$msuxf-font-weight: 400 !default;
 ///
-$msuif-font-family:               Arial, "Helvetica Neue", Helvetica, sans-serif;
+$msuxf-font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !default;
 ///
-$msuif-font:                      $msuif-font-weight toem($msuif-font-size) $msuif-font-family;
+$msuxf-font: $msuxf-font-weight toem($msuxf-font-size) $msuxf-font-family !default;
 ///
-$msuif-font-weight-light:         300;
+$msuxf-font-weight-light: 300 !default;
 ///
-$msuif-font-weight-regular:       $msuif-font-weight;
+$msuxf-font-weight-regular: $msuxf-font-weight !default;
 ///
-$msuif-font-weight-semibold:      600;
+$msuxf-font-weight-semibold: 600 !default;
 ///
-$msuif-font-weight-bold:          700;
+$msuxf-font-weight-bold: 700 !default;
 ///
-$msuif-font-color:                #101010;
+$msuxf-font-color: #101010 !default;
 ///
-$msuif-font-color-bright:         #edede6;
+$msuxf-font-color-bright: #edede6 !default;
 ///
-$msuif-font-color-dark:           $msuif-font-color;
+$msuxf-font-color-dark: $msuxf-font-color !default;
 ///
-$msuif-font-color-white:          #fff;
-
-
+$msuxf-font-color-white: #fff !default;
 
 /// Background ///
 ///
-$msuif-background:                $msuif-font-color-bright;
+$msuxf-background: $msuxf-font-color-bright !default;
 ///
-$msuif-background-bright:         $msuif-background;
-
-
+$msuxf-background-bright: $msuxf-background !default;
 
 /// Wrapper ///
 ///
-$msuif-wrapper-min-width:         torem(1200px);
-
-
+$msuxf-wrapper-min-width: torem(1200px) !default;
 
 /// Breakpoints ///
 ///
-$msuif-breakpoints: (
+$msuxf-breakpoints: (
   'desktop-fhd': (max-width: 1920px),
   'desktop': (max-width: 1366px),
   'ipad': (min-width: 1023px, max-width: 1024px),
   'isdesktop': (min-width: 1024px),
   'ismobile': (max-width: 1024px),
   'iphone': (max-width: 980px)
-);
-
-
+) !default;
 
 /// Transition/Animation ///
 ///
-$msuif-transition-duration:      0.25s;
+$msuxf-transition-duration: 0.25s !default;
 ///
-$msuif-transition-timing:        ease;
+$msuxf-transition-timing: ease !default;

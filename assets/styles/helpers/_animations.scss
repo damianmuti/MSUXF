@@ -16,6 +16,7 @@
     opacity: 1;
   }
 }
+
 ///
 @keyframes fade-out {
   from {
@@ -28,6 +29,7 @@
     opacity: 0;
   }
 }
+
 ///
 @keyframes slide-down {
   from {
@@ -38,6 +40,7 @@
     transform: translateY(0);
   }
 }
+
 ///
 @keyframes slide-up {
   from {

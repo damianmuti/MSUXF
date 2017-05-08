@@ -1,6 +1,6 @@
 ////
 /// Tabs
-/// @group Component - Tabs
+/// @group components
 /// @author MS
 ////
 
@@ -13,18 +13,13 @@ $tabs-color-primary: #000 !default;
 ///
 $tabs-color-secondary: #A1D045 !default;
 ///
-$tabs-color-bg: $msuif-background !default;
+$tabs-color-bg: $msuxf-background !default;
 ///
 $tabs-border-width: 1px !default;
 ///
 $tabs-base-spacing: 10px !default;
 
-
-/// Tabs Component -
-/// This is an almost JS-free Tab component that takes
-/// advantage of `:target` event to display tabs content.
-/// It can also handle a JS version that depends on a data-attribute
-/// to indicate which tab is currently active.
+/// This is an almost JS-free Tab component that takes advantage of `:target` event to display tabs content. It can also handle a JS version that depends on a data-attribute to indicate which tab is currently active.
 /// @param {string} $tabs-type [js] - Indicates if this component should be CSS-only or JS dependant. Accepted values: `js` or `standalone`.
 /// @example markup - Type: "standalone", HTML markup
 ///   <div class="c-tabs">
@@ -64,7 +59,7 @@ $tabs-base-spacing: 10px !default;
 ///     </div>
 ///   </div>
 
-@mixin c-tabs($type: $tabs-type){
+@mixin c-tabs($type: $tabs-type) {
   @if not index(js standalone, $type) {
     @error "Type must be either `js` or `standalone`.";
   }
@@ -78,7 +73,7 @@ $tabs-base-spacing: 10px !default;
       border: $tabs-border-width solid $tabs-color-primary;
       background-color: $tabs-color-bg;
 
-      @if $type == "standalone" {
+      @if $type == standalone {
         &:target {
           display: block;
         }
@@ -90,7 +85,7 @@ $tabs-base-spacing: 10px !default;
       margin-bottom: -#{$tabs-border-width};
       padding: $tabs-base-spacing;
       color: $tabs-color-primary;
-      border: $tabs-border-width  solid $tabs-color-primary;
+      border: $tabs-border-width solid $tabs-color-primary;
 
       &:hover {
         color: $tabs-color-secondary;
@@ -102,7 +97,7 @@ $tabs-base-spacing: 10px !default;
       }
     }
 
-    @if $type == "js" {
+    @if $type == js {
       @for $i from 1 to $tabs-tab-amount {
         &[data-active-tab="#{$i}"] {
           .c-tabs__tab {

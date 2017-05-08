@@ -6,27 +6,33 @@
 
 /// Convert to EMs function
 /// @param {Number} target - The value to be converted
-/// @param {Number} context [$msuif-font-size] The base font size
+/// @param {Number} context [$msuxf-font-size] The base font size
 /// @return {Em} value
-@function toem($target, $context: $msuif-font-size) {
-   @if $target == 0 { @return 0 }
-   @return $target / $context + 0em;
+@function toem($target, $context: $msuxf-font-size) {
+  @if $target == 0 {
+    @return 0
+  }
+
+  @return $target / $context+0em;
 }
 
 /// Convert to REMs function
 /// @param {Number} target - The value to be converted
-/// @param {Number} context [$msuif-font-size] - The base font size
+/// @param {Number} context [$msuxf-font-size] - The base font size
 /// @return {Rem} value
-@function torem($target, $context: $msuif-font-size) {
-   @if $target == 0 { @return 0 }
-   @return $target / $context + 0rem;
+@function torem($target, $context: $msuxf-font-size) {
+  @if $target == 0 {
+    @return 0
+  }
+
+  @return $target / $context+0rem;
 }
 
 /// Remove unit from value
 /// @param {Number} value - The entire value
 /// @return {Number} The striped value
 @function strip-unit($value) {
-	@return $value / ($value * 0 + 1);
+  @return $value / ($value * 0 + 1);
 }
 
 /// Lighten a color
@@ -49,27 +55,26 @@
 /// @param {String} string - Target string
 /// @param {String} dem - Delimiter character
 /// @return {String} Exploded string
-@function explode($string,$dem) {
+@function explode($string, $dem) {
   $list: ();
   $sum: str-length($string);
 
   @for $i from 1 through $sum {
-    $str: str-index($string,$dem);
+    $str: str-index($string, $dem);
 
     @if str-length($string) >= 1 and $str == null {
-      $list: append($list,$string,comma);
+      $list: append($list, $string, comma);
       $string: '';
     }
-
-    @if type-of($str) == number {
-      $each: str-slice($string,0,($str - 1));
-      $list: append($list,$each,comma);
-      $string: str-slice($string,($str + 1), $sum);
+    @if type-of($str)==number {
+      $each: str-slice($string, 0, ($str - 1));
+      $list: append($list, $each, comma);
+      $string: str-slice($string, ($str + 1), $sum);
     }
   }
 
   @if length($list) > 1 {
-    @return '.' + nth($list, 2);
+    @return '.'+nth($list, 2);
   }
   @else {
     @return nth($list, 1);
@@ -95,13 +100,13 @@
 @function opposite-direction($directions) {
   $opposite-directions: ();
   $direction-map: (
-    'top':    'bottom',
-    'right':  'left',
+    'top' : 'bottom',
+    'right' : 'left',
     'bottom': 'top',
-    'left':   'right',
+    'left' : 'right',
     'center': 'center',
-    'ltr':    'rtl',
-    'rtl':    'ltr'
+    'ltr' : 'rtl',
+    'rtl' : 'ltr'
   );
 
   @each $direction in $directions {
@@ -109,7 +114,8 @@
 
     @if map-has-key($direction-map, $direction) {
       $opposite-directions: append($opposite-directions, unquote(map-get($direction-map, $direction)));
-    } @else {
+    }
+    @else {
       @warn "No opposite direction can be found for `#{$direction}`. Direction omitted.";
     }
   }
@@ -131,7 +137,7 @@
   $b: blue($color);
 
   // Convert color to YIQ
-  $yiq: (($r*299)+($g*587)+($b*114))/1000;
+  $yiq: (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
 
   @return if($yiq >= 128, light, dark);
 }

@@ -1,6 +1,7 @@
 ////
 /// Notifications
-/// @group Component - Notifications
+/// @group components
+/// @author MS
 ////
 
 ///
@@ -44,9 +45,7 @@ $notification-toast-positions: (
   )
 );
 
-/// Component Notification -
-/// Component that shows two different types
-/// of notification boxes: toast and top bar.<br>
+/// Component that shows two different types of notification boxes: toast and top bar.<br>
 /// **{position}** can be 4 different values: `top-left`, `top-right`, `bottom-right` and `bottom-left`.<br>
 /// **{status}** can be 4 different values as well: `notice`, `warning`, `error` and `success`.
 /// @example markup - Toast
@@ -54,7 +53,7 @@ $notification-toast-positions: (
 /// @example markup - Top bar
 ///   <div class="c-notification c-notification--top-bar c-notification--{status}">Lorem ipsum dolor.</div>
 
-@mixin c-notification {
+@mixin c-notification() {
   @keyframes slide-in-right {
     from {
       transform: translateX(#{$notification-toast-max-width + $notification-toast-margin});
@@ -164,5 +163,3 @@ $notification-toast-positions: (
     }
   }
 }
-
-@include c-notification();

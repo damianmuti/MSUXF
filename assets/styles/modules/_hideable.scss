@@ -1,8 +1,9 @@
 ////
 /// Hideable Elements
-/// @group Component - Hideable Element
+/// @group components
 /// @author MS
 ////
+
 ///
 $translate-position: (
   'top': translateY(-100%),
@@ -11,12 +12,10 @@ $translate-position: (
   'left': translateX(-100%)
 );
 
-/// Hideable Element
-/// Mixin to make any element hideable using css transitions
-/// and a little bit of Js.
+/// Mixin to make any element hideable using css transitions and a little bit of Js.
 /// @example scss - Using the mixin
 ///   .example_class {
-///     @include hide-to('top');
+///     @include c-hide-to('top');
 ///   }
 /// @example javascript - Javascript code
 ///   $('body').scroll(function(e) {
@@ -36,9 +35,10 @@ $translate-position: (
 ///      //saves the current scrollTop
 ///      self.data("lastScrollTop", scrollTop);
 ///   });
+/// @todo Should be refactored to check if `$position` is within the available values.
 
-@mixin hide-to($position) {
-  transition: transform $msuif-transition-duration ease-in-out;
+@mixin c-hide-to($position) {
+  transition: transform $msuxf-transition-duration ease-in-out;
 
   &.hide {
     transform: map-get($translate-position, $position);
